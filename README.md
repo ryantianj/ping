@@ -1,3 +1,0 @@
-# ping
-
-hi ryan
