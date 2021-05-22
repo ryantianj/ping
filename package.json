@@ -31,5 +31,11 @@
   "devDependencies": {
     "@babel/core": "^7.9.0"
   },
-  "private": true
+  "private": true,
+  "name": "ping",
+  "version": "1.0.0",
+  "description": "description",
+  "repository": "https://github.com/Tianometer/ping.git",
+  "author": "Marcus Chua <haojie.chua@gmail.com>",
+  "license": "MIT"
 }
