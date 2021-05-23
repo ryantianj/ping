@@ -1,26 +1,10 @@
 import React from "react";
-import {StyleSheet, View, Image} from "react-native";
+import {StyleSheet, View, Image, StatusBar} from "react-native";
 
-import colours from "./colours";
-
+{/* P!ng logo on all pages*/}
 export default (props) => {
     return (
-        <View style = {styles.image}>
-            <Image style = {styles.image} source = {require("../../assets/Logo.jpg")}/>
-        </View>
+        <Image style = {props.style} source = {require("../../assets/Logo.jpg")}/>
     );
 }
 
-const styles = StyleSheet.create({
-    logo: {
-        flexDirection: "row",
-        alignItems:"center"
-    },
-    image :{
-        position:'absolute',
-        width: 100,
-        height: 80,
-        left: 5,
-        top: 5
-    }
-})

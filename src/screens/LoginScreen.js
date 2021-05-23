@@ -1,26 +1,58 @@
 import React, {useState} from "react";
-import {StyleSheet} from "react-native";
+import {Text, TextInput, TouchableOpacity, View} from "react-native";
 
-import Logo from "../constants/Logo";
 import Screen from "../components/Screen";
-import colours from "../constants/colours";
+import Logo from "../constants/Logo";
+import styles from "../styling/screens/LoginScreen.styles";
 
 export default () => {
-    const [email, setEmail] = useState("");
+    const [userName, setuserName] = useState("");
     const [password, setPassword] = useState("");
 
     return (
-        <Screen>
-            <Logo />
-        </Screen>
+        <Screen style = {styles.container}>
+            <Logo style = {styles.image} />
+            <TextInput
+                style = {styles.textInput}
+                placeholder = "Username"
+                value = {userName}
+                onChangeText = {setuserName}
+                autoCapitalize = "none"
+                returnKeyType = "next"
+            />
 
+            <TextInput
+                style = {styles.textInput}
+                placeholder = "Password"
+                value = {password}
+                onChangeText = {setPassword}
+                secureTextEntry = {true}
+            />
+
+            <TouchableOpacity
+            style = {styles.button}>
+                <Text style ={styles.buttonText}>Log In</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style = {styles.forgotPasswordButton}>
+                <Text style ={styles.forgotPasswordButtonText}>Forgot your Password ?</Text>
+            </TouchableOpacity>
+
+            <View style = {styles.signUpButtonTextOpac}>
+                <Text style = {styles.signUpButtonText}>
+                    Don't have an account? Sign up <Text onPress = {() => alert('ok')}>
+                    here
+                </Text>
+
+                </Text>
+            </View>
+
+
+
+
+        </Screen>
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        color: colours.primary,
-        flex: 1
-    }
-    }
-)
+
