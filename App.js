@@ -6,11 +6,12 @@ import LoginScreen from "./src/screens/LoginScreen";
 import Screen from "./src/components/Screen";
 
 import colours from "./src/constants/colours";
+import MainScreen from "./src/screens/MainScreen";
 
 export default function App() {
   return (
     <Screen style={styles.container}>
-        <LoginScreen />
+        <MainScreen />
 
     </Screen>
   );
