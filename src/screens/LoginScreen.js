@@ -1,14 +1,18 @@
 import React, {useState} from "react";
-import {Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Switch, Text, TextInput, TouchableOpacity, View} from "react-native";
 
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
 import styles from "../styling/screens/LoginScreen.styles";
 
-export default () => {
+export default (props) => {
     const [userName, setuserName] = useState("");
     const [password, setPassword] = useState("");
+    const [showPass, isPassVisible] = useState(true);
 
+    const togglePassVisible = () => {
+        isPassVisible(!showPass)
+    }
     return (
         <Screen style = {styles.container}>
             <Logo style = {styles.image} />
@@ -19,9 +23,12 @@ export default () => {
                 onChangeText = {setuserName}
                 autoCapitalize = "none"
                 returnKeyType = "next"
+                onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                blurOnSubmit={false}
             />
 
             <TextInput
+                ref={(input) => { this.secondTextInput = input;}}
                 style = {styles.textInput}
                 placeholder = "Password"
                 value = {password}
@@ -29,8 +36,10 @@ export default () => {
                 secureTextEntry = {true}
             />
 
+
             <TouchableOpacity
-            style = {styles.button}>
+            style = {styles.button}
+            onPress = {() => props.navigation.navigate('Home')}>
                 <Text style ={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
 
@@ -41,7 +50,8 @@ export default () => {
 
             <View style = {styles.signUpButtonTextOpac}>
                 <Text style = {styles.signUpButtonText}>
-                    Don't have an account? Sign up <Text onPress = {() => alert('ok')}>
+                    Don't have an account? Sign up <Text
+                    style = {styles.signUpButtonTextHere} onPress = {() => props.navigation.navigate('Register')}>
                     here
                 </Text>
 

@@ -5,6 +5,7 @@ const windowWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
         container: {
+            backgroundColor: colours.primary,
             color: colours.primary,
             flex: 1,
             flexDirection: 'column',
@@ -58,9 +59,12 @@ export default StyleSheet.create({
             position:'absolute',
             bottom: 10,
             color: 'white',
+
         },
         signUpButtonTextHere : {
             color: 'white',
+            textDecorationLine: 'underline',
+            fontWeight: 'bold'
         }
 
 

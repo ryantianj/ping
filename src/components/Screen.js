@@ -1,10 +1,10 @@
 import React from "react";
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet } from "react-native";
+import { SafeAreaView, Platform, StatusBar, StyleSheet } from "react-native";
 
 export default (props) => {
         return (
             <SafeAreaView style={{
-                paddingTop: StatusBar.currentHeight ? StatusBar.currentHeight : 0,
+                marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
                 paddingBottom: 10,
                 paddingHorizontal: 10,
                 ...props.style
