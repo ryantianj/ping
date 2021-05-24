@@ -1,12 +1,13 @@
 import React, {useState, useRef} from "react";
 import {Text, TextInput, TouchableOpacity, View, Image, Pressable} from "react-native";
+import firebase, { usersCollection } from '../../api/firebase';
 
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
 import styles from "../styling/screens/LoginScreen.styles";
 
-export default (props) => {
-    const [userName, setuserName] = useState("");
+const LoginScreen = (props) => {
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPass, isPassVisible] = useState(true);
 
@@ -16,14 +17,36 @@ export default (props) => {
         isPassVisible(!showPass)
     }
 
+    const handleLogin = async () => {
+        if (email && password) {
+            try {
+              const response = await firebase
+                .auth()
+                .signInWithEmailAndPassword(email, password);
+                props.navigation.navigate('Home');
+            } catch (error) {
+                // console.log(error)
+              if (error.code) {
+                if (error.code === "auth/invalid-email") {
+                    alert("Please enter a valid email address");
+                } else if (error.code === "auth/user-not-found") {
+                    alert("A user with that email does not exist. Try signing up!");
+                } else if (error.code === 'auth/wrong-password') {
+                    alert('Oops! Please retry with the correct password :(');
+                }                
+              }
+            }
+        }
+    }
+
     return (
         <Screen style = {styles.container}>
             <Logo style = {styles.image} />
             <TextInput
                 style = {styles.textInput}
-                placeholder = "Username"
-                value = {userName}
-                onChangeText = {setuserName}
+                placeholder = "Email"
+                value = {email}
+                onChangeText = {setEmail}
                 autoCapitalize = "none"
                 returnKeyType = "next"
                 onSubmitEditing = {() => nextInput.current.focus()}
@@ -48,13 +71,13 @@ export default (props) => {
             </View>
 
             <TouchableOpacity
-            style = {styles.button}
-            onPress = {() => props.navigation.navigate('Home')}>
+                style = {styles.button} 
+                onPress = {handleLogin}>
                 <Text style ={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-                style = {styles.forgotPasswordButton}
+            style = {styles.forgotPasswordButton}
             onPress = {() => alert("not yet implemented")}>
                 <Text style ={styles.forgotPasswordButtonText}>Forgot your Password ?</Text>
             </TouchableOpacity>
@@ -62,7 +85,9 @@ export default (props) => {
             <View style = {styles.signUpButtonTextOpac}>
                 <Text style = {styles.signUpButtonText}>
                     Don't have an account? Sign up <Text
-                    style = {styles.signUpButtonTextHere} onPress = {() => props.navigation.navigate('Register')}>
+                    style = {styles.signUpButtonTextHere} 
+                    onPress = {() => props.navigation.navigate('Register')}
+                    >
                     here
                 </Text>
 
@@ -72,4 +97,4 @@ export default (props) => {
     )
 }
 
-
+export default LoginScreen;
