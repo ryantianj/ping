@@ -28,6 +28,17 @@ export default StyleSheet.create({
             width: 125,
             height: 100,
         },
+        pressableToggle : {
+            position: 'absolute',
+            top: 22,
+            left: 14 * windowWidth / 20,
+            width: 40,
+            height: 40,
+        },
+        passwordToggle : {
+            width: 25,
+            height: 25,
+        },
         button : {
             marginTop: 10,
             paddingTop: 13,

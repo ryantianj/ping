@@ -6,7 +6,6 @@ const statusBar = StatusBar.currentHeight;
 
 export default StyleSheet.create({
     container : {
-        marginTop: Platform.OS === 'android' ? statusBar: 0,
         backgroundColor: colours.primary,
         flex: 1,
         flexDirection: 'column',
@@ -15,14 +14,14 @@ export default StyleSheet.create({
     },
     image :{
         position: 'absolute',
-        top: 5,
+        top: 5 + statusBar,
         left: 10,
         width: 100,
         height: 80,
     },
     settings : {
         position: 'absolute',
-        top: 20,
+        top: 20 + statusBar,
         right: 15,
         width: 55,
         height: 55,
@@ -33,7 +32,7 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         fontSize: 20,
-        marginTop: 20 + 80,
+        marginTop: 20 + 80 + statusBar,
         backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
         height: 60,

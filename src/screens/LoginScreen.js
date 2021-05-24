@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Switch, Text, TextInput, TouchableOpacity, View} from "react-native";
+import React, {useState, useRef} from "react";
+import {Text, TextInput, TouchableOpacity, View, Image, Pressable} from "react-native";
 
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
@@ -10,9 +10,12 @@ export default (props) => {
     const [password, setPassword] = useState("");
     const [showPass, isPassVisible] = useState(true);
 
+    const nextInput = useRef();
+
     const togglePassVisible = () => {
         isPassVisible(!showPass)
     }
+
     return (
         <Screen style = {styles.container}>
             <Logo style = {styles.image} />
@@ -23,19 +26,26 @@ export default (props) => {
                 onChangeText = {setuserName}
                 autoCapitalize = "none"
                 returnKeyType = "next"
-                onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                onSubmitEditing = {() => nextInput.current.focus()}
                 blurOnSubmit={false}
             />
 
-            <TextInput
-                ref={(input) => { this.secondTextInput = input;}}
-                style = {styles.textInput}
-                placeholder = "Password"
-                value = {password}
-                onChangeText = {setPassword}
-                secureTextEntry = {true}
-            />
-
+            <View>
+                <TextInput
+                    ref = {nextInput}
+                    style = {styles.textInput}
+                    placeholder = "Password"
+                    value = {password}
+                    onChangeText = {setPassword}
+                    secureTextEntry = {showPass}
+                />
+                <Pressable
+                    style = {styles.pressableToggle}
+                    onPress = {togglePassVisible}>
+                    <Image style = {styles.passwordToggle}
+                           source = {require("../../assets/hide_password1.png")}/>
+                </Pressable>
+            </View>
 
             <TouchableOpacity
             style = {styles.button}
@@ -44,7 +54,8 @@ export default (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-                style = {styles.forgotPasswordButton}>
+                style = {styles.forgotPasswordButton}
+            onPress = {() => alert("not yet implemented")}>
                 <Text style ={styles.forgotPasswordButtonText}>Forgot your Password ?</Text>
             </TouchableOpacity>
 
@@ -57,10 +68,6 @@ export default (props) => {
 
                 </Text>
             </View>
-
-
-
-
         </Screen>
     )
 }

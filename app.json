@@ -4,11 +4,11 @@
     "slug": "ping",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/App_Icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/Splash_screen.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#EEBC27"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "Ping.apk"
     },
     "web": {
       "favicon": "./assets/favicon.png"

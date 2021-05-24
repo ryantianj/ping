@@ -7,7 +7,6 @@ const statusBar = StatusBar.currentHeight;
 
 export default StyleSheet.create({
     container : {
-        marginTop: Platform.OS === 'android' ? statusBar : 0,
         backgroundColor: colours.primary,
         flex: 1,
         flexDirection: 'column',
@@ -15,7 +14,7 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     usernameText : {
-        paddingTop: 20,
+        paddingTop: 20 + statusBar,
         fontSize: 30,
         color: 'black',
         textAlign: 'center',
@@ -32,6 +31,17 @@ export default StyleSheet.create({
         width: 2 * windowWidth / 3,
         height: 50,
         borderRadius: 10
+    },
+    pressableToggle : {
+        position: 'absolute',
+        top: 30,
+        left: 14 * windowWidth / 20,
+        width: 40,
+        height: 40,
+    },
+    passwordToggle : {
+        width: 25,
+        height: 25,
     },
     button : {
         marginTop: 20,

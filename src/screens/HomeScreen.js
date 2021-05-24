@@ -21,7 +21,7 @@ export default (props) => {
             value = {search}
             onChangeText = {setSearch}
             autoCapitalize = "none"
-            returnKeyType = "next"/>
+            returnKeyType = "go"/>
 
             <Text
             style = {styles.notificationsText}>
