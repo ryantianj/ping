@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, Platform, StatusBar, StyleSheet } from "react-native";
+import { SafeAreaView, Platform, StatusBar} from "react-native";
 
 export default (props) => {
         return (
@@ -14,7 +14,3 @@ export default (props) => {
         );
 }
 
-const styles = StyleSheet.create({
-
-    }
-)

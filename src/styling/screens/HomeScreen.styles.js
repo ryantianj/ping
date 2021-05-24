@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions, Platform, StatusBar} from "react-native";
+import {StyleSheet, Dimensions, StatusBar} from "react-native";
 import colours from "../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
@@ -12,27 +12,16 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    image :{
-        position: 'absolute',
-        top: 5 + statusBar,
-        left: 10,
-        width: 100,
-        height: 80,
-    },
-    settings : {
-        position: 'absolute',
-        top: 20 + statusBar,
-        right: 15,
-        width: 55,
-        height: 55,
+    settingsLogo :{
+        height: 80 + statusBar
     },
     searchBarText : {
         paddingLeft: 15,
+        marginTop: 20,
         textAlign: 'left',
         borderWidth: 1,
         borderColor: 'black',
         fontSize: 20,
-        marginTop: 20 + 80 + statusBar,
         backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
         height: 60,
