@@ -17,6 +17,7 @@ export default (props) => {
             if (!user) { console.log('signed out!') }
           });
         props.navigation.navigate('Login');
+
     }
 
     return (
