@@ -51,6 +51,7 @@ export default (props) => {
             <TextInput
                 style = {styles.textInput}
                 placeholder = "Enter Email Here"
+                keyboardType = "email-address"
                 value = {email}
                 onChangeText = {setEmail}
                 autoCapitalize = "none"
