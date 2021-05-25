@@ -9,7 +9,6 @@ import styles from "./src/styling/app/App.styles"
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import HomeScreen from "./src/navigation/HomeNavigation";
-import Settings from "./src/screens/SettingsScreen";
 import ForgotPassword_Email from "./src/screens/ForgotPasswordScreen_Email";
 
 const Stack = createStackNavigator();
