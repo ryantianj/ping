@@ -10,10 +10,12 @@ import styles from "../styling/navigation/HomeNavigation.styles"
 
 const Stack = createStackNavigator();
 export default (props) => {
+
     return (
         <View style = {styles.container}>
             <Stack.Navigator
-                screenOptions={{headerShown: false}}>
+                screenOptions={{headerShown: false}}
+            >
                 <Stack.Screen
                     name = "Home"
                     component = {HomeScreen}/>

@@ -9,7 +9,6 @@ export default (props) => {
     const [email, setEmail] = useState("");
     return (
         <Screen style = {styles.container}>
-            <Text style = {styles.security}>Security</Text>
 
             <Text style = {styles.usernameText}>
                 Enter new Email

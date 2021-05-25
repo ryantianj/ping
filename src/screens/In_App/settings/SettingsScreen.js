@@ -6,6 +6,7 @@ import Screen from "../../../components/Screen";
 
 import styles from '../../../styling/screens/In_App/settings/SettingsScreen.styles'
 
+
 export default (props) => {
 
     const handleLogout = async () => {
@@ -20,7 +21,6 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
-            <Text style = {styles.settings}>Settings</Text>
 
             <TouchableOpacity
                 style = {styles.securityButton}

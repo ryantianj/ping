@@ -27,7 +27,10 @@ const LoginScreen = (props) => {
                         console.log('signed in, awaiting verification')
                         if (user.user.emailVerified) {
                             console.log('signed in, email verified')
-                            props.navigation.navigate('Home_Screen');
+                            props.navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Home_Screen' }],
+                            });
                         } else {
                             alert('your account has not been verified, please do so to continue using P!ng. Redirecting you back to the login screen!')
                         }
@@ -87,7 +90,8 @@ const LoginScreen = (props) => {
 
             <TouchableOpacity
             style = {styles.forgotPasswordButton}
-            onPress = {() => props.navigation.navigate('Forgot')}>
+            onPress = {() => {props.navigation.navigate('Forgot');
+                }}>
                 <Text style ={styles.forgotPasswordButtonText}>Forgot your Password ?</Text>
             </TouchableOpacity>
 
