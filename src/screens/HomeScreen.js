@@ -11,7 +11,7 @@ export default (props) => {
     return (
         <Screen style = {styles.container}>
             <View style = {styles.settingsLogo}>
-                <Logo_Settings />
+                <Logo_Settings navigation = {props.navigation}/>
             </View>
                 <TextInput
                     style = {styles.searchBarText}

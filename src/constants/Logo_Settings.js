@@ -11,8 +11,9 @@ export default (props) => {
     return (
         <View style = {styles.container}>
             <Logo style = {styles.image}/>
-            <Pressable style = {styles.settingsPress}
-            onPress = {() => alert("not yet implemented")}>
+            <Pressable
+                style = {styles.settingsPress}
+                onPress = {() => props.navigation.navigate('Settings')}>
                 <Settings style = {styles.settings}/>
             </Pressable>
         </View>
