@@ -18,13 +18,18 @@ export default (props) => {
 
     const handleRegister = async () => {
         try {
-            const response = await firebase
+            firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
+            .then(user => {
+                user.user.sendEmailVerification().then(() => {
+                    console.log('mail sent')
+                    alert("An verification link has been sent to your email. Please verify your account")
+                })
+            })
             // this.handleStoreRegisterUser(user);
-            // .sendEmailVerification();
-            // alert("An verification link has been sent to your email. Please verify your account");
-            props.navigation.navigate('Home');
+            props.navigation.navigate('Home_Screen');
+
         } catch (error) {
             if (error.code) {
                 if (error.code === "auth/invalid-email") {

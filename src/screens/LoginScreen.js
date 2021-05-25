@@ -20,11 +20,19 @@ const LoginScreen = (props) => {
     const handleLogin = async () => {
         if (email && password) {
             try {
-              const response = await firebase
-                .auth()
-                .signInWithEmailAndPassword(email, password);
-                console.log('signed in!')
-                props.navigation.navigate('Home_Screen');
+                const response = await firebase
+                    .auth()
+                    .signInWithEmailAndPassword(email, password)
+                    .then(user => {
+                        console.log('signed in, awaiting verification')
+                        if (user.user.emailVerified) {
+                            console.log('signed in, email verified')
+                            props.navigation.navigate('Home_Screen');
+                        } else {
+                            alert('your account has not been verified, please do so to continue using P!ng. Redirecting you back to the login screen!')
+                        }
+                    })               
+                    
             } catch (error) {
               if (error.code) {
                 if (error.code === "auth/invalid-email") {

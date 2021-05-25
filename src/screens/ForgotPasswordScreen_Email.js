@@ -7,6 +7,10 @@ import styles from "../styling/screens/ForgotPasswordScreen_Email.styles";
 export default (props) => {
     const [email, setEmail] = useState("");
 
+    handleResetPassword = async () => {
+        
+    }
+
     return (
         <Screen style = {styles.container}>
             <Text style = {styles.usernameText}>
@@ -24,6 +28,7 @@ export default (props) => {
 
             <TouchableOpacity
                 style = {styles.button}
+                onPress = {handleResetPassword}
                 >
                 <Text style = {styles.buttonText}>Next</Text>
             </TouchableOpacity>

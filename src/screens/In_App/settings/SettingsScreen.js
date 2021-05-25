@@ -1,5 +1,6 @@
 import React from "react";
 import {Text, TouchableOpacity} from "react-native";
+import firebase, { usersCollection } from '../../../../api/firebase';
 
 import Screen from "../../../components/Screen";
 
