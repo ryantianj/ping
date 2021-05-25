@@ -6,19 +6,18 @@ import Screen from "../../../../components/Screen";
 import styles from "../../../../styling/screens/In_App/settings/Security/Update_password.styles"
 
 export default (props) => {
-    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     return (
         <Screen style = {styles.container}>
-            <Text style = {styles.security}>Security</Text>
 
-            <Text style = {styles.usernameText}>
+            <Text style = {styles.passwordText}>
                 Enter new Password
             </Text>
             <TextInput
                 style = {styles.textInput}
                 placeholder = "Enter Password Here"
-                value = {email}
-                onChangeText = {setEmail}
+                value = {password}
+                onChangeText = {setPassword}
                 autoCapitalize = "none"
                 returnKeyType = "next"
                 blurOnSubmit={false}

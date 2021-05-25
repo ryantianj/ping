@@ -8,7 +8,6 @@ import styles from "../../../styling/screens/In_App/settings/Security.styles";
 export default (props) => {
     return (
         <Screen style = {styles.container}>
-            <Text style = {styles.security}>Security</Text>
 
             <TouchableOpacity
                 style = {styles.emailButton}

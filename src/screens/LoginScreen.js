@@ -79,7 +79,11 @@ const LoginScreen = (props) => {
 
             <TouchableOpacity
             style = {styles.forgotPasswordButton}
-            onPress = {() => props.navigation.navigate('Forgot')}>
+            onPress = {() => {props.navigation.navigate('Forgot');
+                props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Home' }],
+                    });}}>
                 <Text style ={styles.forgotPasswordButtonText}>Forgot your Password ?</Text>
             </TouchableOpacity>
 

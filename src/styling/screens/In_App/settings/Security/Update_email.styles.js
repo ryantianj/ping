@@ -6,7 +6,7 @@ const statusBar = StatusBar.currentHeight;
 
 export default StyleSheet.create({
     container :{
-        paddingTop: statusBar + 20,
+        paddingTop: statusBar,
         backgroundColor: colours.primary,
         color: colours.primary,
         flex: 1,
@@ -14,14 +14,9 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    security :{
-        left: 15,
-        fontSize: 35,
-        textAlign: 'left',
-        width: windowWidth
-    },
+
     usernameText : {
-        paddingTop: 20,
+        paddingTop: 10,
         fontSize: 30,
         color: 'black',
         textAlign: 'center',

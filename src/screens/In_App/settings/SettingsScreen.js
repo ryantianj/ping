@@ -1,9 +1,11 @@
 import React from "react";
 import {Text, TouchableOpacity} from "react-native";
+import firebase from "firebase";
 
 import Screen from "../../../components/Screen";
 
 import styles from '../../../styling/screens/In_App/settings/SettingsScreen.styles'
+
 
 export default (props) => {
 
@@ -19,7 +21,6 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
-            <Text style = {styles.settings}>Settings</Text>
 
             <TouchableOpacity
                 style = {styles.securityButton}
