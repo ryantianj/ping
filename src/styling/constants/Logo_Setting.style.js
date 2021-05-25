@@ -4,26 +4,26 @@ const statusBar = StatusBar.currentHeight;
 const windowWidth = Dimensions.get('window').width;
 export default StyleSheet.create({
     container :{
-        flexDirection: 'column',
-        justifyContent:'center',
-        alignItems:'center'
+        marginTop: statusBar + 10,
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        width: windowWidth,
+        height:80
     },
     image :{
-        position: 'absolute',
-        top: 5 + statusBar,
-        left: 10 - windowWidth/2,
+        left: 10,
         width: 100,
         height: 80,
     },
     settingsPress : {
-        position: 'absolute',
-        top: 20 + statusBar,
-        right: 15 - windowWidth/2,
+        top: 10,
+        right: 0,
         width: 55,
         height: 55,
     },
     settings : {
-        width: 55,
-        height: 55,
+        width: 40,
+        height:40,
     }
 })

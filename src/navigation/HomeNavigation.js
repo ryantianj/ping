@@ -3,13 +3,13 @@ import {View} from "react-native";
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import HomeScreen from "../screens/HomeScreen";
-import Settings from "../screens/SettingsScreen";
+import HomeScreen from "../screens/In_App/app/HomeScreen";
+import Settings from "../navigation/SettingsNavigation"
 
 import styles from "../styling/navigation/HomeNavigation.styles"
 
 const Stack = createStackNavigator();
-export default function App() {
+export default (props) => {
     return (
         <View style = {styles.container}>
             <Stack.Navigator
