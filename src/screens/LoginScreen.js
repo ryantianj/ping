@@ -1,5 +1,5 @@
 import React, {useState, useRef} from "react";
-import {Text, TextInput, TouchableOpacity, View, Image, Pressable} from "react-native";
+import {Text, TextInput, TouchableOpacity, View, Image, Pressable, KeyboardAvoidingView} from "react-native";
 import firebase, { usersCollection } from '../../api/firebase';
 
 import Screen from "../components/Screen";
@@ -95,14 +95,15 @@ const LoginScreen = (props) => {
             <View style = {styles.signUpButtonTextOpac}>
                 <Text style = {styles.signUpButtonText}>
                     Don't have an account? Sign up <Text
-                    style = {styles.signUpButtonTextHere} 
+                    style = {styles.signUpButtonTextHere}
                     onPress = {() => props.navigation.navigate('Register')}
-                    >
+                >
                     here
                 </Text>
 
                 </Text>
             </View>
+
         </Screen>
     )
 }
