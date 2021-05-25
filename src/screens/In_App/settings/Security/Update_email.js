@@ -23,13 +23,14 @@ export default (props) => {
 
         try {
             if (getUser) {
-                const response = await getUser.reauthenticateWithCredential(credential).then(user => {
+                const response = await getUser.reauthenticateWithCredential(credential).then(async user => {
                     try {
-                        getUser.updateEmail(newEmail).then(user => {
+                        const response1 = await getUser.updateEmail(newEmail).then(() => {
                             console.log('email changed')
                             user.user.sendEmailVerification().then(() => {
                                 console.log('mail sent')
                                 alert('Your account email has been changed! Please check your NEW associated email for an account verification link')
+                                props.navigation.navigate('Settings_Screen');
                             })
                         })
                     } catch (error) { // catching errors for updateEmail

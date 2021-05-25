@@ -37,7 +37,7 @@ export default (props) => {
                 } else if (error.code === "auth/email-already-in-use") {
                     alert("There is an existing account associated with this email. Forgot your password?");
                 } else if (error.code === 'auth/weak-password') {
-                    alert('Please use a stronger password with at least 6 characters');
+                    alert("Please use a stronger password with at least 6 characters");
                 }                
             }
         }

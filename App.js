@@ -10,6 +10,7 @@ import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import HomeScreen from "./src/navigation/HomeNavigation";
 import ForgotPassword_Email from "./src/screens/ForgotPasswordScreen_Email";
+import SettingsScreen from "./src/screens/In_App/settings/SettingsScreen";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -30,6 +31,9 @@ export default function App() {
                   <Stack.Screen
                       name = "Home_Screen"
                       component = {HomeScreen}/>
+                  <Stack.Screen
+                      name = "Settings_Screen"
+                      component = {SettingsScreen}/>
               </Stack.Navigator>
           </NavigationContainer>
       </View>
