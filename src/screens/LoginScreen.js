@@ -35,9 +35,7 @@ const LoginScreen = (props) => {
                             alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
                         }
                     })               
-                    
             } catch (error) {
-              if (error.code) {
                 if (error.code === "auth/invalid-email") {
                     alert("Please enter a valid email address");
                 } else if (error.code === "auth/user-not-found") {
@@ -45,7 +43,6 @@ const LoginScreen = (props) => {
                 } else if (error.code === 'auth/wrong-password') {
                     alert('Oops! Please retry with the correct password :(');
                 }                
-              }
             }
         }
     }

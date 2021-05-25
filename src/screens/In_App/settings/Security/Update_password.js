@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Text, TextInput, TouchableOpacity} from "react-native";
+import firebase, { usersCollection } from '../../../../../api/firebase';
 
 import Screen from "../../../../components/Screen";
 

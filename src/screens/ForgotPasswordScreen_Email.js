@@ -19,7 +19,6 @@ export default (props) => {
             })
             // this.handleStoreRegisterUser(user);
             props.navigation.navigate('Home_Screen');
-
         } catch (error) {
             console.log(error);
         }
