@@ -3,6 +3,7 @@ import {View} from "react-native";
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 
+
 import Settings from "../screens/In_App/settings/SettingsScreen";
 import Security from "../screens/In_App/settings/Security"
 import Update_email from "../screens/In_App/settings/Security/Update_email";
@@ -39,7 +40,7 @@ export default (props) => {
                     name = "Update_email"
                     component = {Update_email}
                     options={{
-                        title: "Security",
+                        title: "Update Email",
                         headerStyle: {
                             backgroundColor: colours.primary
                         }}}/>
@@ -47,7 +48,7 @@ export default (props) => {
                     name = "Update_password"
                     component = {Update_password}
                     options={{
-                        title: "Security",
+                        title: "Update Password",
                         headerStyle: {
                             backgroundColor: colours.primary
                         }}}/>

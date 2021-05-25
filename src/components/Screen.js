@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, Platform, StatusBar} from "react-native";
+import {SafeAreaView, Platform, StatusBar} from "react-native";
 
 export default (props) => {
         return (
