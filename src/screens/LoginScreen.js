@@ -23,9 +23,9 @@ const LoginScreen = (props) => {
               const response = await firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password);
+                console.log('signed in!')
                 props.navigation.navigate('Home_Screen');
             } catch (error) {
-                // console.log(error)
               if (error.code) {
                 if (error.code === "auth/invalid-email") {
                     alert("Please enter a valid email address");
