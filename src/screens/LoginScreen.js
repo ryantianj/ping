@@ -32,7 +32,7 @@ const LoginScreen = (props) => {
                                 routes: [{ name: 'Home_Screen' }],
                             });
                         } else {
-                            alert('your account has not been verified, please do so to continue using P!ng. Redirecting you back to the login screen!')
+                            alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
                         }
                     })               
                     

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Text, TextInput, TouchableOpacity} from "react-native";
+import firebase, { usersCollection } from '../../api/firebase';
 
 import Screen from "../components/Screen";
 import styles from "../styling/screens/ForgotPasswordScreen_Email.styles";
@@ -7,8 +8,21 @@ import styles from "../styling/screens/ForgotPasswordScreen_Email.styles";
 export default (props) => {
     const [email, setEmail] = useState("");
 
-    handleResetPassword = async () => {
-        
+    const handleResetPassword = async () => {
+        try {
+            firebase
+            .auth()
+            .sendPasswordResetEmail(email)
+            .then(user => {
+                     console.log('mail sent')
+                     alert("A password reset link has been sent to your email.")
+            })
+            // this.handleStoreRegisterUser(user);
+            props.navigation.navigate('Home_Screen');
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
