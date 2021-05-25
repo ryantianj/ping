@@ -19,8 +19,7 @@ export default (props) => {
                 value = {email}
                 onChangeText = {setEmail}
                 autoCapitalize = "none"
-                returnKeyType = "next"
-                blurOnSubmit={false}
+                returnKeyType = "done"
             />
             <TouchableOpacity
                 style = {styles.button}

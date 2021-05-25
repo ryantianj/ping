@@ -19,8 +19,7 @@ export default (props) => {
                 value = {password}
                 onChangeText = {setPassword}
                 autoCapitalize = "none"
-                returnKeyType = "next"
-                blurOnSubmit={false}
+                returnKeyType = "done"
             />
             <TouchableOpacity
                 style = {styles.button}
