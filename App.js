@@ -8,8 +8,9 @@ import styles from "./src/styling/app/App.styles"
 
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
-import HomeScreen from "./src/screens/HomeScreen";
+import HomeScreen from "./src/navigation/HomeNavigation";
 import Settings from "./src/screens/SettingsScreen";
+import ForgotPassword_Email from "./src/screens/ForgotPasswordScreen_Email";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -25,11 +26,11 @@ export default function App() {
                       name = "Register"
                       component = {RegisterScreen}/>
                   <Stack.Screen
-                      name = "Home"
-                      component = {HomeScreen}/>
+                      name = "Forgot"
+                      component = {ForgotPassword_Email}/>
                   <Stack.Screen
-                      name = "Settings"
-                      component = {Settings}/>
+                      name = "Home_Screen"
+                      component = {HomeScreen}/>
               </Stack.Navigator>
           </NavigationContainer>
       </View>

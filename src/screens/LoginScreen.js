@@ -23,7 +23,7 @@ const LoginScreen = (props) => {
               const response = await firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password);
-                props.navigation.navigate('Home');
+                props.navigation.navigate('Home_Screen');
             } catch (error) {
                 // console.log(error)
               if (error.code) {
@@ -78,7 +78,7 @@ const LoginScreen = (props) => {
 
             <TouchableOpacity
             style = {styles.forgotPasswordButton}
-            onPress = {() => alert("not yet implemented")}>
+            onPress = {() => props.navigation.navigate('Forgot')}>
                 <Text style ={styles.forgotPasswordButtonText}>Forgot your Password ?</Text>
             </TouchableOpacity>
 
