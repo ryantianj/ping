@@ -24,7 +24,10 @@ const LoginScreen = (props) => {
                 .auth()
                 .signInWithEmailAndPassword(email, password);
                 console.log('signed in!')
-                props.navigation.navigate('Home_Screen');
+                props.navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home_Screen' }],
+                });
             } catch (error) {
               if (error.code) {
                 if (error.code === "auth/invalid-email") {
@@ -80,10 +83,7 @@ const LoginScreen = (props) => {
             <TouchableOpacity
             style = {styles.forgotPasswordButton}
             onPress = {() => {props.navigation.navigate('Forgot');
-                props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Home' }],
-                    });}}>
+                }}>
                 <Text style ={styles.forgotPasswordButtonText}>Forgot your Password ?</Text>
             </TouchableOpacity>
 
