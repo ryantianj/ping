@@ -8,6 +8,7 @@ export default StyleSheet.create({
     },
     NaviBar : {
         backgroundColor: colours.naviBar,
-        height: 60,
-    }
+        height: 70
+    },
+
 })

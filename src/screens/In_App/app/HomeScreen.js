@@ -1,29 +1,23 @@
-import React, {useState} from "react";
-import {Text, TextInput} from "react-native";
+import React from "react";
+import {Text} from "react-native";
 
+import Search from "../../../constants/Search";
 import Screen from "../../../components/Screen";
-
-import styles from '../../../styling/screens/In_App/app/HomeScreen.styles'
 import Logo_Settings from "../../../constants/Logo_Settings";
 
-export default (props) => {
-    const [search, setSearch] = useState("");
-    return (
-            <Screen style = {styles.container}>
-                <Logo_Settings navigation = {props.navigation}/>
-                <TextInput
-                    style = {styles.searchBarText}
-                    placeholder = "Search"
-                    value = {search}
-                    onChangeText = {setSearch}
-                    autoCapitalize = "none"
-                    returnKeyType = "go"/>
+import styles from '../../../styling/screens/In_App/app/HomeScreen.styles'
 
-                <Text
-                    style = {styles.notificationsText}>
-                    Your Notifications
-                </Text>
-            </Screen>
+export default (props) => {
+    return (
+        <Screen style = {styles.container}>
+            <Logo_Settings navigation = {props.navigation}/>
+            <Search />
+
+            <Text
+                style = {styles.notificationsText}>
+                Your Notifications
+            </Text>
+        </Screen>
 
     )
 }

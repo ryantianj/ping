@@ -11,7 +11,7 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    notificationsText : {
+    chatsText : {
         paddingTop: 20,
         fontSize: 17,
         color: 'red',
