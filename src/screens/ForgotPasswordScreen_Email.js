@@ -18,7 +18,7 @@ export default (props) => {
                      alert("A password reset link has been sent to your email.")
             })
             // this.handleStoreRegisterUser(user);
-            props.navigation.navigate('Home_Screen');
+            props.navigation.navigate('Login');
         } catch (error) {
             console.log(error);
         }

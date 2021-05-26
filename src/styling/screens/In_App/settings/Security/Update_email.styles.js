@@ -14,7 +14,6 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-
     usernameText : {
         paddingTop: 10,
         fontSize: 30,
@@ -30,7 +29,7 @@ export default StyleSheet.create({
         fontSize: 20,
         marginTop: 20,
         backgroundColor: colours.textBox,
-        width: 2 * windowWidth / 3,
+        width: 3 * windowWidth / 4,
         height: 50,
         borderRadius: 10
     },
@@ -39,7 +38,7 @@ export default StyleSheet.create({
         paddingTop: 13,
         fontSize: 50,
         borderRadius: 10,
-        width: 2 * windowWidth / 3,
+        width: 3 * windowWidth / 4,
         height: 50,
         backgroundColor: colours.logInButton
     },

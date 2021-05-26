@@ -29,7 +29,7 @@ const LoginScreen = (props) => {
                             console.log('signed in, email verified')
                             props.navigation.reset({
                                 index: 0,
-                                routes: [{ name: 'Home_Screen' }],
+                                routes: [{ name: 'Main' }],
                             });
                         } else {
                             alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')

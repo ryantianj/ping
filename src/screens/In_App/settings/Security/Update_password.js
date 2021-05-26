@@ -28,7 +28,7 @@ export default (props) => {
                             const response1 = await getUser.updatePassword(newPassword1).then(() => {
                                 console.log('password changed')
                                 alert('Your password has been changed!')
-                                props.navigation.navigate('Settings_Screen');
+                                props.navigation.navigate('Update_password');
                             })
                         } catch (error) { // catching errors for updateEmail
                             if (error.code === "auth/weak-password") {

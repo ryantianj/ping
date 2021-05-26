@@ -3,6 +3,7 @@ export default {
     textBox: "#F0D18F",
     logInButton: "#000000",
     logOutButton: "#D72828",
-    settingsButton: "#C4C4C4"
+    settingsButton: "#C4C4C4",
+    naviBar: "#F0D18F"
 
 }
