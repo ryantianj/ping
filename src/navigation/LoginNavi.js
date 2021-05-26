@@ -8,7 +8,7 @@ import styles from "../styling/navigation/LoginNavi.styles"
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ForgotPassword_Email from "../screens/ForgotPasswordScreen_Email";
-import Main from "../navigation/NaviBar";
+import Main from "../navigation/HomeNavigation";
 
 const Stack = createStackNavigator();
 export default function App() {

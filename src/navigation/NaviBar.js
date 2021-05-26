@@ -1,12 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import styles from "../styling/navigation/NaviBar.styles";
-import HomeScreen from "../navigation/HomeNavigation"
-import Recommendations from "../screens/In_App/app/RecommendationsScreen"
+import HomeScreen from "../screens/In_App/app/HomeScreen"
+import Recommendations from "../screens/In_App/app/RecommendationsScreen";
 import Room from "./RoomNavigation";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +16,7 @@ export default (props) => {
         <View style = {styles.container}>
             <Tab.Navigator
                 initialRouteName = "Home"
+                backBehavior = "history"
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
@@ -34,14 +36,14 @@ export default (props) => {
                     },
                 })}
                 tabBarOptions={
-                {
-                    keyboardHidesTabBar: true,
-                    showLabel: false,
-                    style: styles.NaviBar,
-                    activeTintColor: 'tomato',
-                    inactiveTintColor: 'gray',
+                    {
+                        keyboardHidesTabBar: true,
+                        showLabel: false,
+                        style: styles.NaviBar,
+                        activeTintColor: 'tomato',
+                        inactiveTintColor: 'gray',
 
-                }}
+                    }}
             >
                 <Tab.Screen
                     name = "Room"
@@ -52,6 +54,7 @@ export default (props) => {
                 <Tab.Screen
                     name = "Recommendations"
                     component = {Recommendations}/>
+
 
             </Tab.Navigator>
         </View>

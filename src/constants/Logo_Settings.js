@@ -13,7 +13,10 @@ export default (props) => {
             <Logo style = {styles.image}/>
             <Pressable
                 style = {styles.settingsPress}
-                onPress = {() => props.navigation.navigate('Settings')}>
+                onPress = {() => {
+                    props.navigation.navigate('Settings')
+
+                }}>
                 <Settings style = {styles.settings}/>
             </Pressable>
         </View>

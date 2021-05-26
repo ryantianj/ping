@@ -13,7 +13,7 @@ export default StyleSheet.create({
     tabContainer: {
         flex: 1,
         backgroundColor: colours.primary,
-        marginTop: 20,
+        marginTop: 10,
     },
     NaviBar : {
         backgroundColor: colours.primary

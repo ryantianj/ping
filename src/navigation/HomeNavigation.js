@@ -3,7 +3,7 @@ import {View} from "react-native";
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import HomeScreen from "../screens/In_App/app/HomeScreen";
+import NaviBar from "./NaviBar";
 import Settings from "../navigation/SettingsNavigation"
 
 import styles from "../styling/navigation/HomeNavigation.styles"
@@ -17,8 +17,8 @@ export default (props) => {
                 screenOptions={{headerShown: false}}
             >
                 <Stack.Screen
-                    name = "Home"
-                    component = {HomeScreen}/>
+                    name = "Main"
+                    component = {NaviBar}/>
                 <Stack.Screen
                     name = "Settings"
                     component = {Settings}/>

@@ -28,6 +28,7 @@ export default StyleSheet.create({
         fontSize: 32,
     },
     flatList: {
+        marginTop: 20,
         width: windowWidth,
     }
 })
