@@ -17,5 +17,17 @@ export default StyleSheet.create({
         color: 'red',
         textAlign: 'center',
         width: 2 * windowWidth / 3
+    },
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+    },
+    title: {
+        fontSize: 32,
+    },
+    flatList: {
+        width: windowWidth,
     }
 })
