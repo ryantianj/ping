@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Channel from "../screens/In_App/app/ChannelScreen";
 import Group from "../screens/In_App/app/GroupScreen";
@@ -10,12 +9,13 @@ import Logo_Settings from "../constants/Logo_Settings";
 import Search from "../constants/Search";
 
 import styles from "../styling/navigation/RoomNavigation.styles";
+import Screen from "../components/Screen";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default (props) => {
     return (
-        <View style = {styles.container}>
+        <Screen style = {styles.container}>
             <Logo_Settings navigation = {props.navigation}/>
             <Search />
             <View style = {styles.tabContainer}>
@@ -33,7 +33,7 @@ export default (props) => {
                 </Tab.Navigator>
             </View>
 
-        </View>
+        </Screen>
 
     )
 }

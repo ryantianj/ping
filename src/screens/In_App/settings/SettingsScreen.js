@@ -1,5 +1,5 @@
 import React from "react";
-import {Text, TouchableOpacity} from "react-native";
+import {ScrollView, Text, TouchableOpacity} from "react-native";
 import firebase, { usersCollection } from '../../../../api/firebase';
 
 import Screen from "../../../components/Screen";
@@ -22,18 +22,28 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
+            <ScrollView style = {styles.scroll}>
+                <TouchableOpacity
+                    style = {styles.Button}
+                    onPress = {() => props.navigation.navigate('Security')}
+                >
+                    <Text style = {styles.ButtonText}>Security</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity
-                style = {styles.securityButton}
-                onPress = {() => props.navigation.navigate('Security')}
-            >
-                <Text style = {styles.securityButtonText}>Security</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style = {styles.Button}
+                    onPress = {() => props.navigation.navigate('Profile')}
+                >
+                    <Text style = {styles.ButtonText}>Profile</Text>
+                </TouchableOpacity>
+
+            </ScrollView>
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {handleLogout}>
                 <Text style ={styles.buttonText}>Log Out</Text>
             </TouchableOpacity>
         </Screen>
+
     )
 }

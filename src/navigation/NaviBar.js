@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -7,13 +6,14 @@ import styles from "../styling/navigation/NaviBar.styles";
 import HomeScreen from "../screens/In_App/app/HomeScreen"
 import Recommendations from "../screens/In_App/app/RecommendationsScreen";
 import Room from "./RoomNavigation";
+import Screen from "../components/Screen";
 
 
 const Tab = createBottomTabNavigator();
 
 export default (props) => {
     return (
-        <View style = {styles.container}>
+        <Screen style = {styles.container}>
             <Tab.Navigator
                 initialRouteName = "Home"
                 backBehavior = "history"
@@ -57,7 +57,7 @@ export default (props) => {
 
 
             </Tab.Navigator>
-        </View>
+        </Screen>
 
     )
 }

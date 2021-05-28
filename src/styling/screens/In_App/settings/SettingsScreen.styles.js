@@ -2,6 +2,7 @@ import {StyleSheet, Dimensions, StatusBar} from "react-native";
 import colours from "../../../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const statusBar = StatusBar.currentHeight;
 
 export default StyleSheet.create({
@@ -14,7 +15,12 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    securityButton : {
+    scroll :{
+        backgroundColor: colours.primary,
+        flex: 1,
+        marginBottom: 30,
+    },
+    Button : {
         marginTop: 10,
         fontSize: 50,
         borderRadius: 10,
@@ -25,7 +31,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    securityButtonText : {
+    ButtonText : {
         color: 'black',
         textAlign: 'left',
         width: windowWidth,
@@ -33,7 +39,6 @@ export default StyleSheet.create({
         fontSize: 20,
     },
     button : {
-        position: 'absolute',
         bottom: 20,
         fontSize: 50,
         borderRadius: 10,

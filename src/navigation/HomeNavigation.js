@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from "react-native";
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -7,12 +6,13 @@ import NaviBar from "./NaviBar";
 import Settings from "../navigation/SettingsNavigation"
 
 import styles from "../styling/navigation/HomeNavigation.styles"
+import Screen from "../components/Screen";
 
 const Stack = createStackNavigator();
 export default (props) => {
 
     return (
-        <View style = {styles.container}>
+        <Screen style = {styles.container}>
             <Stack.Navigator
                 screenOptions={{headerShown: false}}
             >
@@ -23,7 +23,7 @@ export default (props) => {
                     name = "Settings"
                     component = {Settings}/>
             </Stack.Navigator>
-        </View>
+        </Screen>
 
     )
 }
