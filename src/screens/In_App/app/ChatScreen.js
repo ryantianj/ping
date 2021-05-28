@@ -1,5 +1,5 @@
 import React from "react";
-import {Text} from "react-native";
+import {Text, TextInput, TouchableOpacity, FlatList, View, Image, Pressable, KeyboardAvoidingView} from "react-native";
 
 import Screen from "../../../components/Screen";
 
@@ -13,6 +13,13 @@ export default (props) => {
                 style = {styles.chatsText}>
                 Your Chats
             </Text>
+
+            <TouchableOpacity
+                style = {styles.chatsList}
+                onPress = {() => props.navigation.navigate('ChatRoom')}
+            >
+                <Text style = {styles.securityButtonText}>Chat Room 1</Text>
+            </TouchableOpacity>
         </Screen>
 
     )

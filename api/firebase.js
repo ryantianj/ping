@@ -19,13 +19,13 @@ firebase.auth();
 const infodb = firebase.firestore();
 // export const firebaseTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 
-const chatdb = database().ref('??????');
+// const chatdb = database().ref('??????');
 
-export const usersCollection = db.collection('users');
-export const badgesCollection = db.collection('badges');
-export const tagsCollection = db.collection('tags');
+export const usersCollection = infodb.collection('users');
+export const badgesCollection = infodb.collection('badges');
+export const tagsCollection = infodb.collection('tags');
 // export const messagesCollection = db.collection('messages');
-export const roomsCollection = db.collection('rooms');
+export const roomsCollection = infodb.collection('rooms');
 
 
 export default firebase;
