@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import database from '@react-native-firebase/database';
 import 'firebase/firestore';
 import 'firebase/auth';
 
@@ -15,9 +16,16 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.auth();
 
-const db = firebase.firestore();
+const infodb = firebase.firestore();
 // export const firebaseTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 
-export const usersCollection = db.collection('users');
+// const chatdb = database().ref('??????');
+
+export const usersCollection = infodb.collection('users');
+export const badgesCollection = infodb.collection('badges');
+export const tagsCollection = infodb.collection('tags');
+// export const messagesCollection = db.collection('messages');
+export const roomsCollection = infodb.collection('rooms');
+
 
 export default firebase;

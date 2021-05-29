@@ -10,7 +10,12 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.0",
     "@react-native-community/masked-view": "0.1.10",
+<<<<<<< HEAD
     "@react-native-firebase/messaging": "^12.0.0",
+=======
+    "@react-native-firebase/app": "^12.0.0",
+    "@react-native-firebase/database": "^12.0.0",
+>>>>>>> 1fadc12926ce15c696932579ad3db1a07c281b52
     "@react-navigation/bottom-tabs": "^5.11.11",
     "@react-navigation/material-top-tabs": "^5.3.15",
     "@react-navigation/native": "^5.9.4",
@@ -23,6 +28,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-gifted-chat": "^0.9.11",
     "react-native-paper": "^4.8.1",
     "react-native-reanimated": "~2.1.0",
     "react-native-safe-area-context": "3.2.0",

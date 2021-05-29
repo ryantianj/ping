@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from "react-native";
-import colours from "../../../../constants/colours";
+import colours from "../../../../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -11,18 +11,24 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    chatsText : {
+    channelsText : {
         paddingTop: 20,
         fontSize: 17,
         color: 'red',
         textAlign: 'center',
         width: 2 * windowWidth / 3
     },
-    chatsList : {
-        paddingTop: 20,
-        fontSize: 17,
-        color: 'black',
-        textAlign: 'left',
-        width: 2 * windowWidth / 3
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+    },
+    title: {
+        fontSize: 32,
+    },
+    flatList: {
+        marginTop: 20,
+        width: windowWidth,
     }
 })
