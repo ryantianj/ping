@@ -19,10 +19,16 @@ export default StyleSheet.create({
         width: 2 * windowWidth / 3
     },
     chatsList : {
-        paddingTop: 20,
+        backgroundColor: colours.chat,
+        marginTop: 20,
+        padding: 10,
+        borderRadius: 10,
         fontSize: 17,
         color: 'black',
         textAlign: 'left',
-        width: 2 * windowWidth / 3
+        width: 9 * windowWidth / 10
+    },
+    chats : {
+        color: colours.chatText,
     }
 })
