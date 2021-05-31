@@ -21,11 +21,11 @@ const infodb = firebase.firestore();
 
 // const chatdb = database().ref('??????');
 
-export const usersCollection = infodb.collection('users');
+export const usersCollection = infodb.collection('Users');
 export const badgesCollection = infodb.collection('badges');
 export const tagsCollection = infodb.collection('tags');
 // export const messagesCollection = db.collection('messages');
-export const roomsCollection = infodb.collection('rooms');
+export const roomsCollection = infodb.collection('Rooms');
 
 
 export default firebase;

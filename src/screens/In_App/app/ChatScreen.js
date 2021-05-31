@@ -25,7 +25,7 @@ const DATA = [
         title: 'Sixth Item'
     }
 ]
-const Item = ({ title , navi}) => (
+const Item = ({title , navi}) => (
     <TouchableOpacity
         style = {styles.chatsList}
         onPress = {() => navi.navigate('ChatRoom')}
@@ -34,10 +34,12 @@ const Item = ({ title , navi}) => (
     </TouchableOpacity>
 );
 export default (props) => {
+    
     const renderItem = ({ item }) => (
         <Item title={item.title}
         navi = {props.navigation}/>
     );
+
     return (
         <Screen style = {styles.container}>
 
