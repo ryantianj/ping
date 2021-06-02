@@ -1,6 +1,8 @@
 import React, {useState, useRef} from "react";
 import {Text, TextInput, TouchableOpacity, View, Image, Pressable, KeyboardAvoidingView} from "react-native";
-import firebase, { usersCollection } from '../../api/firebase';
+import firebase from '../../api/firebase';
+import { fillUserState } from '../usersSlice';
+import { useDispatch } from 'react-redux';
 
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
@@ -13,9 +15,13 @@ const LoginScreen = (props) => {
 
     const nextInput = useRef();
 
+    const dispatch = useDispatch();
+
     const togglePassVisible = () => {
         isPassVisible(!showPass)
     }
+
+    let uid = null;
 
     const handleLogin = async () => {
         if (email && password) {
@@ -31,6 +37,7 @@ const LoginScreen = (props) => {
                                 index: 0,
                                 routes: [{ name: 'Main' }],
                             });
+                            uid = user.user.uid;
                         } else {
                             alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
                         }
@@ -43,6 +50,9 @@ const LoginScreen = (props) => {
                 } else if (error.code === 'auth/wrong-password') {
                     alert('Oops! Please retry with the correct password :(');
                 }                
+            } finally {
+                // Set the user profile into global store
+                dispatch(fillUserState(uid));
             }
         }
     }

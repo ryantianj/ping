@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = [
-    { roomid: '', type: 0, users: [], tags: [] }
+    { 
+        roomid: '', 
+        type: 0, 
+        users: [], 
+        tags: [] 
+    }
 ]
 
 const roomsSlice = createSlice({

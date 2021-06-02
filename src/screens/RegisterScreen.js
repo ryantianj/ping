@@ -1,6 +1,8 @@
 import React, {useRef, useState} from "react";
 import {Image, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
 import firebase, { usersCollection } from '../../api/firebase';
+import { fillUserState } from '../usersSlice';
+import { useDispatch } from 'react-redux';
 
 import Screen from "../components/Screen";
 import styles from "../styling/screens/RegisterScreen.styles"
@@ -11,9 +13,28 @@ export default (props) => {
     const [showPass, isPassVisible] = useState(true);
 
     const nextInput = useRef();
+    
+    const dispatch = useDispatch();
 
     const togglePassVisible = () => {
         isPassVisible(!showPass)
+    }
+
+    let uid = null;
+
+    const createUserInDatabase = (data) => {
+        usersCollection.doc(data.user.uid).set({
+            email: data.user.email,
+            activityLog: [],
+            badges: {},
+            bio: "",
+            expert: [],
+            interests: []
+        }).then(data => {
+            console.log(data)
+        }).catch(e => {
+            console.log(e);
+        })
     }
 
     const handleRegister = async () => {
@@ -21,14 +42,18 @@ export default (props) => {
             firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
-            .then(user => {
+            .then(async user => {
+                await createUserInDatabase(user);
                 user.user.sendEmailVerification().then(() => {
                     console.log('mail sent')
                     alert("An verification link has been sent to your email. Please verify your account")
                 })
+                uid = user.user.uid;
+                console.log(uid);
+                // Set the user profile into global store
+                dispatch(fillUserState(uid));
             })
-            // this.handleStoreRegisterUser(user);
-            props.navigation.navigate('Home_Screen');
+            props.navigation.navigate('Main');
 
         } catch (error) {
             if (error.code) {
