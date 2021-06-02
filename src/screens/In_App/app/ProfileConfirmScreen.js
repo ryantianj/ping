@@ -28,7 +28,7 @@ const ProfileConfirmScreen = (props) => {
             )
     }
 
-    const uid = useSelector(selectuid(store.getState()))
+    const uid = store.getState().user.hasData
     console.log(uid)
 
     const dispatch = useDispatch();
