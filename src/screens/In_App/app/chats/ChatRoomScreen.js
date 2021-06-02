@@ -17,9 +17,15 @@ export default (props) => {
                 return console.log('sorry no record found');
             } else {
                 console.log(snapshot.data().topics);
-                const foundUsers = snapshot.data().users;
-                setUsers(foundUsers);
+                const foundUsers = snapshot.data().users
+
+
+
                 // why does setUsers not work????????
+                console.log("Users:");
+
+                console.log(foundUsers);
+                setUsers(foundUsers);
                 console.log(users);
             }
         }).catch(error => {
