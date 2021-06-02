@@ -10,28 +10,27 @@ export default (props) => {
     
     const [roomID, setroomID] = useState("8NpbK0TBMT1ltRKjll85");
     const [users, setUsers] = useState("null");
-
+    
     useEffect(() => {
-        roomsCollection.doc(roomID).get().then(snapshot =>{
-            if (!snapshot.exists){
+           if (!snapshot.exists){
                 return console.log('sorry no record found');
             } else {
                 console.log(snapshot.data().topics);
-                const foundUsers = snapshot.data().users
-
-
-
-                // why does setUsers not work????????
-                console.log("Users:");
-
-                console.log(foundUsers);
-                setUsers(foundUsers);
-                console.log(users);
+               console.log(users);
+=======
+                const foundUsers = snapshot.data().users;
+                console.log(foundUsers); // prints "marcuschua"
+                setUsers(foundUsers); // hooks should set users from "null" to "marcuschua"
+>>>>>>> 9ed68d0c340fa194799b5b08bf3c42157482f049
             }
         }).catch(error => {
             console.log(error)
         })
     }, [])
+
+    useEffect(() => {
+        console.log(users);
+    })
 
     return (
         <Screen style = {styles.container}>
@@ -39,7 +38,7 @@ export default (props) => {
             <Text
                 style = {styles.chatsText}>
                 Your Chats
-                {/* {this.users} */}
+                {/* { users } */}
             </Text>
         </Screen>
 
