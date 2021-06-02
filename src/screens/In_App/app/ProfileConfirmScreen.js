@@ -70,7 +70,10 @@ const ProfileConfirmScreen = (props) => {
                 onPress = {() => {
                     submitProfileToDatabase();
                     dispatch(fillUserState(uid));
-                    props.navigation.navigate('Main')
+                    props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Main' }],
+                    });
                 }}
             >
                 <Text style = {styles.buttonText}>Confirm</Text>
