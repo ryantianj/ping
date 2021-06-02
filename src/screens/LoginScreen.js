@@ -3,6 +3,7 @@ import {Text, TextInput, TouchableOpacity, View, Image, Pressable, KeyboardAvoid
 import firebase from '../../api/firebase';
 import { fillUserState, hasData } from '../usersSlice';
 import { useDispatch , useSelector} from 'react-redux';
+import store from "../store";
 
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
@@ -33,7 +34,7 @@ const LoginScreen = (props) => {
                         console.log('signed in, awaiting verification')
                         if (user.user.emailVerified) {
                             console.log('signed in, email verified')
-                            if(false) {
+                            if(store.getState().user.hasData) {
                                 props.navigation.reset({
                                     index: 0,
                                     routes: [{ name: 'Main' }],

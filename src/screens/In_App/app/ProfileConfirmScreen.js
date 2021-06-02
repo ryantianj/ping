@@ -9,7 +9,7 @@ import {
 import firebase from '../../../../api/firebase';
 import { fillUserState, selectuid } from '../../../usersSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import store from '../../../usersSlice';
+import store from '../../../store';
 
 import Screen from "../../../components/Screen";
 import styles from "../../../styling/screens/In_App/app/ProfileConfirmScreen.styles";
@@ -28,7 +28,7 @@ const ProfileConfirmScreen = (props) => {
             )
     }
 
-    const uid = useSelector(selectuid(store.getState()))
+    const uid = store.getState().user.uid;
     console.log(uid)
 
     const dispatch = useDispatch();
