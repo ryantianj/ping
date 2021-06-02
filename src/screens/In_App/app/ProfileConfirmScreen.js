@@ -7,6 +7,9 @@ import {
     FlatList
 } from "react-native";
 import firebase from '../../../../api/firebase';
+import { fillUserState, selectuid } from '../../../usersSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import store from '../../../usersSlice';
 
 import Screen from "../../../components/Screen";
 import styles from "../../../styling/screens/In_App/app/ProfileConfirmScreen.styles";
@@ -23,27 +26,28 @@ const ProfileConfirmScreen = (props) => {
                     <Text style = {styles.unselectedText}>{item}</Text>
                 </View>
             )
-        }
+    }
 
+    const uid = useSelector(selectuid(store.getState()))
+    console.log(uid)
 
+    const dispatch = useDispatch();
 
-    const submitProfile = () =>
-            firebase.firestore()
-            .collection('Users')
-            .doc('1e3HJgSLLofEEZPbkg3fJRjktVZ2')
-            .set({
-                activityLog: '',
-                badges: [],
-                email: '',
-                expert: [],
-                bio: bio,
-                interests: selectInterests,
-
-            })
-            .then(() => {
-                console.log('Profile added!');
-            })
-
+    const submitProfileToDatabase = () => {
+        firebase.firestore()
+        .collection('Users')
+        .doc(uid)
+        .set({
+            activityLog: '',
+            badges: [],
+            expert: [],
+            bio: bio,
+            interests: selectInterests
+        })
+        .then(() => {
+            console.log('Profile added!');
+        })
+    }
 
     return (
         <Screen style = {styles.container}>
@@ -64,7 +68,8 @@ const ProfileConfirmScreen = (props) => {
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {() => {
-                    submitProfile();
+                    submitProfileToDatabase();
+                    dispatch(fillUserState(uid));
                     props.navigation.navigate('Main')
                 }}
             >

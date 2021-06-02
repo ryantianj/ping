@@ -2,7 +2,7 @@ import React, {useRef, useState} from "react";
 import {Image, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
 import firebase, { usersCollection } from '../../api/firebase';
 import { fillUserState } from '../usersSlice';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Screen from "../components/Screen";
 import styles from "../styling/screens/RegisterScreen.styles"
@@ -23,18 +23,20 @@ export default (props) => {
     let uid = null;
 
     const createUserInDatabase = (data) => {
-        usersCollection.doc(data.user.uid).set({
-            email: data.user.email,
-            activityLog: [],
-            badges: {},
-            bio: "",
-            expert: [],
-            interests: []
-        }).then(data => {
-            console.log(data)
-        }).catch(e => {
-            console.log(e);
-        })
+        // if (!userHasData) {
+            usersCollection.doc(data.user.uid).set({
+                email: data.user.email,
+                activityLog: [],
+                badges: {},
+                bio: "",
+                expert: [],
+                interests: []
+            }).then(() => {
+                console.log(data)
+            }).catch(e => {
+                console.log(e);
+            })
+        // }
     }
 
     const handleRegister = async () => {
@@ -43,7 +45,7 @@ export default (props) => {
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .then(async user => {
-                await createUserInDatabase(user);
+                const response = await createUserInDatabase(user);
                 user.user.sendEmailVerification().then(() => {
                     console.log('mail sent')
                     alert("An verification link has been sent to your email. Please verify your account")
