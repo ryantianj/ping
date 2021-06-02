@@ -28,7 +28,10 @@ const ProfileConfirmScreen = (props) => {
             )
     }
 
+<<<<<<< HEAD
     const uid = store.getState().user.uid;
+=======
+>>>>>> a4b19039d002ac5a7e6c4fa561bb5ea95a8297e2
     console.log(uid)
 
     const dispatch = useDispatch();
