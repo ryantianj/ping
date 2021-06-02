@@ -16,7 +16,10 @@ export default (props) => {
         firebase.auth().onAuthStateChanged((user) => {
             if (!user) { console.log('signed out!') }
           });
-        props.navigation.navigate('Login');
+        props.navigation.reset({
+            index: 0,
+            routes: [{ name: 'Login' }],
+        });
 
     }
 

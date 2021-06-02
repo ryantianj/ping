@@ -9,6 +9,7 @@ import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ForgotPassword_Email from "../screens/ForgotPasswordScreen_Email";
 import Main from "../navigation/HomeNavigation";
+import CreateProfileNavi from "./CreateProfileNavi";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -25,6 +26,9 @@ export default function App() {
                 <Stack.Screen
                     name = "Forgot"
                     component = {ForgotPassword_Email}/>
+                <Stack.Screen
+                    name = "CreateProfile"
+                    component = {CreateProfileNavi}/>
                 <Stack.Screen
                     name = "Main"
                     component = {Main}/>

@@ -10,7 +10,6 @@ import styles from "../styling/navigation/HomeNavigation.styles"
 import Screen from "../components/Screen";
 import colours from "../constants/colours";
 
-import CreateProfileNavi from "./CreateProfileNavi";
 
 const Stack = createStackNavigator();
 export default (props) => {
@@ -20,9 +19,6 @@ export default (props) => {
             <Stack.Navigator
                 screenOptions={{headerShown: false}}
             >
-                <Stack.Screen
-                    name = "ss"
-                    component = {CreateProfileNavi}/>
                 <Stack.Screen
                     name = "Main"
                     component = {NaviBar}/>

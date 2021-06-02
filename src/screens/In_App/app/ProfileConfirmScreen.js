@@ -65,7 +65,10 @@ const ProfileConfirmScreen = (props) => {
                 style = {styles.button}
                 onPress = {() => {
                     submitProfile();
-                    props.navigation.navigate('Main')
+                    props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Main' }],
+                    });
                 }}
             >
                 <Text style = {styles.buttonText}>Confirm</Text>

@@ -1,8 +1,8 @@
 import React, {useState, useRef} from "react";
 import {Text, TextInput, TouchableOpacity, View, Image, Pressable, KeyboardAvoidingView} from "react-native";
 import firebase from '../../api/firebase';
-import { fillUserState } from '../usersSlice';
-import { useDispatch } from 'react-redux';
+import { fillUserState, hasData } from '../usersSlice';
+import { useDispatch , useSelector} from 'react-redux';
 
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
@@ -33,10 +33,18 @@ const LoginScreen = (props) => {
                         console.log('signed in, awaiting verification')
                         if (user.user.emailVerified) {
                             console.log('signed in, email verified')
-                            props.navigation.reset({
-                                index: 0,
-                                routes: [{ name: 'Main' }],
-                            });
+                            if(false) {
+                                props.navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'Main' }],
+                                });
+                            } else {
+                                props.navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'CreateProfile' }],
+                                });
+                            }
+
                             uid = user.user.uid;
                         } else {
                             alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
