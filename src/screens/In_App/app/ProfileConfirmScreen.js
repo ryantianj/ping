@@ -29,20 +29,17 @@ const ProfileConfirmScreen = (props) => {
     }
 
 
-    const uid = store.getState().user.uid;
-
-    console.log(uid)
+    const uid = store.getState().user.uid
+    console.log(uid) // returns undefined
 
     const dispatch = useDispatch();
 
     const submitProfileToDatabase = () => {
+        console.log(uid); // returns undefined
         firebase.firestore()
         .collection('Users')
         .doc(uid)
-        .set({
-            activityLog: '',
-            badges: [],
-            expert: [],
+        .update({           
             bio: bio,
             interests: selectInterests
         })
@@ -71,7 +68,7 @@ const ProfileConfirmScreen = (props) => {
                 style = {styles.button}
                 onPress = {() => {
                     submitProfileToDatabase();
-                    dispatch(fillUserState(uid));
+                    // dispatch(fillUserState(uid));
                     props.navigation.reset({
                         index: 0,
                         routes: [{ name: 'Main' }],

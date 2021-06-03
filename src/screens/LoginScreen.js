@@ -34,7 +34,7 @@ const LoginScreen = (props) => {
                         console.log('signed in, awaiting verification')
                         if (user.user.emailVerified) {
                             console.log('signed in, email verified')
-                            if(store.getState().user.hasData) {
+                            if (store.getState().user.hasData) {
                                 props.navigation.reset({
                                     index: 0,
                                     routes: [{ name: 'Main' }],

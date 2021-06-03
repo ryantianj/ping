@@ -55,7 +55,7 @@ export default (props) => {
                 // Set the user profile into global store
                 dispatch(fillUserState(uid));
             })
-            props.navigation.navigate('Main');
+            props.navigation.navigate('CreateProfile');
 
         } catch (error) {
             if (error.code) {
