@@ -29,9 +29,7 @@ const ProfileConfirmScreen = (props) => {
     }
 
 
-    const uid = store.getState().user.user.uid
-
-
+    const uid = store.getState().user.user.uid;
 
     const dispatch = useDispatch();
 
@@ -68,9 +66,9 @@ const ProfileConfirmScreen = (props) => {
                 style = {styles.flatList}/>
             <TouchableOpacity
                 style = {styles.button}
-                onPress = {() => {
-                    submitProfileToDatabase();
-                    // dispatch(fillUserState(uid));
+                onPress = {async () => {
+                    await submitProfileToDatabase();
+                    dispatch(fillUserState(uid));
                     props.navigation.reset({
                         index: 0,
                         routes: [{ name: 'Main' }],
