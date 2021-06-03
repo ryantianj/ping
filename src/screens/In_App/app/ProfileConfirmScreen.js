@@ -68,11 +68,23 @@ const ProfileConfirmScreen = (props) => {
                 style = {styles.button}
                 onPress = {async () => {
                     await submitProfileToDatabase();
-                    dispatch(fillUserState(uid));
-                    props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Main' }],
+                    dispatch(fillUserState(uid)).then(() =>
+                    {
+                        if (props.route.params.update) {
+                            alert("Profile Updated!")
+                            props.navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Settings' }],
+                            });
+                        } else {
+                            props.navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Main' }],
+                            });
+                        }
                     });
+
+
                 }}
             >
                 <Text style = {styles.buttonText}>Confirm</Text>

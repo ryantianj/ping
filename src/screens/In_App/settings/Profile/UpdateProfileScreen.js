@@ -6,29 +6,30 @@ import {
     View,
     FlatList
 } from "react-native";
-import firebase from '../../../../api/firebase';
+import firebase from "../../../../../api/firebase"
+import store from "../../../../store";
 
-import Screen from "../../../components/Screen";
-import styles from "../../../styling/screens/In_App/app/RegisterProfileScreen.styles";
+import Screen from "../../../../components/Screen";
+import styles from "../../../../styling/screens/In_App/settings/Profile/UpdateProfileScreen.styles"
 
-const RegisterProfileScreen = (props) => {
-    const [bio, setBio] = useState("");
+const UpdateProfileScreen = (props) => {
+    const [bio, setBio] = useState(store.getState().user.user.bio);
     const [interests, setInterests] = useState([]); // Server-side choice list
-    const [selectInterests, setSelectInterests] = useState([]); // Client-side choices
-    const [selectedId, setSelectedId] = useState(0); // Render component when selected
+    const [selectInterests, setSelectInterests] = useState([...store.getState().user.user.interests]); // Client-side choices
+    const [selectedId, setSelectedId] = useState(store.getState().user.user.interests.length); // Render component when selected
 
     const renderItem = ( {item} ) => {
         if (selectInterests.includes(item)) {
             return (
                 <TouchableOpacity
-                style = {styles.renderItem}
-                onPress = {() => {
-                    setSelectedId(selectedId + 1);
-                    selectItem(item)
-                }}
-            >
-                <Text style = {styles.selectedText}>{item}</Text>
-            </TouchableOpacity>)
+                    style = {styles.renderItem}
+                    onPress = {() => {
+                        setSelectedId(selectedId + 1);
+                        selectItem(item)
+                    }}
+                >
+                    <Text style = {styles.selectedText}>{item}</Text>
+                </TouchableOpacity>)
 
         } else {
             return (
@@ -60,16 +61,16 @@ const RegisterProfileScreen = (props) => {
         const subscriber = firebase.firestore()
             .collection('Interests')
             .onSnapshot(querySnapshot => {
-            const interests = [];
+                const interests = [];
 
-            querySnapshot.forEach(documentSnapshot => {
-                interests.push({
-                    ...documentSnapshot.data(),
-                    key: documentSnapshot.id,
+                querySnapshot.forEach(documentSnapshot => {
+                    interests.push({
+                        ...documentSnapshot.data(),
+                        key: documentSnapshot.id,
+                    });
                 });
+                setInterests(interests[0].fields)
             });
-            setInterests(interests[0].fields)
-        });
 
         return () => subscriber();
     }, []);
@@ -79,13 +80,12 @@ const RegisterProfileScreen = (props) => {
     return (
         <Screen style = {styles.container}>
             <Text style = {styles.headerText}>
-                Complete Your Profile
+                Update Your Profile
             </Text>
             <View style = {styles.textInputBioContainer}>
                 <TextInput
                     multiline
                     style = {styles.textInputBio}
-                    placeholder = "Create a Bio"
                     value = {bio}
                     onChangeText = {setBio}
                     returnKeyType = "done"
@@ -95,7 +95,7 @@ const RegisterProfileScreen = (props) => {
 
             </View>
             <Text style = {styles.headerText1}>
-                Select Interests
+                Update Interests
             </Text>
 
             <FlatList
@@ -108,13 +108,14 @@ const RegisterProfileScreen = (props) => {
                 style = {styles.button}
                 onPress = {() => props.navigation.navigate("ConfirmProfile",
                     {bios: bio,
-                    selectInterests: selectInterests.sort(),
-                    update: false})}
+                        selectInterests: selectInterests.sort(),
+                    update : true})
+                }
             >
-                <Text style = {styles.buttonText}>Create Profile</Text>
+                <Text style = {styles.buttonText}>Update Profile</Text>
             </TouchableOpacity>
         </Screen>
     )
 }
 
-export default RegisterProfileScreen;
+export default UpdateProfileScreen;

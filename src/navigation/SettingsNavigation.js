@@ -8,6 +8,8 @@ import Security from "../screens/In_App/settings/Security"
 import Update_email from "../screens/In_App/settings/Security/Update_email";
 import Update_password from "../screens/In_App/settings/Security/Update_password";
 import Profile from "../screens/In_App/settings/Profile/ProfileScreen"
+import UpdateProfileScreen from "../screens/In_App/settings/Profile/UpdateProfileScreen";
+import ProfileConfirmScreen from "../screens/In_App/app/ProfileConfirmScreen";
 
 import styles from "../styling/navigation/SettingsNavigation.styles"
 import colours from "../constants/colours";
@@ -58,6 +60,22 @@ export default (props) => {
                     component = {Profile}
                     options={{
                         title: "Profile",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+                <Stack.Screen
+                    name = "UpdateProfile"
+                    component = {UpdateProfileScreen}
+                    options={{
+                        title: "Update Profile",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+                <Stack.Screen
+                    name = "ConfirmProfile"
+                    component = {ProfileConfirmScreen}
+                    options={{
+                        title: "Confirm Profile",
                         headerStyle: {
                             backgroundColor: colours.primary
                         }}}/>

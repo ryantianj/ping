@@ -15,7 +15,6 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     profileText: {
-        paddingTop: 10,
         fontSize: 30,
         color: 'black',
         textAlign: 'center',
@@ -36,9 +35,37 @@ export default StyleSheet.create({
         justifyContent: 'center',
 
     },
+    selectedTextHeader : {
+        fontSize: 25,
+        color: 'black'
+    },
     selectedText : {
         fontSize: 20,
         color: 'black'
+    },
+    button : {
+        bottom: 10,
+        fontSize: 50,
+        borderRadius: 10,
+        width: 2 * windowWidth / 3,
+        height: 50,
+        backgroundColor: colours.logInButton,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        textAlign: 'center',
+    },
+    flatList : {
+        backgroundColor: colours.naviBar,
+        marginTop: 20,
+        padding: 10,
+        marginBottom: 20,
+        borderRadius: 10,
+        fontSize: 17,
+        width: 9 * windowWidth / 10,
     },
 
 
