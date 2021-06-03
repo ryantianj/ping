@@ -11,7 +11,8 @@ const initialState = [
         interests: [], 
         activity: [], 
         expert: [], 
-        badges: {} 
+        badges: {}, 
+        rooms: []
     }
 ]
 
@@ -35,7 +36,8 @@ const usersSlice = createSlice({
                         interests: userData.interests,
                         activity: userData.activityLog,
                         expert: userData.expert,
-                        badges: userData.badges
+                        badges: userData.badges,
+                        rooms: userData.rooms
                 }
             }
         }
@@ -65,14 +67,6 @@ export const fillUserState = uid => {
         }
     }
 }
-
-export const hasData = state => state.user.hasData.value === true;
-export const selectuid = state => state.user.uid.value;
-export const selectbio = state => state.user.bio.value;
-export const selectactivity = state => state.user.activity.value;
-export const selectexpert = state => state.user.expert.value;
-export const selectbadges = state => state.user.badges.value;
-export const selectinterests = state => state.user.interests.value;
 
 export const { updateUserState } = usersSlice.actions;
 

@@ -22,10 +22,10 @@ const infodb = firebase.firestore();
 // const chatdb = database().ref('??????');
 
 export const usersCollection = infodb.collection('Users');
-export const badgesCollection = infodb.collection('badges');
-export const tagsCollection = infodb.collection('tags');
+// export const badgesCollection = infodb.collection('badges');
+// export const tagsCollection = infodb.collection('tags');
 // export const messagesCollection = db.collection('messages');
 export const roomsCollection = infodb.collection('Rooms');
-
+export const interestsCollection = infodb.collection('Interests');
 
 export default firebase;

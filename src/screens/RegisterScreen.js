@@ -23,7 +23,6 @@ export default (props) => {
     let uid = null;
 
     const createUserInDatabase = (data) => {
-        // if (!userHasData) {
             usersCollection.doc(data.user.uid).set({
                 uid: data.user.uid,
                 email: data.user.email,
@@ -38,7 +37,6 @@ export default (props) => {
             }).catch(e => {
                 console.log(e);
             })
-        // }
     }
 
     const handleRegister = async () => {

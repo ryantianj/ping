@@ -46,7 +46,6 @@ const UpdateProfileScreen = (props) => {
         }
     }
 
-
     const selectItem = (item) => {
         const index = selectInterests.indexOf(item)
         if (index >= 0) {
@@ -55,7 +54,6 @@ const UpdateProfileScreen = (props) => {
             selectInterests.push(item)
         }
     }
-
 
     useEffect(() => {
         const subscriber = firebase.firestore()
@@ -74,8 +72,6 @@ const UpdateProfileScreen = (props) => {
 
         return () => subscriber();
     }, []);
-
-
 
     return (
         <Screen style = {styles.container}>

@@ -7,8 +7,8 @@ import {
     FlatList
 } from "react-native";
 import firebase from '../../../../api/firebase';
-import { fillUserState, selectuid } from '../../../usersSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { fillUserState } from '../../../usersSlice';
+import { useDispatch } from 'react-redux';
 import store from '../../../store';
 
 import Screen from "../../../components/Screen";
@@ -28,13 +28,11 @@ const ProfileConfirmScreen = (props) => {
             )
     }
 
-
     const uid = store.getState().user.user.uid;
 
     const dispatch = useDispatch();
 
     const submitProfileToDatabase = () => {
-        console.log(uid); // returns undefined
         firebase.firestore()
         .collection('Users')
         .doc(uid)

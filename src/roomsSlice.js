@@ -1,24 +1,65 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+import { roomsCollection } from '../api/firebase';
+
 const initialState = [
     { 
         roomid: '', 
+        roomname: '',
         type: 0, 
         users: [], 
-        tags: [] 
+        topics: [] 
     }
 ]
 
 const roomsSlice = createSlice({
     name: 'rooms',
     initialState,
-    reducers: {}
+    reducers: {
+        updateRoomState: (state, action) => {
+            console.log("Room id: " + action.payload.roomid)
+            console.log("Room data: " + action.payload.room.data())
+            const roomData = action.payload.room.data();
+
+            return {
+                ...state,
+                room: {
+                    ...state.room,
+                    roomid: action.payload.roomid,
+                    roomname: roomData.name,
+                    type: roomData.type,
+                    users: roomData.users, 
+                    topics: roomData.topics
+                }
+            }
+        }
+    }
 })
 
-export const selectroomid = state => state.roomid.value
-export const selecttype = state => state.type.value
-export const selectusers = state => state.users.value
-export const selecttags = state => state.tags.value
+// the outside "thunk creator" function
+export const fillRoomState = roomid => {
+    // the inside "thunk function"
+    return async (dispatch, getState) => {
+        try {
+            // make an async call in the thunk
 
+            const room = await roomsCollection.doc(roomid).get();
+            // dispatch an action when we get the response back
+            await dispatch(
+                updateRoomState(
+                    {
+                        room: room,
+                        roomid: roomid
+                    }
+                )
+            )
+        } catch (error) {
+            // If something went wrong, handle it here
+            console.log(error);
+        }
+    }
+}
+
+export const { updateRoomState } = roomsSlice.actions;
 
 export default roomsSlice.reducer
