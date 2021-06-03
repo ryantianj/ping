@@ -29,9 +29,9 @@ const ProfileConfirmScreen = (props) => {
     }
 
 
-    const uid = store.getState().user.uid;
+    const uid = store.getState().user.user.uid
 
-    console.log(uid)
+
 
     const dispatch = useDispatch();
 
@@ -39,12 +39,10 @@ const ProfileConfirmScreen = (props) => {
         firebase.firestore()
         .collection('Users')
         .doc(uid)
-        .set({
-            activityLog: '',
-            badges: [],
-            expert: [],
+        .update({
             bio: bio,
-            interests: selectInterests
+            interests: selectInterests,
+            hasData: true
         })
         .then(() => {
             console.log('Profile added!');
