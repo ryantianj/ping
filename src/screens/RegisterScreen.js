@@ -25,12 +25,14 @@ export default (props) => {
     const createUserInDatabase = (data) => {
         // if (!userHasData) {
             usersCollection.doc(data.user.uid).set({
+                uid: data.user.uid,
                 email: data.user.email,
                 activityLog: [],
                 badges: {},
                 bio: "",
                 expert: [],
-                interests: []
+                interests: [],
+                hasData: false
             }).then(() => {
                 console.log(data)
             }).catch(e => {
@@ -45,12 +47,13 @@ export default (props) => {
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .then(async user => {
+                uid = user.user.uid;
                 const response = await createUserInDatabase(user);
                 user.user.sendEmailVerification().then(() => {
                     console.log('mail sent')
                     alert("An verification link has been sent to your email. Please verify your account")
                 })
-                uid = user.user.uid;
+
                 console.log(uid);
                 // Set the user profile into global store
                 dispatch(fillUserState(uid));

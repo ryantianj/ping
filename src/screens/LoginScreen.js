@@ -8,6 +8,7 @@ import store from "../store";
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
 import styles from "../styling/screens/LoginScreen.styles";
+import colours from "../constants/colours";
 
 const LoginScreen = (props) => {
     const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ const LoginScreen = (props) => {
         isPassVisible(!showPass)
     }
 
-    let uid = null;
+    let uid;
 
     const handleLogin = async () => {
         if (email && password) {
@@ -33,8 +34,10 @@ const LoginScreen = (props) => {
                     .then(user => {
                         console.log('signed in, awaiting verification')
                         if (user.user.emailVerified) {
-                            console.log('signed in, email verified')
-                            if (store.getState().user.hasData) {
+                            uid = user.user.uid;
+                            // Set the user profile into global store
+                            dispatch(fillUserState(uid)).then(() => {
+                                if(store.getState().user.user.hasData) {
                                 props.navigation.reset({
                                     index: 0,
                                     routes: [{ name: 'Main' }],
@@ -45,8 +48,8 @@ const LoginScreen = (props) => {
                                     routes: [{ name: 'CreateProfile' }],
                                 });
                             }
-
-                            uid = user.user.uid;
+                            });
+                            console.log('signed in, email verified')
                         } else {
                             alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
                         }
@@ -60,8 +63,7 @@ const LoginScreen = (props) => {
                     alert('Oops! Please retry with the correct password :(');
                 }                
             } finally {
-                // Set the user profile into global store
-                dispatch(fillUserState(uid));
+
             }
         }
     }
@@ -103,6 +105,7 @@ const LoginScreen = (props) => {
                 onPress = {handleLogin}>
                 <Text style ={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
+
 
             <TouchableOpacity
             style = {styles.forgotPasswordButton}

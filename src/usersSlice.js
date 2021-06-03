@@ -29,7 +29,7 @@ const usersSlice = createSlice({
                 user: {
                     ...state.user,
                         uid: action.payload.uid,
-                        hasData: true,
+                        hasData: userData.hasData,
                         email: userData.email,
                         bio: userData.bio,
                         interests: userData.interests,
@@ -48,6 +48,7 @@ export const fillUserState = uid => {
     return async (dispatch, getState) => {
         try {
             // make an async call in the thunk
+
             const user = await usersCollection.doc(uid).get();
             // dispatch an action when we get the response back
             await dispatch(
