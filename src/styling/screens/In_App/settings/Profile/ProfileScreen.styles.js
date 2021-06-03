@@ -21,6 +21,25 @@ export default StyleSheet.create({
         textAlign: 'center',
         width: windowWidth
     },
+    textInputBio :{
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingTop: 15,
+        fontSize: 20,
+        backgroundColor: colours.textBox,
+        width: 9 * windowWidth / 10,
+    },
+    renderItem : {
+        height: 50,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+    selectedText : {
+        fontSize: 20,
+        color: 'black'
+    },
 
 
 })
