@@ -30,5 +30,14 @@ export default StyleSheet.create({
     },
     chats : {
         color: colours.chatText,
-    }
+    },
+    flatList : {
+        backgroundColor: colours.naviBar,
+        marginTop: 20,
+        padding: 10,
+        marginBottom: 20,
+        borderRadius: 10,
+        fontSize: 17,
+        width: 9 * windowWidth / 10,
+    },
 })

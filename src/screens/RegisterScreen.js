@@ -31,7 +31,8 @@ export default (props) => {
                 bio: "",
                 expert: [],
                 interests: [],
-                hasData: false
+                hasData: false,
+                rooms: []
             }).then(() => {
                 console.log(data)
             }).catch(e => {
