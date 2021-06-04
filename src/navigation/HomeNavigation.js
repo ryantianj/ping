@@ -30,7 +30,7 @@ export default (props) => {
                     component = {Chats}
                     options={{
                         headerShown: true,
-                        title: "",
+                        title: "Chat",
                         headerStyle: {
                             backgroundColor: colours.primary,
                         }}}/>

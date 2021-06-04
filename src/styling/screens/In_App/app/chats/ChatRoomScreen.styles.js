@@ -11,24 +11,12 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    channelsText : {
-        paddingTop: 20,
-        fontSize: 17,
-        color: 'red',
-        textAlign: 'center',
-        width: 2 * windowWidth / 3
-    },
-    item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-    },
-    title: {
-        fontSize: 32,
-    },
-    flatList: {
-        marginTop: 20,
+
+    flatList : {
+        backgroundColor: colours.chat,
         width: windowWidth,
-    }
+    },
+    chats : {
+        color: colours.chatText,
+    },
 })
