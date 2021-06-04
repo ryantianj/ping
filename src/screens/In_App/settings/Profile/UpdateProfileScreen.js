@@ -17,6 +17,7 @@ const UpdateProfileScreen = (props) => {
     const [interests, setInterests] = useState([]); // Server-side choice list
     const [selectInterests, setSelectInterests] = useState([...store.getState().user.user.interests]); // Client-side choices
     const [selectedId, setSelectedId] = useState(store.getState().user.user.interests.length); // Render component when selected
+    const [visibility, setVisibility] = useState(store.getState().user.user.visibility); //boolean,true == private
 
     const renderItem = ( {item} ) => {
         if (selectInterests.includes(item)) {
@@ -52,6 +53,21 @@ const UpdateProfileScreen = (props) => {
             selectInterests.splice(index, 1)
         } else {
             selectInterests.push(item)
+        }
+    }
+
+    const publicSelected = () => {
+        if (!visibility) {
+            return styles.publicSelect
+        } else {
+            return styles.public
+        }
+    }
+    const privateSelected = () => {
+        if (visibility) {
+            return styles.privateSelect
+        } else {
+            return styles.private
         }
     }
 
@@ -91,6 +107,24 @@ const UpdateProfileScreen = (props) => {
 
             </View>
             <Text style = {styles.headerText1}>
+                Update Visibility
+            </Text>
+
+            <View style = {styles.visible}>
+                <TouchableOpacity
+                    style = {publicSelected()}
+                    onPress = {() => setVisibility(false)}>
+                    <Text style = {styles.publicText}> Public</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style = {privateSelected()}
+                    onPress = {() => setVisibility(true)}>
+                    <Text style = {styles.privateText}> Private</Text>
+                </TouchableOpacity>
+            </View>
+
+
+            <Text style = {styles.headerText1}>
                 Update Interests
             </Text>
 
@@ -105,6 +139,7 @@ const UpdateProfileScreen = (props) => {
                 onPress = {() => props.navigation.navigate("ConfirmProfile",
                     {bios: bio,
                         selectInterests: selectInterests.sort(),
+                        visibility: visibility,
                     update : true})
                 }
             >

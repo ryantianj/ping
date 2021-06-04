@@ -32,7 +32,10 @@ export default (props) => {
                 expert: [],
                 interests: [],
                 hasData: false,
-                rooms: []
+                rooms: [],
+                visibility: true,
+                friends: [],
+                display: "",
             }).then(() => {
                 console.log(data)
             }).catch(e => {

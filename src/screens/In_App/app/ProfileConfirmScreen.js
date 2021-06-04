@@ -4,7 +4,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList
+    FlatList, ScrollView
 } from "react-native";
 import firebase from '../../../../api/firebase';
 import { fillUserState } from '../../../usersSlice';
@@ -17,6 +17,8 @@ import styles from "../../../styling/screens/In_App/app/ProfileConfirmScreen.sty
 const ProfileConfirmScreen = (props) => {
     const [bio, setBio] = useState(props.route.params.bios);
     const [selectInterests, setSelectInterests] = useState(props.route.params.selectInterests);
+    const [visibility, setVisibility] = useState(props.route.params.visibility);
+    const [display, setDisplay] = useState(props.route.params.display);
 
     const renderItem = ( {item} ) => {
             return (
@@ -26,6 +28,15 @@ const ProfileConfirmScreen = (props) => {
                     <Text style = {styles.unselectedText}>{item}</Text>
                 </View>
             )
+    }
+
+    const visible = () => {
+        if (visibility) {
+            return "Private"
+        } else {
+            return "Public"
+        }
+
     }
 
     const uid = store.getState().user.user.uid;
@@ -39,7 +50,9 @@ const ProfileConfirmScreen = (props) => {
         .update({
             bio: bio,
             interests: selectInterests,
-            hasData: true
+            hasData: true,
+            visibility: visibility,
+            display: display
         })
         .then(() => {
             console.log('Profile added!');
@@ -47,12 +60,26 @@ const ProfileConfirmScreen = (props) => {
     }
 
     return (
+
         <Screen style = {styles.container}>
+            <ScrollView contentContainerStyle = {styles.scroll}
+            >
             <Text style = {styles.headerText}>
                 Your Bio
             </Text>
-
             <Text style = {styles.textInputBio}>{bio}</Text>
+
+            <Text style = {styles.headerText1}>
+                Display Name
+            </Text>
+                <Text style = {styles.textInputBio}>{display}</Text>
+
+            <Text style = {styles.headerText1}>
+                Account Visibility
+            </Text>
+            <Text  style = {styles.textVisible}>
+                {visible()}
+            </Text>
 
             <Text style = {styles.headerText1}>
                 Selected Interests
@@ -87,6 +114,7 @@ const ProfileConfirmScreen = (props) => {
             >
                 <Text style = {styles.buttonText}>Confirm</Text>
             </TouchableOpacity>
+        </ScrollView>
         </Screen>
     )
 }

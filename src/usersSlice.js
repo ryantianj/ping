@@ -12,7 +12,9 @@ const initialState = [
         activity: [], 
         expert: [], 
         badges: {}, 
-        rooms: []
+        rooms: [],
+        friends: [],
+        visibility: true,
     }
 ]
 
@@ -37,7 +39,10 @@ const usersSlice = createSlice({
                         activity: userData.activityLog,
                         expert: userData.expert,
                         badges: userData.badges,
-                        rooms: userData.rooms
+                        rooms: userData.rooms,
+                        friends: userData.friends,
+                        visibility: userData.visibility
+
                 }
             }
         }

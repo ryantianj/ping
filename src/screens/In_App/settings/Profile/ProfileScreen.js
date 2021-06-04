@@ -9,9 +9,18 @@ import styles from "../../../../styling/screens/In_App/settings/Profile/ProfileS
 export default (props) => {
     const DATA = [
         store.getState().user.user.email,
+        store.getState().user.user.visibility,
         store.getState().user.user.bio,
         store.getState().user.user.interests.join(", ")
     ]
+    const visible = () => {
+        if (store.getState().user.user.visibility) {
+            return "Private"
+        } else {
+            return "Public"
+        }
+
+    }
     const renderItem = ( {item}) => {
         if (item === DATA[0]) {
             return (
@@ -23,6 +32,16 @@ export default (props) => {
                 </View>
             )
         } else if (item === DATA[1]) {
+            return (
+                <View
+                    style = {styles.textInputBio}
+                >
+                    <Text style = {styles.selectedTextHeader}>Visibility: </Text>
+                    <Text style = {styles.selectedText}>{visible()}</Text>
+                </View>
+            )
+
+        } else if (item === DATA[2]) {
             return (
                 <View
                     style = {styles.textInputBio}
@@ -43,6 +62,7 @@ export default (props) => {
         }
 
     }
+
 
     return (
         <Screen style = {styles.container}>

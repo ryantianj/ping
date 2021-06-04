@@ -3,6 +3,7 @@ import {Dimensions, StatusBar, StyleSheet} from "react-native";
 import colours from "../../../../constants/colours"
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const statusBar = StatusBar.currentHeight;
 
 export default StyleSheet.create({
@@ -32,6 +33,12 @@ export default StyleSheet.create({
         marginTop: 20,
         width: 9 * windowWidth / 10,
         height: 100,
+        borderRadius: 10,
+    },textInputDisplayContainer :{
+        fontSize: 20,
+        marginTop: 20,
+        width: 9 * windowWidth / 10,
+        height: 53,
         borderRadius: 10,
     },
     textInputBio :{
@@ -90,7 +97,11 @@ export default StyleSheet.create({
         marginBottom: 5,
         borderRadius: 10,
         fontSize: 17,
-        width: 9 * windowWidth / 10
+        width: 9 * windowWidth / 10,
+    },
+    flatListView: {
+        width: 9 * windowWidth / 10,
+        height: windowHeight / 2,
     },
     button : {
         marginBottom: 10,
@@ -105,4 +116,62 @@ export default StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
+    scroll : {
+        backgroundColor: colours.primary,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flex: 1,
+    },
+    visible : {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    public : {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colours.naviBar,
+        borderRadius: 10,
+        width: windowWidth / 3,
+        height: 30,
+        flex : 1,
+    },
+    publicText : {
+        textAlign: 'center',
+    },
+    private : {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colours.naviBar,
+        borderRadius: 10,
+        width: windowWidth / 3,
+        height: 30,
+        flex : 1,
+    },
+    privateText : {
+        textAlign: 'center',
+    },
+    publicSelect: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'orange',
+        borderRadius: 10,
+        width: windowWidth / 3,
+        height: 30,
+        flex : 1,
+    },
+    privateSelect: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'orange',
+        borderRadius: 10,
+        width: windowWidth / 3,
+        height: 30,
+        flex : 1,
+    }
 })

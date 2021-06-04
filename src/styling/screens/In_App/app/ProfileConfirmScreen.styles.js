@@ -71,4 +71,17 @@ export default StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
+    textVisible : {
+        marginTop: 10,
+        fontSize: 20,
+        textAlign: 'center',
+        color: colours.logOutButton,
+    },
+    scroll : {
+        backgroundColor: colours.primary,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flex: 1,
+    },
 })
