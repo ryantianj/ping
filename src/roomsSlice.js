@@ -18,7 +18,6 @@ const roomsSlice = createSlice({
     reducers: {
         updateRoomState: (state, action) => {
             console.log("Room id: " + action.payload.roomid)
-            console.log("Room data: " + action.payload.room.data())
             const roomData = action.payload.room.data();
 
             return {
