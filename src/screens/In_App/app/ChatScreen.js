@@ -14,23 +14,19 @@ const roomsData = []; // array of room objects
 
 export default (props) => {
     const [count, setCount] = useState(0)
-    const renderChatItem = ( {room} ) => {
+    const renderChatItem = ( room ) => {
         return (
             <TouchableOpacity
                 style = {styles.chatsList}
                 onPress = {
-
                     () => {
-                        setCount(count + 1)
                         props.navigation.navigate('ChatRoom');
                         // dispatch(fillRoomState(uid))
                     }
                 }
             >
-                {console.log("here")}
-                {console.log(room)}
 
-                <Text style = {styles.chats}>Chat Room {room}</Text>
+                <Text style = {styles.chats}>Chat Room {room.item.roomname}</Text>
             </TouchableOpacity>
             );
 
@@ -46,12 +42,9 @@ export default (props) => {
     const getAllChats = () => {
         rooms.forEach(async roomid => {
             const roomData = await roomsCollection.doc(roomid).get()
-            roomsData.push(roomData.data());
-            setCount(count + 1)
-            console.log(roomData.data());
-            console.log(roomData.data().roomname)
-            console.log(roomsData);
-            console.log(roomsData[0].roomname);
+                .then((roomdata) => roomsData.push(roomdata.data()))
+                .then(() => setCount(count + 1))
+
         });
     }
 
