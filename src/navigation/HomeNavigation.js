@@ -26,14 +26,9 @@ export default (props) => {
                     name = "Settings"
                     component = {Settings}/>
                 <Stack.Screen
-                    name = "ChatRoom"
+                    name = "ChatRooms"
                     component = {Chats}
-                    options={{
-                        headerShown: true,
-                        title: "Chat",
-                        headerStyle: {
-                            backgroundColor: colours.primary,
-                        }}}/>
+                    />
             </Stack.Navigator>
         </Screen>
 

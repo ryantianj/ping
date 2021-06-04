@@ -11,7 +11,7 @@ export default (props) => {
 
             <Text
                 style = {styles.chatsText}>
-                Your Chats
+
             </Text>
         </Screen>
 

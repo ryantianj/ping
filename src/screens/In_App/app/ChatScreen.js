@@ -1,9 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {Text, TextInput, TouchableOpacity, FlatList, View, Image, Pressable, KeyboardAvoidingView} from "react-native";
+import {
+    Text,
+    TextInput,
+    TouchableOpacity,
+    FlatList,
+    View,
+    Image,
+    Pressable,
+    KeyboardAvoidingView,
+    TouchableHighlight
+} from "react-native";
 import { roomsCollection } from '../../../../api/firebase';
 import { fillRoomState } from '../../../roomsSlice';
 import { useDispatch } from 'react-redux';
 import store from '../../../store';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Screen from "../../../components/Screen";
 
@@ -20,7 +31,7 @@ export default (props) => {
                 style = {styles.chatsList}
                 onPress = {
                     () => {
-                        props.navigation.navigate('ChatRoom');
+                        props.navigation.navigate('ChatRooms',{ screen: 'ChatRoom' });
                         dispatch(fillRoomState(room.item.roomid));
                     }
                 }
@@ -55,11 +66,21 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
+            <View style = {styles.viewText}>
+                <Text
+                    style = {styles.chatsText}>
+                    Your Chats
+                </Text>
+                <TouchableOpacity
+                    style = {styles.touchable}
+                    onPress = {() => props.navigation.navigate('ChatRooms',{ screen: 'JoinCreateRoom' })}
+                     >
+                    <Ionicons style = {styles.icon}
+                              name={'add-outline'} size={35}  />
+                </TouchableOpacity>
 
-            <Text
-                style = {styles.chatsText}>
-                Your Chats
-            </Text>
+            </View>
+
 
             <FlatList
                 style = {styles.flatList}
