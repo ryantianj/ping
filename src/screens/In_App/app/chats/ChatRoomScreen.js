@@ -1,5 +1,5 @@
 import React, {Component, useEffect, useState, useRef} from "react";
-import {Text} from "react-native";
+import {FlatList, Text, TouchableOpacity} from "react-native";
 import { usersCollection, roomsCollection } from '../../../../../api/firebase';
 
 import Screen from "../../../../components/Screen";
@@ -10,6 +10,15 @@ export default (props) => {
 
     const [roomID, setroomID] = useState("8NpbK0TBMT1ltRKjll85");
     const [users, setUsers] = useState("null");
+    const DATA = [1];
+
+    const renderChat = ( message ) => {
+        return (
+            <Text style = {styles.chats}>message</Text>
+
+        );
+
+    }
 
     useEffect(() => {
         roomsCollection.doc(roomID).get().then(snapshot => {
@@ -33,11 +42,10 @@ export default (props) => {
     return (
         <Screen style = {styles.container}>
 
-            <Text
-                style = {styles.chatsText}>
-                Your Chats
-                {/* { users } */}
-            </Text>
+            <FlatList
+                style = {styles.flatList}
+                data={DATA}
+                renderItem={renderChat}/>
         </Screen>
 
     )
