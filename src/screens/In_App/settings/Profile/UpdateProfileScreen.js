@@ -4,7 +4,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList
+    FlatList, ScrollView
 } from "react-native";
 import firebase from "../../../../../api/firebase"
 import store from "../../../../store";
@@ -18,6 +18,7 @@ const UpdateProfileScreen = (props) => {
     const [selectInterests, setSelectInterests] = useState([...store.getState().user.user.interests]); // Client-side choices
     const [selectedId, setSelectedId] = useState(store.getState().user.user.interests.length); // Render component when selected
     const [visibility, setVisibility] = useState(store.getState().user.user.visibility); //boolean,true == private
+    const [display, setDisplay] = useState(store.getState().user.user.display)
 
     const renderItem = ( {item} ) => {
         if (selectInterests.includes(item)) {
@@ -91,6 +92,8 @@ const UpdateProfileScreen = (props) => {
 
     return (
         <Screen style = {styles.container}>
+            <ScrollView contentContainerStyle = {styles.scroll}
+            >
             <Text style = {styles.headerText}>
                 Update Your Profile
             </Text>
@@ -106,6 +109,24 @@ const UpdateProfileScreen = (props) => {
                 />
 
             </View>
+
+            <Text style = {styles.headerText1}>
+                Update Display Name
+            </Text>
+            <View style = {styles.textInputDisplayContainer}>
+                <TextInput
+                    style = {styles.textInputBio}
+                    placeholder = "Display Name"
+                    value = {display}
+                    onChangeText = {setDisplay}
+                    returnKeyType = "go"
+                    blurOnSubmit={false}
+                    maxLength = {50}
+                />
+
+            </View>
+
+
             <Text style = {styles.headerText1}>
                 Update Visibility
             </Text>
@@ -127,24 +148,28 @@ const UpdateProfileScreen = (props) => {
             <Text style = {styles.headerText1}>
                 Update Interests
             </Text>
-
+                <View style = {styles.flatListView}>
             <FlatList
+                nestedScrollEnabled
                 data={interests}
                 renderItem={renderItem}
                 extraData={selectedId}
                 keyExtractor={item => item}
                 style = {styles.flatList}/>
+                </View>
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {() => props.navigation.navigate("ConfirmProfile",
                     {bios: bio,
                         selectInterests: selectInterests.sort(),
                         visibility: visibility,
+                        display: display,
                     update : true})
                 }
             >
                 <Text style = {styles.buttonText}>Update Profile</Text>
             </TouchableOpacity>
+            </ScrollView>
         </Screen>
     )
 }

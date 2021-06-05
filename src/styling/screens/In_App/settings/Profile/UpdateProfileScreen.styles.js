@@ -3,6 +3,7 @@ import {Dimensions, StatusBar, StyleSheet} from "react-native";
 import colours from "../../../../../constants/colours"
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const statusBar = StatusBar.currentHeight;
 
 export default StyleSheet.create({
@@ -13,25 +14,38 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
+    scroll : {
+        backgroundColor: colours.primary,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
     headerText : {
         paddingTop: statusBar,
         fontSize: 30,
         color: 'black',
         textAlign: 'center',
-        width: 2 * windowWidth / 3
+        width: windowWidth
     },
     headerText1 : {
         paddingTop: 10,
         fontSize: 30,
         color: 'black',
         textAlign: 'center',
-        width: 2 * windowWidth / 3
+        width: windowWidth
     },
     textInputBioContainer :{
         fontSize: 20,
         marginTop: 20,
         width: 9 * windowWidth / 10,
         height: 100,
+        borderRadius: 10,
+    },
+    textInputDisplayContainer :{
+        fontSize: 20,
+        marginTop: 20,
+        width: 9 * windowWidth / 10,
+        height: 53,
         borderRadius: 10,
     },
     textInputBio :{
@@ -91,6 +105,10 @@ export default StyleSheet.create({
         borderRadius: 10,
         fontSize: 17,
         width: 9 * windowWidth / 10
+    },
+    flatListView: {
+        width: 9 * windowWidth / 10,
+        height: windowHeight / 2,
     },
     button : {
         marginBottom: 10,

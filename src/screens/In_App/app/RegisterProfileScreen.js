@@ -153,12 +153,16 @@ const RegisterProfileScreen = (props) => {
                     Select Interests
                 </Text>
 
+                <View style = {styles.flatListView}>
                     <FlatList
+                        nestedScrollEnabled
                         data={interests}
                         renderItem={renderItem}
                         extraData={selectedId}
                         keyExtractor={item => item}
                         style = {styles.flatList}/>
+                </View>
+
 
                 <TouchableOpacity
                     style = {styles.button}

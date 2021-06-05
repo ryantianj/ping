@@ -14,19 +14,25 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
+    scroll : {
+        backgroundColor: colours.primary,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
     headerText : {
         paddingTop: 10 + statusBar,
         fontSize: 30,
         color: 'black',
         textAlign: 'center',
-        width: 2 * windowWidth / 3
+        width: windowWidth
     },
     headerText1 : {
         paddingTop: 10,
         fontSize: 30,
         color: 'black',
         textAlign: 'center',
-        width: 2 * windowWidth / 3
+        width: windowWidth
     },
     textInputBioContainer :{
         fontSize: 20,
@@ -116,13 +122,7 @@ export default StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
-    scroll : {
-        backgroundColor: colours.primary,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flex: 1,
-    },
+
     visible : {
         flexDirection: 'row',
         justifyContent: 'space-between',

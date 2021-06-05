@@ -20,15 +20,7 @@ const ProfileConfirmScreen = (props) => {
     const [visibility, setVisibility] = useState(props.route.params.visibility);
     const [display, setDisplay] = useState(props.route.params.display);
 
-    const renderItem = ( {item} ) => {
-            return (
-                <View
-                    style = {styles.unRenderItem}
-                >
-                    <Text style = {styles.unselectedText}>{item}</Text>
-                </View>
-            )
-    }
+
 
     const visible = () => {
         if (visibility) {
@@ -64,31 +56,32 @@ const ProfileConfirmScreen = (props) => {
         <Screen style = {styles.container}>
             <ScrollView contentContainerStyle = {styles.scroll}
             >
-            <Text style = {styles.headerText}>
-                Your Bio
-            </Text>
-            <Text style = {styles.textInputBio}>{bio}</Text>
+                <View style = {styles.textView}>
+                    <Text style = {styles.headerText}>
+                        Your Bio
+                    </Text>
+                    <Text style = {styles.textInputBio}>{bio}</Text>
 
-            <Text style = {styles.headerText1}>
-                Display Name
-            </Text>
-                <Text style = {styles.textInputBio}>{display}</Text>
+                    <Text style = {styles.headerText1}>
+                        Display Name
+                    </Text>
+                    <Text style = {styles.textInputBio}>{display}</Text>
 
-            <Text style = {styles.headerText1}>
-                Account Visibility
-            </Text>
-            <Text  style = {styles.textVisible}>
-                {visible()}
-            </Text>
+                    <Text style = {styles.headerText1}>
+                        Account Visibility
+                    </Text>
+                    <Text  style = {styles.textVisible}>
+                        {visible()}
+                    </Text>
 
-            <Text style = {styles.headerText1}>
-                Selected Interests
-            </Text>
-            <FlatList
-                data={selectInterests}
-                renderItem={renderItem}
-                keyExtractor={item => item}
-                style = {styles.flatList}/>
+                    <Text style = {styles.headerText1}>
+                        Selected Interests
+                    </Text>
+                    <Text style = {styles.textInputBio}>
+                        {selectInterests.join(", ")}
+                    </Text>
+                </View>
+
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {async () => {
