@@ -8,7 +8,14 @@ const statusBar = StatusBar.currentHeight;
 export default StyleSheet.create({
     container : {
         backgroundColor: colours.primary,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
         flex: 1,
+    },
+    textView : {
+        flex : 1,
+        backgroundColor: colours.primary,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -32,22 +39,12 @@ export default StyleSheet.create({
         paddingRight: 15,
         paddingTop: 15,
         fontSize: 20,
+        textAlign: 'center',
         backgroundColor: colours.primary,
         width: 9 * windowWidth / 10,
         textAlignVertical: 'top',
     },
 
-    unRenderItem : {
-        height: 50,
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-    unselectedText : {
-        fontSize: 20,
-        color: 'black'
-    },
 
     flatList : {
         backgroundColor: colours.naviBar,
