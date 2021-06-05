@@ -15,6 +15,7 @@ const initialState = [
         rooms: [],
         friends: [],
         visibility: true,
+        display: ''
     }
 ]
 
@@ -41,8 +42,8 @@ const usersSlice = createSlice({
                         badges: userData.badges,
                         rooms: userData.rooms,
                         friends: userData.friends,
-                        visibility: userData.visibility
-
+                        visibility: userData.visibility,
+                        display: userData.display
                 }
             }
         }
