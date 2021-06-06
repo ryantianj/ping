@@ -1,6 +1,8 @@
 import React, {Component, useEffect, useState, useRef} from "react";
 import {FlatList, Text, TouchableOpacity} from "react-native";
-import { usersCollection, roomsCollection } from '../../../../../api/firebase';
+import { GiftedChat } from 'react-web-gifted-chat';
+
+import { roomsCollection } from '../../../../../api/firebase';
 
 import Screen from "../../../../components/Screen";
 

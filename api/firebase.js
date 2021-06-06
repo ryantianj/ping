@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import database from '@react-native-firebase/database';
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/messaging';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAW5E4TNBtX9z-O_1aRwdPcof_Wy2MkF7I",
@@ -20,6 +21,8 @@ const infodb = firebase.firestore();
 // export const firebaseTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 
 // const chatdb = database().ref('??????');
+// OR
+// const messaging = firebase.messaging();
 
 export const usersCollection = infodb.collection('Users');
 // export const badgesCollection = infodb.collection('badges');
