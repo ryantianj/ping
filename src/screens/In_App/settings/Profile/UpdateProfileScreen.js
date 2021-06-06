@@ -103,8 +103,7 @@ const UpdateProfileScreen = (props) => {
                     style = {styles.textInputBio}
                     value = {bio}
                     onChangeText = {setBio}
-                    returnKeyType = "done"
-                    blurOnSubmit={false}
+                    returnKeyType = "go"
                     maxLength = {150}
                 />
 
@@ -119,8 +118,7 @@ const UpdateProfileScreen = (props) => {
                     placeholder = "Display Name"
                     value = {display}
                     onChangeText = {setDisplay}
-                    returnKeyType = "go"
-                    blurOnSubmit={false}
+                    returnKeyType = "submit"
                     maxLength = {50}
                 />
 

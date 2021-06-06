@@ -126,7 +126,6 @@ const RegisterProfileScreen = (props) => {
                         value = {display}
                         onChangeText = {setDisplay}
                         returnKeyType = "go"
-                        blurOnSubmit={false}
                         maxLength = {50}
                     />
 
