@@ -1,7 +1,8 @@
 import React, {Component, useEffect, useState, useRef} from "react";
-import {FlatList, Text, TouchableOpacity} from "react-native";
+import {FlatList, Text, TouchableOpacity, View, ActivityIndicator} from "react-native";
 import { useSelector } from 'react-redux';
-import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
+import { GiftedChat, Bubble, Send, SystemMessage } from 'react-native-gifted-chat';
+import { IconButton } from 'react-native-paper';
 
 import { roomsCollection } from '../../../../../api/firebase';
 import store from '../../../../store';
@@ -98,6 +99,58 @@ export default (props) => {
         { merge: true }
         )
     }
+    function renderBubble(props) {
+        return (
+            <Bubble
+                {...props}
+                wrapperStyle={{
+                    right: {
+                        backgroundColor: '#6646ee'
+                    }
+                }}
+                textStyle={{
+                    right: {
+                        color: '#fff'
+                    }
+                }}
+            />
+        );
+    }
+    function renderLoading() {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size='large' color='#6646ee' />
+            </View>
+        );
+    }
+
+    function renderSend(props) {
+        return (
+            <Send {...props}>
+                <View style={styles.sendingContainer}>
+                    <IconButton icon='send-circle' size={32} color='#6646ee' />
+                </View>
+            </Send>
+        );
+    }
+
+    function scrollToBottomComponent() {
+        return (
+            <View style={styles.bottomComponentContainer}>
+
+            </View>
+        );
+    }
+
+    function renderSystemMessage(props) {
+        return (
+            <SystemMessage
+                {...props}
+                wrapperStyle={styles.systemMessageWrapper}
+                textStyle={styles.systemMessageText}
+            />
+        );
+    }
 
     useEffect(() => {
         const messagesListener = roomsCollection
@@ -145,6 +198,11 @@ export default (props) => {
                 alwaysShowSend
                 showUserAvatar
                 scrollToBottom
+                renderBubble={renderBubble}
+                renderLoading={renderLoading}
+                renderSend={renderSend}
+                scrollToBottomComponent={scrollToBottomComponent}
+                renderSystemMessage={renderSystemMessage}
             />
 
         </Screen>

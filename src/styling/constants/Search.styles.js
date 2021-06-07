@@ -22,5 +22,9 @@ export default StyleSheet.create({
         height: 60,
         borderRadius: 10
     },
+    icon : {
+        position: 'absolute',
+
+    },
 
 })
