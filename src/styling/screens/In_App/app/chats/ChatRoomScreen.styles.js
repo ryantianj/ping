@@ -13,6 +13,7 @@ export default StyleSheet.create({
     },
 
     flatList : {
+        flex: 1,
         backgroundColor: colours.chat,
         width: windowWidth,
     },

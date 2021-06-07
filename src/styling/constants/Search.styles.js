@@ -9,6 +9,7 @@ export default StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
+        width: 9 * windowWidth / 10,
     },
     searchBarText : {
         paddingLeft: 15,
@@ -23,8 +24,12 @@ export default StyleSheet.create({
         borderRadius: 10
     },
     icon : {
-        position: 'absolute',
 
+    },
+    touchable: {
+        position: 'absolute',
+        right: 10,
+        top: 30,
     },
 
 })

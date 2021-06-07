@@ -1,10 +1,14 @@
 import React, {useState} from "react";
-import styles from "../styling/constants/Search.styles";
-import {TextInput, View} from "react-native";
+import {TextInput, TouchableOpacity, View} from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import firebase from "../../api/firebase"
+
+import styles from "../styling/constants/Search.styles";
 
 export default (props) => {
     const [search, setSearch] = useState("");
+
+
     return (
         <View style = {styles.container}>
             <TextInput
@@ -14,8 +18,12 @@ export default (props) => {
                 onChangeText = {setSearch}
                 autoCapitalize = "none"
                 returnKeyType = "go"/>
-            <Ionicons style = {styles.icon}
-                      name={'add-outline'} size={35}  />
+            <TouchableOpacity
+                style = {styles.touchable}>
+                <Ionicons style = {styles.icon}
+                          name={'search-outline'} size={27}  />
+            </TouchableOpacity>
+
         </View>
     )
 }

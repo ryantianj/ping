@@ -153,21 +153,24 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
+            <View style = {styles.flatList}>
+                <GiftedChat
+                    messages={messages}
+                    onSend={handleSend}
+                    user={{ _id: uid }}
+                    placeholder='Type your message here...'
+                    alwaysShowSend
+                    showUserAvatar
+                    scrollToBottom
+                    renderBubble={renderBubble}
+                    renderLoading={renderLoading}
+                    renderSend={renderSend}
+                    scrollToBottomComponent={scrollToBottomComponent}
+                    renderSystemMessage={renderSystemMessage}
+                />
+            </View>
 
-            <GiftedChat
-                messages={messages}
-                onSend={handleSend}
-                user={{ _id: uid }}
-                placeholder='Type your message here...'
-                alwaysShowSend
-                showUserAvatar
-                scrollToBottom
-                renderBubble={renderBubble}
-                renderLoading={renderLoading}
-                renderSend={renderSend}
-                scrollToBottomComponent={scrollToBottomComponent}
-                renderSystemMessage={renderSystemMessage}
-            />
+
 
         </Screen>
 
