@@ -13,34 +13,6 @@ import styles from '../../../../styling/screens/In_App/app/chats/ChatRoomScreen.
 
 export default (props) => {
 
-    // const DATA = [1];
-
-    // const renderChat = ( message ) => {
-    //     return (
-    //         <Text style = {styles.chats}>message</Text>
-
-    //     );
-    // }
-
-    // useEffect(() => {
-    //     roomsCollection.doc(roomID).get().then(snapshot => {
-    //         if (!snapshot.exists){
-    //             return console.log('sorry no record found');
-    //         } else {
-    //             console.log(snapshot.data().topics);
-    //             const foundUsers = snapshot.data().users;
-    //             console.log(foundUsers); // prints "marcuschua"
-    //             setUsers(foundUsers); // hooks should set users from "null" to "marcuschua"
-    //         }
-    //     }).catch(error => {
-    //         console.log(error)
-    //     })
-    // }, [])
-
-    // useEffect(() => {
-    //     console.log(users);
-    // })
-
     const uid = store.getState().user.user.uid;
     const email = store.getState().user.user.email;
     const roomid = store.getState().room.room.roomid;
@@ -69,19 +41,16 @@ export default (props) => {
         }
       ]);
     
-      // helper method that sends a message
     const handleSend = async (messages) => {
 
         const text = messages[0].text;
         console.log(text);
 
         roomsCollection.doc(roomid).collection('Messages').add({
-            // _id: roomid,
-            // content: text,
-            // author: uid,
-            // timestamp: new Date().getTime(),
-            // likedby: [],
-            // star: false,
+            roomid: roomid,
+            content: text,
+            likedby: [],
+            star: false,
             text,
             createdAt: new Date().getTime(),
             user: {
@@ -184,11 +153,6 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
-
-            {/* <FlatList
-                style = {styles.flatList}
-                data={DATA}
-                renderItem={renderChat}/> */}
 
             <GiftedChat
                 messages={messages}
