@@ -10,6 +10,8 @@ import Update_password from "../screens/In_App/settings/Security/Update_password
 import Profile from "../screens/In_App/settings/Profile/ProfileScreen"
 import UpdateProfileScreen from "../screens/In_App/settings/Profile/UpdateProfileScreen";
 import ProfileConfirmScreen from "../screens/In_App/app/ProfileConfirmScreen";
+import Friendlist from "../screens/In_App/settings/Friends/Friendlist";
+import DeleteFriend from "../screens/In_App/settings/Friends/DeleteFriend";
 
 import styles from "../styling/navigation/SettingsNavigation.styles"
 import colours from "../constants/colours";
@@ -76,6 +78,23 @@ export default (props) => {
                     component = {ProfileConfirmScreen}
                     options={{
                         title: "Confirm Profile",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+                <Stack.Screen
+                    name = "FriendList"
+                    component = {Friendlist}
+                    options={{
+                        title: "Friends",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+
+                <Stack.Screen
+                    name = "DeleteFriend"
+                    component = {DeleteFriend}
+                    options={{
+                        title: "Friend",
                         headerStyle: {
                             backgroundColor: colours.primary
                         }}}/>

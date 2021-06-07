@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import NaviBar from "./NaviBar";
 import Settings from "../navigation/SettingsNavigation"
 import Chats from "../navigation/ChatsNavigation"
+import SearchNavi from "./SearchNavi";
 
 import styles from "../styling/navigation/HomeNavigation.styles"
 import Screen from "../components/Screen";
@@ -25,6 +26,10 @@ export default (props) => {
                 <Stack.Screen
                     name = "Settings"
                     component = {Settings}/>
+                <Stack.Screen
+                    name = "Search"
+                    component = {SearchNavi}
+                />
                 <Stack.Screen
                     name = "ChatRooms"
                     component = {Chats}
