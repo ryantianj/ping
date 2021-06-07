@@ -40,6 +40,13 @@ export default (props) => {
                     <Text style = {styles.ButtonText}>Profile</Text>
                 </TouchableOpacity>
 
+                <TouchableOpacity
+                    style = {styles.Button}
+                    onPress = {() => props.navigation.navigate('FriendList')}
+                >
+                    <Text style = {styles.ButtonText}>Friends</Text>
+                </TouchableOpacity>
+
             </ScrollView>
             <TouchableOpacity
                 style = {styles.button}
