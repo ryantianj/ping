@@ -25,6 +25,7 @@ const roomsData = []; // array of room objects
 
 export default (props) => {
     const [count, setCount] = useState(0)
+    
     const renderChatItem = ( room ) => {
         return (
             <TouchableOpacity
@@ -37,7 +38,6 @@ export default (props) => {
                     }
                 }
             >
-
                 {console.log(room)}
                 {console.log(room.item.roomid)}
                 <Text style = {styles.chats}>{room.item.roomname}</Text>
@@ -55,8 +55,7 @@ export default (props) => {
             const roomData = await roomsCollection.doc(roomid).get()
             const roomDataObject = roomData.data();
             roomDataObject['roomid'] = roomid;
-            const response = await roomsData.push(roomDataObject)
-            // const response = await roomsData.push(roomData.data())
+            roomsData.push(roomDataObject)
             setCount(count + 1)
         });
     }

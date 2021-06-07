@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import styles from "../styling/navigation/ChatsNavigation.styles"
 
 import ChatRoomScreen from "../screens/In_App/app/chats/ChatRoomScreen";
+import ChatRoomSettingsScreen from "../screens/In_App/app/chats/ChatRoomSettingsScreen";
 import JoinCreateChatRoomScreen from "../screens/In_App/app/chats/JoinCreateChatRoomScreen";
 import Screen from "../components/Screen";
 import colours from "../constants/colours";
@@ -33,6 +34,15 @@ export default function App() {
                     options={{
                         headerShown: true,
                         title: "New Chat",
+                        headerStyle: {
+                            backgroundColor: colours.primary,
+                        }}}/>
+                <Stack.Screen
+                    name = "ChatRoomSettings"
+                    component = {ChatRoomSettingsScreen}
+                    options={{
+                        headerShown: true,
+                        title: "Chat Settings",
                         headerStyle: {
                             backgroundColor: colours.primary,
                         }}}/>

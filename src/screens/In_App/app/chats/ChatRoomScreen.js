@@ -1,6 +1,5 @@
 import React, {Component, useEffect, useState, useRef} from "react";
-import {FlatList, Text, TouchableOpacity, View, ActivityIndicator} from "react-native";
-import { useSelector } from 'react-redux';
+import { FlatList, Text, TouchableOpacity, View, ActivityIndicator } from "react-native";
 import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
 import { IconButton } from 'react-native-paper';
 
@@ -16,7 +15,6 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
     const email = store.getState().user.user.email;
     const roomid = store.getState().room.room.roomid;
-
     console.log(uid);
     console.log(roomid);
 
@@ -68,6 +66,7 @@ export default (props) => {
         { merge: true }
         )
     }
+    
     function renderBubble(props) {
         return (
             <Bubble
@@ -85,6 +84,7 @@ export default (props) => {
             />
         );
     }
+    
     function renderLoading() {
         return (
             <View style={styles.loadingContainer}>
@@ -92,7 +92,7 @@ export default (props) => {
             </View>
         );
     }
-
+    
     function renderSend(props) {
         return (
             <Send {...props}>
@@ -153,6 +153,15 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
+            <TouchableOpacity
+                style = {styles.button}
+                onPress = {() => {
+                    props.navigation.navigate('ChatRoomSettings');
+                }
+                }>
+                <Text style ={styles.buttonText}>Chat Settings</Text>
+            </TouchableOpacity>
+            
             <View style = {styles.flatList}>
                 <GiftedChat
                     messages={messages}
@@ -169,10 +178,6 @@ export default (props) => {
                     renderSystemMessage={renderSystemMessage}
                 />
             </View>
-
-
-
         </Screen>
-
     )
 }
