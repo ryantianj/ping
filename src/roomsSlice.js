@@ -25,7 +25,7 @@ const roomsSlice = createSlice({
                 room: {
                     ...state.room,
                     roomid: action.payload.roomid,
-                    roomname: roomData.name,
+                    roomname: roomData.roomname,
                     type: roomData.type,
                     users: roomData.users, 
                     topics: roomData.topics
