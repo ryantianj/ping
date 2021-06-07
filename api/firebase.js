@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import database from '@react-native-firebase/database';
 import 'firebase/firestore';
 import 'firebase/auth';
-import 'firebase/messaging';
+// import 'firebase/messaging';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAW5E4TNBtX9z-O_1aRwdPcof_Wy2MkF7I",
