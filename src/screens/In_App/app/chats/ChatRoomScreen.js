@@ -1,7 +1,7 @@
 import React, {Component, useEffect, useState, useRef} from "react";
 import {FlatList, Text, TouchableOpacity, View, ActivityIndicator} from "react-native";
 import { useSelector } from 'react-redux';
-import { GiftedChat, Bubble, Send, SystemMessage } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
 import { IconButton } from 'react-native-paper';
 
 import { roomsCollection } from '../../../../../api/firebase';
