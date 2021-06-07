@@ -61,4 +61,4 @@ export const fillRoomState = roomid => {
 
 export const { updateRoomState } = roomsSlice.actions;
 
-export default roomsSlice.reducer
+export default roomsSlice.reducer;

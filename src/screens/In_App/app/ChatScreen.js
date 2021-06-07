@@ -31,8 +31,9 @@ export default (props) => {
                 style = {styles.chatsList}
                 onPress = {
                     () => {
-                        props.navigation.navigate('ChatRooms',{ screen: 'ChatRoom' });
-                        dispatch(fillRoomState(room.item.roomid));
+                        dispatch(fillRoomState(room.item.roomid))
+                            .then(() => props.navigation.navigate('ChatRooms',{ screen: 'ChatRoom' }))
+
                     }
                 }
             >
