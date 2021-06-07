@@ -41,16 +41,14 @@ export default (props) => {
 
     const uid = store.getState().user.user.uid;
     const email = store.getState().user.user.email;
-    // const roomid = store.getState().room.roomid;
+    const roomid = store.getState().room.room.roomid;
     const test = store.getState().user;
     const test2 = store.getState().room; //ok
 
     console.log(uid);
-    // console.log(roomid);
     console.log(test); //ok
     console.log(test2); // ok
-    console.log(test2.room); //ok (room object)
-    console.log(test2.room.roomid); // error ??????????????
+    console.log(test2); //ok (room object)
 
     const [messages, setMessages] = useState([
         // Mock message data
