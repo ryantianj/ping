@@ -11,6 +11,8 @@ import Profile from "../screens/In_App/settings/Profile/ProfileScreen"
 import UpdateProfileScreen from "../screens/In_App/settings/Profile/UpdateProfileScreen";
 import ProfileConfirmScreen from "../screens/In_App/app/ProfileConfirmScreen";
 import Friendlist from "../screens/In_App/settings/Friends/Friendlist";
+import Pending from "../screens/In_App/settings/Pending/Pending";
+import AcceptRequest from "../screens/In_App/settings/Pending/AcceptRequest";
 import DeleteFriend from "../screens/In_App/settings/Friends/DeleteFriend";
 
 import styles from "../styling/navigation/SettingsNavigation.styles"
@@ -82,6 +84,22 @@ export default (props) => {
                             backgroundColor: colours.primary
                         }}}/>
                 <Stack.Screen
+                    name = "Pending"
+                    component = {Pending}
+                    options={{
+                        title: "Pending Requests",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+                <Stack.Screen
+                    name = "AcceptRequest"
+                    component = {AcceptRequest}
+                    options={{
+                        title: "Accept Request",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+                <Stack.Screen
                     name = "FriendList"
                     component = {Friendlist}
                     options={{
@@ -89,7 +107,6 @@ export default (props) => {
                         headerStyle: {
                             backgroundColor: colours.primary
                         }}}/>
-
                 <Stack.Screen
                     name = "DeleteFriend"
                     component = {DeleteFriend}

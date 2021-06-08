@@ -35,6 +35,7 @@ export default (props) => {
                 rooms: [],
                 visibility: true,
                 friends: [],
+                pending: [],
                 display: "",
             }).then(() => {
                 console.log(data)

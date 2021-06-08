@@ -22,8 +22,8 @@ export default (props) => {
         setUser([]);
         firebase.firestore()
             .collection('Users')
-            .where('email', '>=', search)
-            .where('email', '<=', search + '\uf8ff')
+            .where('display', '>=', search)
+            .where('display', '<=', search + '\uf8ff')
             .get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     addUser(doc.data())

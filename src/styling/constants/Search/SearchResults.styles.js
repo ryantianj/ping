@@ -27,7 +27,7 @@ export default StyleSheet.create({
     },
     searchPress: {
         marginTop: 5,
-        height: 80,
+        height: 50,
         flex: 1,
         backgroundColor:colours.settingsButton,
         borderRadius: 10,

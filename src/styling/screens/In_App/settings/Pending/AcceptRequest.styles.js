@@ -20,21 +20,44 @@ export default StyleSheet.create({
         textAlign: 'center',
         width: windowWidth
     },
-    searchText : {
-        marginTop: 10,
+    textInputBio :{
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingTop: 15,
         fontSize: 20,
-        textAlign: 'left',
-        left: 5,
+        backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
     },
-    searchPress: {
-        marginTop: 5,
+    renderItem : {
         height: 50,
         flex: 1,
-        backgroundColor:colours.settingsButton,
-        borderRadius: 10,
-    },
+        alignItems: 'center',
+        justifyContent: 'center',
 
+    },
+    selectedTextHeader : {
+        fontSize: 25,
+        color: 'black'
+    },
+    selectedText : {
+        fontSize: 20,
+        color: 'black'
+    },
+    button : {
+        bottom: 10,
+        fontSize: 50,
+        borderRadius: 10,
+        width: 2 * windowWidth / 3,
+        height: 50,
+        backgroundColor: colours.logInButton,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        textAlign: 'center',
+    },
     flatList : {
         backgroundColor: colours.naviBar,
         marginTop: 20,
