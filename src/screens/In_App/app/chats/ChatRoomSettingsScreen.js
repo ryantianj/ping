@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
-import { usersCollection } from "../../../../../api/firebase";
+import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
+import 'react-native-gesture-handler';
+import { fillUserState } from '../../../../usersSlice';
+import { useDispatch } from 'react-redux';
 
 import Screen from "../../../../components/Screen";
 import store from "../../../../store"
@@ -8,6 +11,7 @@ import store from "../../../../store"
 import styles from '../../../../styling/screens/In_App/app/chats/ChatRoomSettingsScreen.styles';
 
 export default (props) => {
+    const dispatch = useDispatch();
     const [count, setCount] = useState(0);
     const [displayArray, setDisplayArray] = useState([]);
     
@@ -18,6 +22,8 @@ export default (props) => {
         })
     }
     
+    const uid = store.getState().user.user.uid;
+    const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
     const topics = store.getState().room.room.topics.join(", ");
 
@@ -45,7 +51,23 @@ export default (props) => {
     }
 
     const handleLeaveChat = async () => {
-
+        await usersCollection
+            .doc(uid)
+            .update({
+                'rooms': firebase.firestore.FieldValue.arrayRemove(roomid)
+            })
+            .then(() => {
+                console.log('Removed room from user db!');
+            });
+        await roomsCollection
+            .doc(roomid)
+            .update({
+                'users': firebase.firestore.FieldValue.arrayRemove(uid)
+            })
+            .then(() => {
+                console.log('Removed user from room db!');
+            });
+        dispatch(fillUserState(uid));
     }
 
     return (
@@ -62,19 +84,24 @@ export default (props) => {
 
             <View style = {styles.textInputBio}>
                 <Text style = {styles.selectedTextHeader}>Users: </Text>
-                
+            </View>
+
+            <View>
                 <FlatList
-                data={displayArray}
-                renderItem={renderUserItem}
-                style = {styles.flatList}/>
+                    data={displayArray}
+                    renderItem={renderUserItem}
+                    style = {styles.flatList}/>
             </View>
 
             <View>
             <TouchableOpacity
                 style = {styles.button}
-                onPress = {() => {
-                    // props.navigation.navigate('Chat'); navigate back to ChatScreen.?????
-                    handleLeaveChat();
+                onPress = {async () => {
+                    await handleLeaveChat();
+                    props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Main' }],
+                    });
                 }
                 }>
                 <Text style ={styles.buttonText}>Leave Chat</Text>

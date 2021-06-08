@@ -28,12 +28,10 @@ export default (props) => {
                     component = {Settings}/>
                 <Stack.Screen
                     name = "Search"
-                    component = {SearchNavi}
-                />
+                    component = {SearchNavi}/>
                 <Stack.Screen
                     name = "ChatRooms"
-                    component = {Chats}
-                    />
+                    component = {Chats}/>
             </Stack.Navigator>
         </Screen>
 

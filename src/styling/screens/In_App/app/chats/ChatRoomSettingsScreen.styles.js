@@ -54,6 +54,7 @@ export default StyleSheet.create({
         width: windowWidth,
     },
     button : {
+        marginTop: 30,
         bottom: 10,
         fontSize: 50,
         borderRadius: 10,

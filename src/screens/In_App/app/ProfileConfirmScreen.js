@@ -6,7 +6,7 @@ import {
     View,
     FlatList, ScrollView
 } from "react-native";
-import firebase from '../../../../api/firebase';
+import firebase, { usersCollection } from '../../../../api/firebase';
 import { fillUserState } from '../../../usersSlice';
 import { useDispatch } from 'react-redux';
 import store from '../../../store';
@@ -36,8 +36,7 @@ const ProfileConfirmScreen = (props) => {
     const dispatch = useDispatch();
 
     const submitProfileToDatabase = () => {
-        firebase.firestore()
-        .collection('Users')
+        usersCollection
         .doc(uid)
         .update({
             bio: bio,
