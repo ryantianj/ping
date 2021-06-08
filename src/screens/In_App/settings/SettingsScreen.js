@@ -3,6 +3,7 @@ import {ScrollView, Text, TouchableOpacity} from "react-native";
 import firebase, { usersCollection } from '../../../../api/firebase';
 
 import Screen from "../../../components/Screen";
+import store from "../../../store"
 
 import styles from '../../../styling/screens/In_App/settings/SettingsScreen.styles'
 
@@ -46,6 +47,13 @@ export default (props) => {
                 >
                     <Text style = {styles.ButtonText}>Friends</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    style = {styles.Button}
+                    onPress = {() => props.navigation.navigate('Pending')}
+                >
+                    <Text style = {styles.ButtonText}>Pending Requests ({store.getState().user.user.pending.length})</Text>
+                </TouchableOpacity>
+
 
             </ScrollView>
             <TouchableOpacity

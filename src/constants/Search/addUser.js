@@ -14,7 +14,6 @@ export default (props) => {
 
     const DATA = [
         user.display,
-        user.email,
         user.bio,
         user.interests.join(", "),
     ]
@@ -24,57 +23,100 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
 
     const addUser = () => {
-        if (store.getState().user.user.friends.includes(user.uid)) {
-            alert("User is already your friend!")
+        // if private, send request
+        if (user.visibility) {
+            if (store.getState().user.user.friends.includes(user.uid)) {
+                alert("User is already your friend!")
+            } else {
+                //public, send friend request
+                firebase.firestore()
+                    .collection('Users')
+                    .doc(user.uid)
+                    .update({
+                        pending: firebase.firestore.FieldValue.arrayUnion(uid)
+                    }).then(() => alert("Friend Request Sent!"))
+            }
         } else {
-            firebase.firestore()
-                .collection('Users')
-                .doc(uid)
-                .update({
-                    friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
-                }).then(() => alert("User Added!"))
-
+            if (store.getState().user.user.friends.includes(user.uid)) {
+                alert("User is already your friend!")
+            } else {
+                //public, add to both users list
+                firebase.firestore()
+                    .collection('Users')
+                    .doc(uid)
+                    .update({
+                        friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
+                    }).then(() => firebase.firestore()
+                    .collection('Users')
+                    .doc(user.uid)
+                    .update({
+                        friends: firebase.firestore.FieldValue.arrayUnion(uid)
+                    }) ).then(() => dispatch(fillUserState(uid))).then(() => alert("User Added!"))
+            }
         }
     }
 
     const renderItem = ( {item}) => {
-        if (item === DATA[0]) {
-            return (
-                <View
-                    style = {styles.textInputBio}
-                >
-                    <Text style = {styles.selectedTextHeader}>Display Name: </Text>
-                    <Text style = {styles.selectedText}>{item}</Text>
-                </View>
-            )
-        } else if (item === DATA[1]) {
-            return (
-                <View
-                    style = {styles.textInputBio}
-                >
-                    <Text style = {styles.selectedTextHeader}>Email: </Text>
-                    <Text style = {styles.selectedText}>{item}</Text>
-                </View>
-            )
-        } else if (item === DATA[2]) {
-            return (
-                <View
-                    style = {styles.textInputBio}
-                >
-                    <Text style = {styles.selectedTextHeader}>Bio: </Text>
-                    <Text style = {styles.selectedText}>{item}</Text>
-                </View>
-            )
+        if (user.visibility) {
+            if (item === DATA[0]) {
+                return (
+                    <View
+                        style = {styles.textInputBio}
+                    >
+                        <Text style = {styles.selectedTextHeader}>Display Name: </Text>
+                        <Text style = {styles.selectedText}>{item}</Text>
+                    </View>
+                )
+            } else if (item === DATA[1]) {
+                return (
+                    <View
+                        style = {styles.textInputBio}
+                    >
+                        <Text style = {styles.selectedTextHeader}>Bio: </Text>
+                        <Text style = {styles.selectedText}>This Account is Private</Text>
+                    </View>
+                )
+            } else {
+                return (
+                    <View
+                        style = {styles.textInputBio}
+                    >
+                        <Text style = {styles.selectedTextHeader}>Interests: </Text>
+                        <Text style = {styles.selectedText}>This Account is Private</Text>
+                    </View>
+                )
+            }
         } else {
-            return (
-                <View
-                    style = {styles.textInputBio}
-                >
-                    <Text style = {styles.selectedTextHeader}>Interests: </Text>
-                    <Text style = {styles.selectedText}>{item}</Text>
-                </View>
-            )
+            if (item === DATA[0]) {
+                return (
+                    <View
+                        style = {styles.textInputBio}
+                    >
+                        <Text style = {styles.selectedTextHeader}>Display Name: </Text>
+                        <Text style = {styles.selectedText}>{item}</Text>
+                    </View>
+                )
+            } else if (item === DATA[1]) {
+                return (
+                    <View
+                        style = {styles.textInputBio}
+                    >
+                        <Text style = {styles.selectedTextHeader}>Bio: </Text>
+                        <Text style = {styles.selectedText}>{item}</Text>
+                    </View>
+                )
+            } else {
+                return (
+                    <View
+                        style = {styles.textInputBio}
+                    >
+                        <Text style = {styles.selectedTextHeader}>Interests: </Text>
+                        <Text style = {styles.selectedText}>{item}</Text>
+                    </View>
+                )
+            }
         }
+
 
     }
 
@@ -92,9 +134,9 @@ export default (props) => {
 
             <TouchableOpacity
                 style = {styles.button}
-                onPress = {async () => {
-                    await addUser()
-                    dispatch(fillUserState(uid))
+                onPress = {() => {
+                    addUser()
+
                 }}>
                 <Text style ={styles.buttonText}>Add User</Text>
             </TouchableOpacity>

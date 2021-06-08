@@ -28,10 +28,7 @@ export default (props) => {
                 style = {styles.searchPress}
                 onPress = {() => {props.navigation.navigate("addUser",{user: item})}}>
                 <Text style = {styles.searchText}>
-                    Display: {item.display}
-                </Text>
-                <Text style = {styles.searchText}>
-                    Email: {item.email}
+                    {item.display}
                 </Text>
             </TouchableOpacity>
 

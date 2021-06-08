@@ -5,12 +5,13 @@ import { useDispatch } from 'react-redux';
 import Screen from "../../../../components/Screen";
 import store from "../../../../store"
 
-import styles from "../../../../styling/screens/In_App/settings/Friends/DeleteFriend.styles"
+import styles from "../../../../styling/screens/In_App/settings/Pending/AcceptRequest.styles"
 import firebase from "../../../../../api/firebase";
 import {fillUserState} from "../../../../usersSlice";
 
 export default (props) => {
     const [user, setUser] = useState(props.route.params.user)
+    const [count, setCount] = useState(props.route.params.count)
 
     const DATA = [
         user.display,
@@ -23,22 +24,26 @@ export default (props) => {
 
     const uid = store.getState().user.user.uid;
 
-    const deleteUser = () => {
-        if (store.getState().user.user.friends.includes(user.uid)) {
-            firebase.firestore()
-                .collection('Users')
-                .doc(uid)
-                .update({
-                    friends: firebase.firestore.FieldValue.arrayRemove(user.uid)
-                }).then(() => firebase.firestore()
-                .collection('Users')
-                .doc(user.uid)
-                .update({
-                    friends: firebase.firestore.FieldValue.arrayRemove(uid)
-                })).then(() => {
-                    alert("User Removed!")
-                    props.navigation.navigate('Settings')})
-        }
+    const acceptUser = () => {
+        firebase.firestore()
+            .collection('Users')
+            .doc(uid)
+            .update({
+                pending: firebase.firestore.FieldValue.arrayRemove(user.uid)
+            }).then(() => firebase.firestore()
+            .collection('Users')
+            .doc(uid)
+            .update({
+                friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
+            })).then(() => firebase.firestore()
+            .collection('Users')
+            .doc(user.uid)
+            .update({
+                friends: firebase.firestore.FieldValue.arrayUnion(uid)
+            })).then(() => dispatch(fillUserState(uid)))
+            .then(() => {
+            alert(user.display + " is now your friend")
+            props.navigation.navigate('Settings', {count: count})})
     }
 
     const renderItem = ( {item}) => {
@@ -96,11 +101,10 @@ export default (props) => {
 
             <TouchableOpacity
                 style = {styles.button}
-                onPress = {async () => {
-                    await deleteUser()
-                    dispatch(fillUserState(uid))
+                onPress = {() => {
+                   acceptUser()
                 }}>
-                <Text style ={styles.buttonText}>Delete User</Text>
+                <Text style ={styles.buttonText}>Accept Request</Text>
             </TouchableOpacity>
         </Screen>
     )
