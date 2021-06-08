@@ -7,40 +7,39 @@ import store from "../../../../store"
 
 import styles from '../../../../styling/screens/In_App/app/chats/ChatRoomSettingsScreen.styles';
 
-const displayArray = []
 export default (props) => {
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(0);
+    const [displayArray, setDisplayArray] = useState([]);
     
     const mapUidToUserName = (uidArray) => {
         uidArray.forEach(async uid => {
             const user = await usersCollection.doc(uid).get();
-            console.log(typeof user.data().display)
-            displayArray.push(user.data().display);
-            console.log(displayArray)
-            console.log(typeof displayArray)
-            setCount(count + 1);
+            addUser(user.data());
         })
     }
     
     const roomname = store.getState().room.room.roomname;
     const topics = store.getState().room.room.topics.join(", ");
 
-    useEffect(() => {
+
+    if (displayArray.length === 0) {
         mapUidToUserName(store.getState().room.room.users)
-    }, [])
+    }
+
+
+    const addUser = (item) => {
+        displayArray.push(item)
+        setCount(count + 1)
+        console.log(displayArray)
+    }
     
-    const renderUserItem = ({displayname}) => {
+    const renderUserItem = ({item}) => {
+        console.log(item.display)
         return (
             <TouchableOpacity
                 style = {styles.textInputBio}
-                onPress = {
-                    () => {
-                        // props.navigation.navigate('ChatRooms',{ screen: 'ChatRoom' }))
-                    }
-                }
             >
-                {console.log({displayname})}
-                <Text style = {styles.selectedText}>{displayname}</Text>
+                <Text style = {styles.selectedText}>{item.display}</Text>
             </TouchableOpacity>
         )
     }
@@ -67,8 +66,7 @@ export default (props) => {
                 <FlatList
                 data={displayArray}
                 renderItem={renderUserItem}
-                style = {styles.flatList}
-                extraData={count}/>
+                style = {styles.flatList}/>
             </View>
 
             <View>

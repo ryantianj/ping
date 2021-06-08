@@ -22,7 +22,7 @@ export default (props) => {
         });
         })
     }
-    if (user.length === 0) {
+    if (user.length === 0 && DATA.length > 0) {
         fetchFriends()
     }
 
@@ -31,7 +31,7 @@ export default (props) => {
         setCount(count + 1)
     }
 
-    const renderItem = ( {item}) => {
+    const renderItem = ({item}) => {
         return (
             <TouchableOpacity
                 style = {styles.searchPress}
@@ -48,7 +48,7 @@ export default (props) => {
         <Screen style = {styles.container}>
 
             <Text style = {styles.profileText}>
-                Your Friends
+                Your Friends ({DATA.length})
             </Text>
             <FlatList
                 data={user}

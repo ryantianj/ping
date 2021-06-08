@@ -1,14 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {
     Text,
-    TextInput,
+
     TouchableOpacity,
     FlatList,
     View,
-    Image,
-    Pressable,
-    KeyboardAvoidingView,
-    TouchableHighlight
 } from "react-native";
 import { roomsCollection } from '../../../../api/firebase';
 import { fillRoomState } from '../../../roomsSlice';
