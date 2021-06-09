@@ -16,33 +16,61 @@ import store from "../../../../store";
 import styles from '../../../../styling/screens/In_App/app/chats/JoinCreateChatRoomScreen.styles';
 
 export default (props) => {
-    const isFocused = useIsFocused();
-
     const [roomname, setRoomName] = useState("");
     // const [friends, setFriends] = useState([]); // List of friend's uids
     const [selectedFriend, setSelectedFriend] = useState({display: "______"}); // user object of selected
     const [count, setCount] = useState(0)
+    const [value, setValue] = useState(false);
+    const [friendsUserArray, setFriendsUserArray] = useState([]);
 
     const uid = store.getState().user.user.uid;
 
-    let friendsUserArray = [];
+    const getAllFriends =  async () => {
+        // const data = await usersCollection.doc(uid).get();
+        // friendsUidArray = await data.data().friends;
+
+        // console.log(friendsDisplayArray);
+    }
+    function useForceUpdate() {
+        console.log("updated")
+        setValue(!value); // update the state to force render
+    }
+
+    const addUser = (item) => {
+        friendsUserArray.push(item)
+        console.log("added")
+        console.log(friendsUserArray)
+        setValue(!value);
+    }
+
+    if (count === 0) {
+        store.getState().user.user.friends.forEach( uid => {
+            usersCollection.doc(uid).get()
+                .then((user) => addUser(user.data())).then(()=> {
+                useForceUpdate()
+                });
+        })
+        setCount(count + 1)
+    }
 
     const CreateChatRoom = async () => {
 
     }
 
-    const renderFriendItem = ( {userObject} ) => {
+    const renderFriendItem = ( userObject ) => {
+        console.log("inside")
+        console.log(userObject)
+        console.log(userObject.item.display)
         if (selectedFriend === userObject) { // compare uids
             return (
                 <TouchableOpacity
                     style = {styles.renderItem}
                     onPress = {() => {
                         selectItem(userObject);
-                        setCount(count + 1);
                     }}
                 >
-                    {console.log(userObject.display)}
-                    <Text style = {styles.selectedText}>{userObject.display}</Text>
+
+                    <Text style = {styles.selectedText}>{userObject.item.display}</Text>
                 </TouchableOpacity>)
         } else {
             return (
@@ -50,11 +78,10 @@ export default (props) => {
                     style = {styles.unRenderItem}
                     onPress = {() => {
                         selectItem(userObject);
-                        setCount(count + 1);
                     }}
                 >
-                    {console.log(userObject.display)}
-                    <Text style = {styles.unselectedText}>{userObject.display}</Text>
+
+                    <Text style = {styles.unselectedText}>{userObject.item.display}</Text>
                 </TouchableOpacity>
             )
         }
@@ -66,42 +93,18 @@ export default (props) => {
         } else {
             setSelectedFriend(userObject); // select
         }
-        setCount(count + 1);
+
     }
     
-    const mapUidArrayToUserArray = async (uidArray) => {
-        uidArray.forEach(async uid => {
-            const user = await usersCollection.doc(uid).get();
-            addUser(user.data());
-        })
-    }
+
 
     // if (friendsUserArray.length === 0) {
     //     mapUidArrayToUserArray(store.getState().user.user.friends);
     // }
 
-    const addUser = (item) => {
-        friendsUserArray.push(item)
-        setCount(count + 1)
-        console.log(friendsUserArray)
-    }
 
-    const getAllFriends = async () => { 
-        // const data = await usersCollection.doc(uid).get();
-        // friendsUidArray = await data.data().friends;
-        const friendsUidArray = store.getState().user.user.friends;
-        // setFriends(friendsUidArray);
-        console.log(friendsUidArray);
-        
-        await mapUidArrayToUserArray(friendsUidArray);
-        console.log(friendsUserArray)
-        // console.log(friendsDisplayArray);
-        setCount(count + 1);
-    }
 
-    useEffect(() => {
-        getAllFriends();
-    }, [isFocused]);
+
 
     return (
         <Screen style = {styles.container}>
@@ -141,17 +144,24 @@ export default (props) => {
                 <Text style = {styles.buttonText}>Create Chat Room</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity
+                style = {styles.button}
+                onPress = {() => {
+                    console.log(value)
+                    setValue(!value)
+                }}>
+                <Text style = {styles.buttonText}>Test</Text>
+            </TouchableOpacity>
+
             <Text style = {styles.headerText1}>
                 Select Friend
             </Text>
 
             <View style = {styles.flatListView}>
-                {console.log(friendsUserArray)}
                 <FlatList
                     nestedScrollEnabled
                     data={friendsUserArray}
                     renderItem={renderFriendItem}
-                    extraData={count}
                     keyExtractor={item => item}
                     style = {styles.flatList}/>
             </View>
