@@ -26,7 +26,7 @@ export default (props) => {
                                 ? 'home' : 'home-outline';
                         } else if (route.name === 'Recommendations') {
                             iconName = focused
-                                ? 'search' : 'search-outline';
+                                ? 'people' : 'people-outline';
                         } else if (route.name === 'Room') {
                             iconName = focused
                                 ? 'chatbox' : 'chatbox-outline';
