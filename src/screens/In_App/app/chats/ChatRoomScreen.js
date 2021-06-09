@@ -15,8 +15,6 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
     const email = store.getState().user.user.email;
     const roomid = store.getState().room.room.roomid;
-    console.log(uid);
-    console.log(roomid);
 
     const [messages, setMessages] = useState([
         // Mock message data

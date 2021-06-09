@@ -21,7 +21,6 @@ export default (props) => {
         } else {
             return "Public"
         }
-
     }
     const renderItem = ( {item}) => {
         if (item === DATA[0]) {
@@ -73,7 +72,6 @@ export default (props) => {
         }
 
     }
-
 
     return (
         <Screen style = {styles.container}>

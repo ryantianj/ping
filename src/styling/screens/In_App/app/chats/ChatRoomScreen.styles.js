@@ -11,7 +11,6 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-
     flatList : {
         flex: 1,
         backgroundColor: colours.chat,
@@ -42,5 +41,21 @@ export default StyleSheet.create({
         fontSize: 14,
         color: '#fff',
         fontWeight: 'bold'
-    }
+    },
+    button : {
+        marginTop: 15,
+        bottom: 10,
+        fontSize: 50,
+        borderRadius: 10,
+        width: 1 * windowWidth / 6,
+        height: 50,
+        backgroundColor: colours.logInButton,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        textAlign: 'center',
+    },
 })

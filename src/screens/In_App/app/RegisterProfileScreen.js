@@ -6,7 +6,7 @@ import {
     View,
     FlatList, ScrollView
 } from "react-native";
-import firebase from '../../../../api/firebase';
+import firebase, { interestsCollection } from '../../../../api/firebase';
 
 import Screen from "../../../components/Screen";
 import styles from "../../../styling/screens/In_App/app/RegisterProfileScreen.styles";
@@ -49,7 +49,6 @@ const RegisterProfileScreen = (props) => {
         }
     }
 
-
     const selectItem = (item) => {
         const index = selectInterests.indexOf(item)
         if (index >= 0) {
@@ -59,11 +58,8 @@ const RegisterProfileScreen = (props) => {
         }
     }
 
-
     useEffect(() => {
-        const subscriber = firebase.firestore()
-            .collection('Interests')
-            .onSnapshot(querySnapshot => {
+        const subscriber = interestsCollection.onSnapshot(querySnapshot => {
             const interests = [];
 
             querySnapshot.forEach(documentSnapshot => {

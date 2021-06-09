@@ -37,8 +37,8 @@ export default (props) => {
                     }
                 }
             >
-                {console.log(room)}
-                {console.log(room.item.roomid)}
+                {/* {console.log(room)}
+                {console.log(room.item.roomid)} */}
                 <Text style = {styles.chats}>{room.item.roomname}</Text>
             </TouchableOpacity>
             );

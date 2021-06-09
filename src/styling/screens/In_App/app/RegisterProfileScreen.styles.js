@@ -86,7 +86,6 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-
     },
     unselectedText : {
         fontSize: 20,
