@@ -44,7 +44,7 @@ export default (props) => {
         <View style = {styles.container}>
             <TextInput
                 style = {styles.searchBarText}
-                placeholder = "Search (by email)"
+                placeholder = "Search (by display name)"
                 value = {search}
                 onChangeText = {setSearch}
                 autoCapitalize = "none"

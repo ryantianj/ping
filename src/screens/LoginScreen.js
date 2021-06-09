@@ -71,6 +71,9 @@ const LoginScreen = (props) => {
     return (
         <Screen style = {styles.container}>
             <Logo style = {styles.image} />
+            <Text>
+                Connect like never before.
+            </Text>
             <TextInput
                 style = {styles.textInput}
                 placeholder = "Email"
