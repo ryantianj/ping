@@ -12,11 +12,23 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     channelsText : {
-        paddingTop: 20,
         fontSize: 17,
         color: 'red',
         textAlign: 'center',
-        width: 2 * windowWidth / 3
+    },
+    icon : {
+
+    },
+    touchable: {
+        position: 'absolute',
+        right : 10,
+        top: 15,
+    },
+    viewText : {
+        paddingTop: 20,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: windowWidth
     },
     item: {
         backgroundColor: '#f9c2ff',

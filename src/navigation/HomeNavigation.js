@@ -6,6 +6,7 @@ import NaviBar from "./NaviBar";
 import Settings from "../navigation/SettingsNavigation"
 import Chats from "../navigation/ChatsNavigation"
 import Groups from "../navigation/GroupsNavigation"
+import Channels from "./ChannelsNavi";
 import SearchNavi from "./SearchNavi";
 
 import styles from "../styling/navigation/HomeNavigation.styles"
@@ -36,6 +37,9 @@ export default (props) => {
                 <Stack.Screen
                     name = "GroupRooms"
                     component = {Groups}/>
+                <Stack.Screen
+                    name = "Channels"
+                    component = {Channels}/>
             </Stack.Navigator>
         </Screen>
 
