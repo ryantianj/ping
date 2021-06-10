@@ -97,8 +97,7 @@ export default StyleSheet.create({
         height: windowHeight / 2,
     },
     button : {
-        marginTop: 10,
-        marginBottom: 10,
+        marginTop: 20,
         paddingTop: 13,
         fontSize: 50,
         borderRadius: 10,

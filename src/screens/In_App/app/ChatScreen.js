@@ -52,7 +52,6 @@ export default (props) => {
     const getAllChats = async () => {
         rooms = await store.getState().user.user.rooms;
         console.log(rooms)
-        roomsData.length = 0;
         rooms.forEach(async roomid => {
             const roomData = await roomsCollection.doc(roomid).get()
             const roomDataObject = roomData.data();
