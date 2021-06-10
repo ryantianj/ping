@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {
     Text,
-
     TouchableOpacity,
     FlatList,
     View,
 } from "react-native";
 import { roomsCollection } from '../../../../api/firebase';
-import { fillRoomState } from '../../../roomsSlice';
+import { fillChatRoomState } from '../../../roomsSlice';
 import { useDispatch } from 'react-redux';
 import store from '../../../store';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -15,7 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from "../../../components/Screen";
 
 import styles from '../../../styling/screens/In_App/app/ChatScreen.styles';
-import colours from "../../../constants/colours";
+
 import { useIsFocused } from "@react-navigation/native";
 
 const roomsData = []; // array of room objects
@@ -31,7 +30,7 @@ export default (props) => {
                 style = {styles.chatsList}
                 onPress = {
                     () => {
-                        dispatch(fillRoomState(room.item.roomid))
+                        dispatch(fillChatRoomState(room.item.roomid))
                             .then(() => props.navigation.navigate('ChatRooms',{ screen: 'ChatRoom' }))
 
                     }
@@ -53,19 +52,24 @@ export default (props) => {
         rooms = await store.getState().user.user.rooms;
         console.log(rooms)
         roomsData.length = 0;
+        const isChat = (roomDataObject) => { return roomDataObject.type === 0 }
         rooms.forEach(async roomid => {
             const roomData = await roomsCollection.doc(roomid).get()
             const roomDataObject = roomData.data();
             roomDataObject['roomid'] = roomid;
-            roomsData.push(roomDataObject)
+            isChat(roomDataObject) ? roomsData.push(roomDataObject) : 
             setCount(count + 1)
         });
     }
 
-    useEffect(() => {
+    if (count === 0) {
         getAllChats()
-        console.log('rerendered')
-    }, [isFocused])
+        setCount(count + 1)
+    }
+    // useEffect(() => {
+    //     getAllChats()
+    //     console.log('rerendered')
+    // }, [isFocused])
 
     return (
         <Screen style = {styles.container}>

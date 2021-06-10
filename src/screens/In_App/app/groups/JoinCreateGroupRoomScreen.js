@@ -6,22 +6,21 @@ import {
     View,
     FlatList, ScrollView
 } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
 
 import firebase, { usersCollection, roomsCollection, interestsCollection } from "../../../../../api/firebase";
 import Screen from "../../../../components/Screen";
-import { fillChatRoomState } from "../../../../roomsSlice";
+import { fillGroupRoomState } from "../../../../roomsSlice";
 import { fillUserState } from "../../../../usersSlice";
 import { useDispatch } from 'react-redux';
 import store from "../../../../store";
 
-import styles from '../../../../styling/screens/In_App/app/chats/JoinCreateChatRoomScreen.styles';
+import styles from '../../../../styling/screens/In_App/app/groups/JoinCreateGroupRoomScreen.styles';
 
 export default (props) => {
     const [interests, setInterests] = useState([]); // Server-side choice list
     const [selectInterests, setSelectInterests] = useState([]); // Client-side choices
     const [roomname, setRoomName] = useState("");
-    const [selectedFriend, setSelectedFriend] = useState({item:{display: "______"}}); // user object of selected
+    const [selectedFriends, setSelectedFriends] = useState([]); // user object of selected
     const [count, setCount] = useState(0)
     const [value, setValue] = useState(false);
     const [friendsUserArray, setFriendsUserArray] = useState([]);
@@ -29,7 +28,7 @@ export default (props) => {
     const dispatch = useDispatch();
   
     function useForceUpdate() {
-        console.log("updated")
+        console.log("force updated")
         setValue(!value); // update the state to force render
     }
 
@@ -50,47 +49,41 @@ export default (props) => {
         setCount(count + 1)
     }
 
-    const CreateChatRoom = async () => {
+    const CreateGroupRoom = async () => {
 
         const uid = store.getState().user.user.uid;
         let roomid = "";
         // create room on firebase
+        const roomUsersUidArray = [];
+        roomUsersUidArray.push(uid);
+        selectedFriends.forEach(selectedfriend => {
+            roomUsersUidArray.push(selectedfriend.item.uid);
+        })
         await roomsCollection.add({
             roomname: roomname,
             topics: selectInterests,
-            type: 0,
-            users: [
-                uid,
-                selectedFriend.item.uid
-            ]
+            type: 1,
+            users: roomUsersUidArray
         }).then((docRef) => {
             console.log("Room doc created with id: " + docRef.id);
             roomid = docRef.id;
         });
 
-        // update both uid and selectedFriend's uid with the room ID
-        await usersCollection
-            .doc(uid)
+        // update both uid and selectedFriends' uids with the room ID
+        roomUsersUidArray.forEach(async roomUserUid => {
+            await usersCollection
+            .doc(roomUserUid)
             .update({
                 'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
             })
             .then(() => {
-                console.log('Added room to main user\'s db!');
+                console.log('Added room to users\' db!');
             });
-        await usersCollection
-            .doc(selectedFriend.item.uid)
-            .update({
-                'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
-            })
-            .then(() => {
-                console.log('Added room to friend\'s db!');
-            });
+        })
 
         // update global state with new room
-        dispatch(fillChatRoomState(roomid));
+        dispatch(fillGroupRoomState(roomid));
         dispatch(fillUserState(uid));
-        
-        // check if work? if doesn't render changes then useIsFocused
     }
 
     const renderTopicItem = ( {item} ) => {
@@ -145,8 +138,40 @@ export default (props) => {
         return () => subscriber();
     }, []);
 
+    const selectedFriendsContains = (userObject) => {
+        console.log("Start of selectedFriendsContains. selectedFriends[]: " + selectedFriends)
+        let count = 0;
+        console.log("userobject uid: " + userObject.item.uid)
+        for (let i = 0; i < selectedFriends.length; i++) {
+            console.log("selectedfriend uid: " + selectedFriends[i].item.uid)
+            console.log(userObject.item.uid === selectedFriends[i].item.uid)
+            if (userObject.item.uid === selectedFriends[i].item.uid) {
+                break;
+            } else {
+                count++;
+            }
+        }
+        console.log('count: ' + count)
+        if (count === selectedFriends.length || selectedFriends.length === 0) { return -1; }
+        else { return count; }
+        // selectedFriends.forEach(selectedfriend => {
+        //     console.log(userObject.item.uid)
+        //     console.log(selectedfriend.item.uid)
+        //     console.log(userObject.item.uid === selectedfriend.item.uid)
+        //     if (userObject.item.uid === selectedfriend.item.uid) { 
+        //         console.log(count);
+        //         break; // in selectedFriends, count is the index
+        //     } else {
+        //         count = count + 1;
+        //     }
+        // })
+        // if (count === selectedFriends.length - 1) { return -1; }// not in selectedFriends
+    }
+
     const renderFriendItem = ( userObject ) => {
-        if (selectedFriend.item.display === userObject.item.display) { // compare display
+        // console.log(selectedFriendsContains(userObject))
+        // console.log(selectedFriendsContains(userObject) >= 0);
+        if (selectedFriendsContains(userObject) >= 0) {
             return (
                 <TouchableOpacity
                     style = {styles.renderItem}
@@ -174,12 +199,24 @@ export default (props) => {
         }
     }
 
-    const selectFriendItem = (userObject) => {
-        if (selectedFriend.item.display === userObject.item.display) {
-            setSelectedFriend({item: {display: "______"}}); // deselect
+    const selectFriendItem = (userObject) => { 
+        const index = selectedFriendsContains(userObject);
+        console.log(index)
+        if (index >= 0) {
+            selectedFriends.splice(index, 1); // deselect
+            console.log('removing ' + userObject.item.uid + ' from array')
         } else {
-            setSelectedFriend(userObject); // select
+            selectedFriends.push(userObject); // select
+            console.log('adding ' + userObject.item.uid + ' to array')
         }
+    }
+
+    const displayDisplays = (selectedFriends) => {
+        const displays = [];
+        selectedFriends.forEach((selectedFriendObj) => {
+            displays.push(selectedFriendObj.item.display)
+        })
+        return displays.join(", ");
     }
 
     return (
@@ -187,13 +224,13 @@ export default (props) => {
         <ScrollView contentContainerStyle = {styles.scroll}
         >
             <Text style = {styles.headerText}>
-                Create Chat
+                Create Group
             </Text>
-            <View style = {styles.textInputChatNameContainer}>
+            <View style = {styles.textInputGroupNameContainer}>
                 <TextInput
                     multiline
-                    style = {styles.textInputChatName}
-                    placeholder = "Chat Room Name (1-20 characters)"
+                    style = {styles.textInputGroupName}
+                    placeholder = "Group Room Name (1-20 characters)"
                     value = {roomname}
                     onChangeText = {setRoomName}
                     returnKeyType = "next"
@@ -204,13 +241,14 @@ export default (props) => {
             </View>
 
             <Text style = {styles.headerText1}>
-                Start Chat With: { selectedFriend.item.display }
+                Start Group With:
+                { ' ' + displayDisplays(selectedFriends) }
             </Text>
 
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {async () => {
-                    if (selectedFriend.item.display === "______") {
+                    if (selectedFriends.length === 0) {
                         alert('Choose exactly one friend to proceed')
                         return;
                     }
@@ -218,7 +256,7 @@ export default (props) => {
                         alert('Please key in a roomname between 1-20 characters')
                         return;
                     }
-                    await CreateChatRoom();
+                    await CreateGroupRoom();
                     // props.navigation.navigate("Chat");
                     props.navigation.reset({
                         index: 0,
@@ -226,11 +264,11 @@ export default (props) => {
                     });
                 }}
             >
-                <Text style = {styles.buttonText}>Create Chat Room</Text>
+                <Text style = {styles.buttonText}>Create Group Room</Text>
             </TouchableOpacity>
-           
+     
             <Text style = {styles.headerText1}>
-                Select Friend
+                Select Friends
             </Text>
 
             <View style = {styles.flatListView}>

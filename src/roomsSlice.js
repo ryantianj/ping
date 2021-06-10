@@ -16,7 +16,7 @@ const roomsSlice = createSlice({
     name: 'rooms',
     initialState,
     reducers: {
-        updateRoomState: (state, action) => {
+        updateChatRoomState: (state, action) => {
             console.log("Room id: " + action.payload.roomid)
             const roomData = action.payload.room.data();
 
@@ -26,7 +26,23 @@ const roomsSlice = createSlice({
                     ...state.room,
                     roomid: action.payload.roomid,
                     roomname: roomData.roomname,
-                    type: roomData.type,
+                    type: 0,
+                    users: roomData.users, 
+                    topics: roomData.topics
+                }
+            }
+        },
+        updateGroupRoomState: (state, action) => {
+            console.log("Room id: " + action.payload.roomid)
+            const roomData = action.payload.room.data();
+
+            return {
+                ...state,
+                room: {
+                    ...state.room,
+                    roomid: action.payload.roomid,
+                    roomname: roomData.roomname,
+                    type: 1,
                     users: roomData.users, 
                     topics: roomData.topics
                 }
@@ -36,7 +52,7 @@ const roomsSlice = createSlice({
 })
 
 // the outside "thunk creator" function
-export const fillRoomState = roomid => {
+export const fillChatRoomState = roomid => {
     // the inside "thunk function"
     return async (dispatch, getState) => {
         try {
@@ -45,7 +61,7 @@ export const fillRoomState = roomid => {
             const room = await roomsCollection.doc(roomid).get();
             // dispatch an action when we get the response back
             await dispatch(
-                updateRoomState(
+                updateChatRoomState(
                     {
                         room: room,
                         roomid: roomid
@@ -59,6 +75,30 @@ export const fillRoomState = roomid => {
     }
 }
 
-export const { updateRoomState } = roomsSlice.actions;
+// the outside "thunk creator" function
+export const fillGroupRoomState = roomid => {
+    // the inside "thunk function"
+    return async (dispatch, getState) => {
+        try {
+            // make an async call in the thunk
+
+            const room = await roomsCollection.doc(roomid).get();
+            // dispatch an action when we get the response back
+            await dispatch(
+                updateGroupRoomState(
+                    {
+                        room: room,
+                        roomid: roomid
+                    }
+                )
+            )
+        } catch (error) {
+            // If something went wrong, handle it here
+            console.log(error);
+        }
+    }
+}
+
+export const { updateChatRoomState, updateGroupRoomState } = roomsSlice.actions;
 
 export default roomsSlice.reducer;

@@ -12,10 +12,44 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     groupsText : {
-        paddingTop: 20,
         fontSize: 17,
         color: 'red',
         textAlign: 'center',
-        width: 2 * windowWidth / 3
-    }
+    },
+    icon : {
+
+    },
+    touchable: {
+        position: 'absolute',
+        right : 10,
+        top: 15,
+    },
+    viewText : {
+        paddingTop: 20,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: windowWidth
+    },
+    groupsList : {
+        backgroundColor: colours.chat,
+        marginTop: 20,
+        padding: 10,
+        borderRadius: 10,
+        fontSize: 17,
+        color: 'black',
+        textAlign: 'left',
+        width: 9 * windowWidth / 10
+    },
+    groups : {
+        color: colours.chatText,
+    },
+    flatList : {
+        backgroundColor: colours.naviBar,
+        marginTop: 20,
+        padding: 10,
+        marginBottom: 20,
+        borderRadius: 10,
+        fontSize: 17,
+        width: 9 * windowWidth / 10,
+    },
 })
