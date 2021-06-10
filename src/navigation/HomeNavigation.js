@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import NaviBar from "./NaviBar";
 import Settings from "../navigation/SettingsNavigation"
 import Chats from "../navigation/ChatsNavigation"
+import Channels from "./ChannelsNavi";
 import SearchNavi from "./SearchNavi";
 
 import styles from "../styling/navigation/HomeNavigation.styles"
@@ -32,6 +33,9 @@ export default (props) => {
                 <Stack.Screen
                     name = "ChatRooms"
                     component = {Chats}/>
+                <Stack.Screen
+                    name = "Channels"
+                    component = {Channels}/>
             </Stack.Navigator>
         </Screen>
 

@@ -86,14 +86,14 @@ export default (props) => {
                 <Text style = {styles.selectedTextHeader}>Users: </Text>
             </View>
 
-            <View>
+            <View style = {styles.flatListView}>
                 <FlatList
                     data={displayArray}
                     renderItem={renderUserItem}
                     style = {styles.flatList}/>
             </View>
 
-            <View>
+
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {async () => {
@@ -106,7 +106,7 @@ export default (props) => {
                 }>
                 <Text style ={styles.buttonText}>Leave Chat</Text>
             </TouchableOpacity>
-            </View>
+
         </Screen>
     )
 }
