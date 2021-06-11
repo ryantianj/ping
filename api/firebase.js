@@ -30,5 +30,6 @@ export const usersCollection = infodb.collection('Users');
 // export const messagesCollection = db.collection('messages');
 export const roomsCollection = infodb.collection('Rooms');
 export const interestsCollection = infodb.collection('Interests');
+export const channelsCollection = infodb.collection('Channel');
 
 export default firebase;

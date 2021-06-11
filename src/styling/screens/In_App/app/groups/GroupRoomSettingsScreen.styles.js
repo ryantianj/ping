@@ -34,7 +34,6 @@ export default StyleSheet.create({
     },
     renderItem : {
         height: 50,
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -49,18 +48,22 @@ export default StyleSheet.create({
     title: {
         fontSize: 32,
     },
+    flatListView : {
+        width: 9 * windowWidth / 10,
+        flex: 1,
+    },
     flatList: {
         marginTop: 20,
-        width: windowWidth,
+        width: 9 * windowWidth / 10,
     },
+
     button : {
-        marginTop: 30,
-        bottom: 10,
+        bottom: 20,
         fontSize: 50,
         borderRadius: 10,
         width: 2 * windowWidth / 3,
         height: 50,
-        backgroundColor: colours.logInButton,
+        backgroundColor: colours.logOutButton,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
