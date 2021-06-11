@@ -66,6 +66,7 @@ export default (props) => {
         getAllChats()
         setCount(count + 1)
     }
+
     // useEffect(() => {
     //     getAllChats()
     //     console.log('rerendered')
@@ -93,7 +94,9 @@ export default (props) => {
                 style = {styles.flatList}
                 data = {roomsData}
                 renderItem = {renderChatItem}
-                extraData={count}/>
+                extraData={count}
+                contentContainerStyle={{ paddingBottom: 20 }}
+                />
         
         </Screen>
     )

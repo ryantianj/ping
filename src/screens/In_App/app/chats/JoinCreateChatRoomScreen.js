@@ -219,11 +219,8 @@ export default (props) => {
                         return;
                     }
                     await CreateChatRoom();
-                    // props.navigation.navigate("Chat");
-                    props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Main' }],
-                    });
+                    props.navigation.navigate("Loading", {screen : "Chat"});
+
                 }}
             >
                 <Text style = {styles.buttonText}>Create Chat Room</Text>

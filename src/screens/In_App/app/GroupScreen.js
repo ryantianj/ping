@@ -86,8 +86,8 @@ export default (props) => {
                 style = {styles.flatList}
                 data = {roomsData}
                 renderItem = {renderGroupItem}
-                extraData={count}/>
-        
+                extraData={count}
+                contentContainerStyle={{ paddingBottom: 20 }}/>
         </Screen>
     )
 }
