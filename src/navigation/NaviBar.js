@@ -17,6 +17,7 @@ export default (props) => {
             <Tab.Navigator
                 initialRouteName = "Home"
                 backBehavior = "history"
+                lazy = {false}
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;

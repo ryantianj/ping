@@ -40,10 +40,12 @@ export default (props) => {
             const roomDataObject = roomData.data();
             roomDataObject['roomid'] = roomid;
             roomsData.push(roomDataObject)
-        }).then(() => setCount(count + 1))
+            setCount(count + 1)
+
+        })
     }
     if (count === 0) {
-        getAllChannels().then(() => this.forceUpdate())
+        getAllChannels()
         setCount(count + 1)
     }
 
@@ -67,6 +69,7 @@ export default (props) => {
                style = {styles.flatList}
                data={roomsData}
                renderItem={renderChannelItem}
+               contentContainerStyle={{ paddingBottom: 20 }}
                />
         </Screen>
 
