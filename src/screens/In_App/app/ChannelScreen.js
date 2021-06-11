@@ -43,7 +43,7 @@ export default (props) => {
         }).then(() => setCount(count + 1))
     }
     if (count === 0) {
-        getAllChannels().then(() => this.forceUpdate())
+        // getAllChannels().then(() => this.forceUpdate())
         setCount(count + 1)
     }
 

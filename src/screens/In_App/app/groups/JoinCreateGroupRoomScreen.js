@@ -154,18 +154,6 @@ export default (props) => {
         console.log('count: ' + count)
         if (count === selectedFriends.length || selectedFriends.length === 0) { return -1; }
         else { return count; }
-        // selectedFriends.forEach(selectedfriend => {
-        //     console.log(userObject.item.uid)
-        //     console.log(selectedfriend.item.uid)
-        //     console.log(userObject.item.uid === selectedfriend.item.uid)
-        //     if (userObject.item.uid === selectedfriend.item.uid) { 
-        //         console.log(count);
-        //         break; // in selectedFriends, count is the index
-        //     } else {
-        //         count = count + 1;
-        //     }
-        // })
-        // if (count === selectedFriends.length - 1) { return -1; }// not in selectedFriends
     }
 
     const renderFriendItem = ( userObject ) => {
