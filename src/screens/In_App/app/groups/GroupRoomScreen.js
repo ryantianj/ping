@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState, useRef} from "react";
+import React, { Component, useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View, ActivityIndicator } from "react-native";
 import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
 import { IconButton } from 'react-native-paper';
@@ -7,7 +7,6 @@ import { roomsCollection } from '../../../../../api/firebase';
 import store from '../../../../store';
 
 import Screen from "../../../../components/Screen";
-
 import styles from '../../../../styling/screens/In_App/app/groups/GroupRoomScreen.styles';
 
 export default (props) => {
