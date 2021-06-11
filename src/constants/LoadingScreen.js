@@ -12,17 +12,15 @@ import colours from "./colours";
 import styles from '../styling/constants/LoadingScreen.styles';
 
 
-
-
 export default (props) => {
     const [count, setCount] = useState(0);
 
 
-    const loadingDelay = async () => {
-        setTimeout(() => {props.navigation.reset({
-            index: 0,
-            routes: [{ name: props.route.params.screen }],
-        })},10)
+    const loadingDelay = () => {
+        setTimeout(() => {
+            props.navigation.navigate("Chat")
+            },
+            1000)
     }
 
     if (count === 0) {
