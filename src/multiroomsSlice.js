@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { roomsCollection } from '../api/firebase';
+import {channelsCollection} from '../api/firebase';
 
 const initialState = [
     {
@@ -43,7 +43,7 @@ export const fillMultiRoomState = roomid => {
         try {
             // make an async call in the thunk
 
-            const room = await roomsCollection.doc(roomid).get();
+            const room = await channelsCollection.doc(roomid).get();
             // dispatch an action when we get the response back
             await dispatch(
                 updateMultiRoomState(

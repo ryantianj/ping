@@ -219,11 +219,7 @@ export default (props) => {
                         return;
                     }
                     await CreateChatRoom()
-                    props.navigation.reset({
-                            index: 1,
-                            routes: [{ name: "Main"},
-                                    {name: "Loading"}]
-                        })
+                    props.navigation.navigate('Main')
 
 
                 }}

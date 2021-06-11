@@ -17,12 +17,14 @@ import styles from '../../../styling/screens/In_App/app/ChatScreen.styles';
 
 import { useIsFocused } from "@react-navigation/native";
 
-const roomsData = []; // array of room objects
 
 export default (props) => {
     const isFocused = useIsFocused();
+    const [roomsData, setRoomsData] = useState([])
+    const [len, setLen] = useState(0);
 
     const [count, setCount] = useState(0)
+
     
     const renderChatItem = ( room ) => {
         return (
@@ -50,7 +52,6 @@ export default (props) => {
 
     const getAllChats = async () => {
         rooms = await store.getState().user.user.rooms;
-        console.log(rooms)
         roomsData.length = 0;
         const isChat = (roomDataObject) => { return roomDataObject.type === 0 }
         rooms.forEach(async roomid => {
@@ -59,6 +60,7 @@ export default (props) => {
             roomDataObject['roomid'] = roomid;
             isChat(roomDataObject) ? roomsData.push(roomDataObject) : 
             setCount(count + 1)
+            setLen(len + 1)
         });
     }
 
@@ -68,8 +70,7 @@ export default (props) => {
     }
 
     // useEffect(() => {
-    //     getAllChats()
-    //     console.log('rerendered')
+    //     setLen(len + 1)
     // }, [isFocused])
 
     return (
@@ -94,7 +95,7 @@ export default (props) => {
                 style = {styles.flatList}
                 data = {roomsData}
                 renderItem = {renderChatItem}
-                extraData={count}
+                extraData={len}
                 contentContainerStyle={{ paddingBottom: 20 }}
                 />
         

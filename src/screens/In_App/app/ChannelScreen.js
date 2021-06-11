@@ -5,7 +5,7 @@ import Screen from "../../../components/Screen";
 
 import styles from '../../../styling/screens/In_App/app/ChannelScreen.styles';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import {fillChatRoomState} from "../../../roomsSlice";
+import {fillChannelRoomState} from "../../../roomsSlice";
 import {useDispatch} from "react-redux";
 import store from "../../../store";
 import {channelsCollection} from "../../../../api/firebase";
@@ -16,6 +16,7 @@ import { useIsFocused } from "@react-navigation/native";
 export default (props) => {
     const [count, setCount] = useState(0)
     const [roomsData, setRoomsData] = useState([]);
+    const [len, setLen] = useState(0);
 
     const isFocused = useIsFocused();
 
@@ -23,6 +24,13 @@ export default (props) => {
         return (
             <TouchableOpacity
                 style = {styles.channelList}
+                onPress = {
+                    () => {
+                        dispatch(fillChannelRoomState(room.item.roomid))
+                            .then(() => props.navigation.navigate('Channels',{ screen: 'ChannelRoom' }))
+
+                    }
+                }
             >
                 <Text style = {styles.channel}>{room.item.roomname}</Text>
             </TouchableOpacity>
@@ -41,7 +49,7 @@ export default (props) => {
             roomDataObject['roomid'] = roomid;
             roomsData.push(roomDataObject)
             setCount(count + 1)
-
+            setLen(len + 1)
         })
     }
     if (count === 0) {
@@ -69,6 +77,7 @@ export default (props) => {
                style = {styles.flatList}
                data={roomsData}
                renderItem={renderChannelItem}
+               extraData={len}
                contentContainerStyle={{ paddingBottom: 20 }}
                />
         </Screen>

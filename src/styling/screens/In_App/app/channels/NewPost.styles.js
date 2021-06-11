@@ -13,35 +13,36 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    buttonText: {
-        color: 'white',
-        textAlign: 'center',
-    },
     flatList : {
         flex: 1,
         backgroundColor: colours.primary,
         width: windowWidth,
     },
-    touchable: {
-        position: 'absolute',
-        right : 10,
-        top: 15,
+    textInputBio :{
+        flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingTop: 15,
+        borderWidth: 1,
+        borderColor: 'black',
+        fontSize: 20,
+        backgroundColor: colours.textBox,
+        width: 9 * windowWidth / 10,
+        height:50,
+        borderRadius: 10,
+        textAlignVertical: 'top',
+    },button : {
+        marginBottom: 10,
+        paddingTop: 13,
+        fontSize: 50,
+        borderRadius: 10,
+        width: 2 * windowWidth / 3,
+        height: 50,
+        backgroundColor: colours.logInButton
     },
-    touchable1: {
-        position: 'absolute',
-        left : 10,
-        top: 15,
-    },
-    chatsText : {
-        fontSize: 25,
-        color: 'black',
+    buttonText: {
+        color: 'white',
         textAlign: 'center',
     },
-    toolBar : {
-        flexDirection: 'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        width: windowWidth,
-        height:50
-    }
+
 })
