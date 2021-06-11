@@ -10,7 +10,8 @@ import {
 import firebase, {
     usersCollection,
     interestsCollection,
-    roomsCollection
+    roomsCollection,
+    channelsCollection
 } from "../../../../../api/firebase";
 import Screen from "../../../../components/Screen";
 import { fillMultiRoomState } from "../../../../multiroomsSlice";
@@ -37,24 +38,19 @@ export default (props) => {
         const uid = store.getState().user.user.uid;
         let roomid = "";
         // create room on firebase
-        await roomsCollection.add({
+        await channelsCollection.add({
             roomname: roomname,
             topics: selectInterests,
             type: 2,
-            users: []
+            users: [uid]
 
         }).then((docRef) => {
             roomid = docRef.id;
         });
 
-        // update both uid and selectedFriend's uid with the room ID
+        // update creator's uid with the room ID
         await usersCollection
             .doc(uid)
-            .update({
-                'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
-            })
-        await usersCollection
-            .doc(selectedFriend.item.uid)
             .update({
                 'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
             })
@@ -157,6 +153,17 @@ export default (props) => {
 
                 <TouchableOpacity
                     style = {styles.button}
+                    onPress = {async () => {
+                        if (roomname === "") {
+                            alert('Please key in a roomname between 1-20 characters')
+                            return;
+                        }
+                        await CreateChannel();
+                        props.navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Main' }],
+                        });
+                    }}
                 >
                     <Text style = {styles.buttonText}>Create Channel</Text>
                 </TouchableOpacity>

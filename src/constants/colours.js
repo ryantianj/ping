@@ -7,5 +7,6 @@ export default {
     naviBar: "#F0D18F",
     chat: "#523E33",
     chatText:"#FFFFFF",
+    channel: "#B98E8E"
 
 }

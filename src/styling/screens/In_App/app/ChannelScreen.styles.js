@@ -30,17 +30,26 @@ export default StyleSheet.create({
         justifyContent: 'center',
         width: windowWidth
     },
-    item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-    },
-    title: {
-        fontSize: 32,
-    },
-    flatList: {
+    flatList : {
+        backgroundColor: colours.naviBar,
         marginTop: 20,
-        width: windowWidth,
-    }
+        padding: 10,
+        marginBottom: 20,
+        borderRadius: 10,
+        fontSize: 17,
+        width: 9 * windowWidth / 10,
+    },
+    channelList : {
+        backgroundColor: colours.chat,
+        marginTop: 20,
+        padding: 10,
+        borderRadius: 10,
+        fontSize: 17,
+        color: 'black',
+        textAlign: 'left',
+        width: 9 * windowWidth / 10
+    },
+    channel : {
+        color: colours.chatText,
+    },
 })
