@@ -8,7 +8,7 @@ const initialState = [
         roomname: '',
         type: 0, 
         users: [], 
-        topics: [] 
+        topics: [],
     }
 ]
 
@@ -60,7 +60,7 @@ const roomsSlice = createSlice({
                     roomname: roomData.roomname,
                     type: 2,
                     users: roomData.users,
-                    topics: roomData.topics
+                    topics: roomData.topics,
                 }
             }
         }

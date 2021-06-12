@@ -17,7 +17,8 @@ const initialState = [
         friends: [],
         pending: [],
         visibility: true,
-        display: ''
+        display: '',
+        update: 0,
     }
 ]
 
@@ -47,7 +48,8 @@ const usersSlice = createSlice({
                         friends: userData.friends,
                         pending: userData.pending,
                         visibility: userData.visibility,
-                        display: userData.display
+                        display: userData.display,
+                        update: userData.channels.length + 1,
                 }
             }
         }
