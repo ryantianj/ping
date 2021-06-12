@@ -39,11 +39,11 @@ export default (props) => {
 
     const dispatch = useDispatch();
 
-    let rooms = store.getState().user.user.rooms;
+    let channels = store.getState().user.user.channels;
 
     const getAllChannels = async () => {
-        rooms = await store.getState().user.user.rooms;
-        rooms.forEach(async roomid => {
+        channels = await store.getState().user.user.channels;
+        channels.forEach(async roomid => {
             const roomData = await channelsCollection.doc(roomid).get()
             const roomDataObject = roomData.data();
             roomDataObject['roomid'] = roomid;

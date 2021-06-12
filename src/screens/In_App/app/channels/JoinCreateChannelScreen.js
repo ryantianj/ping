@@ -52,7 +52,7 @@ export default (props) => {
         await usersCollection
             .doc(uid)
             .update({
-                'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
+                'channels': firebase.firestore.FieldValue.arrayUnion(roomid)
             })
         // update global state with new room
         dispatch(fillChannelRoomState(roomid));
