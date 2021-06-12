@@ -10,7 +10,6 @@ import {
 import firebase, {
     usersCollection,
     interestsCollection,
-    roomsCollection,
     channelsCollection
 } from "../../../../../api/firebase";
 import Screen from "../../../../components/Screen";
@@ -55,8 +54,8 @@ export default (props) => {
                 'channels': firebase.firestore.FieldValue.arrayUnion(roomid)
             })
         // update global state with new room
-        dispatch(fillChannelRoomState(roomid));
-        dispatch(fillUserState(uid));
+        await dispatch(fillChannelRoomState(roomid));
+        await dispatch(fillUserState(uid));
 
         // check if work? if doesn't render changes then useIsFocused
     }
@@ -158,11 +157,10 @@ export default (props) => {
                             alert('Please key in a roomname between 1-20 characters')
                             return;
                         }
-                        await CreateChannel();
-                        props.navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'Main' }],
-                        });
+                        console.log("create channel")
+                        console.log(store.getState().user.user.update)
+                        await CreateChannel().then(() => {console.log("done")
+                            props.navigation.navigate("Channel", {update : store.getState().user.user.update + 1})});
                     }}
                 >
                     <Text style = {styles.buttonText}>Create Channel</Text>

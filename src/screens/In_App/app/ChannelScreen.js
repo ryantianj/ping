@@ -14,13 +14,15 @@ import { useIsFocused } from "@react-navigation/native";
 
 
 export default (props) => {
+    const isFocused = useIsFocused();
     const [count, setCount] = useState(0)
     const [roomsData, setRoomsData] = useState([]);
     const [len, setLen] = useState(0);
+    const [update, setUpdate] = useState(store.getState().user.user.update);
 
-    const isFocused = useIsFocused();
 
     const renderChannelItem = ( room ) => {
+        console.log("render")
         return (
             <TouchableOpacity
                 style = {styles.channelList}
@@ -44,6 +46,7 @@ export default (props) => {
     const getAllChannels = async () => {
         channels = await store.getState().user.user.channels;
         channels.forEach(async roomid => {
+            console.log(roomid)
             const roomData = await channelsCollection.doc(roomid).get()
             const roomDataObject = roomData.data();
             roomDataObject['roomid'] = roomid;
@@ -52,14 +55,33 @@ export default (props) => {
             setLen(len + 1)
         })
     }
-    if (count === 0) {
-        getAllChannels()
-        setCount(count + 1)
+
+    if (isFocused) {
+        if (count === 0) {
+            getAllChannels()
+            setCount(count + 1)
+        } else if (update !== store.getState().user.user.update) {
+            console.log("scanning")
+            roomsData.length = 0
+            setUpdate(update + 1)
+            getAllChannels()
+        }
+        console.log(update)
+        console.log(store.getState().user.user.update)
     }
+
 
     return (
         <Screen style = {styles.container}>
             <View style = {styles.viewText}>
+                <TouchableOpacity
+                    onPress = {() => {console.log(update)
+                        console.log(store.getState().user.user.update)
+                        console.log(roomsData)}}
+                >
+                    <Ionicons style = {styles.icon}
+                              name={'add-outline'} size={35}  />
+                </TouchableOpacity>
                 <Text
                     style = {styles.channelsText}>
                     Your Channels
@@ -77,7 +99,7 @@ export default (props) => {
                style = {styles.flatList}
                data={roomsData}
                renderItem={renderChannelItem}
-               extraData={len}
+               extraData={[len, update, roomsData]}
                contentContainerStyle={{ paddingBottom: 20 }}
                />
         </Screen>
