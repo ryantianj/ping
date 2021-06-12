@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {FlatList, Text, TextInput, TouchableOpacity, View, ScrollView } from "react-native";
 import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
-import { fillUserState } from '../../../../usersSlice';
+import { fillGroupRoomState } from "../../../../roomsSlice";
 import { useDispatch } from 'react-redux';
 
 import Screen from "../../../../components/Screen";
@@ -13,12 +13,17 @@ import styles from '../../../../styling/screens/In_App/app/groups/GroupRoomSetti
 export default (props) => {
     const dispatch = useDispatch();
     const [count, setCount] = useState(0);
+    const [count2, setCount2] = useState(0);
     const [displayArray, setDisplayArray] = useState([]);
+    const [selectedFriends, setSelectedFriends] = useState([]); // user object of selected
+    const [friendsUserArray, setFriendsUserArray] = useState([]);
+    const [selectedId, setSelectedId] = useState(0); // Render component when selected
+    const [value, setValue] = useState(false);
     
     const mapUidToUserName = (uidArray) => {
         uidArray.forEach(async uid => {
             const user = await usersCollection.doc(uid).get();
-            addUser(user.data());
+            addUser1(user.data());
         })
     }
     
@@ -27,16 +32,27 @@ export default (props) => {
     const roomname = store.getState().room.room.roomname;
     const topics = store.getState().room.room.topics.join(", ");
 
-
-    if (displayArray.length === 0) {
+    if (displayArray.length === 0 && count2 === 0) {
         mapUidToUserName(store.getState().room.room.users)
+        setCount2(1);
     }
 
+    function useForceUpdate() {
+        console.log("force updated")
+        setValue(!value); // update the state to force render
+    }
 
-    const addUser = (item) => {
+    const addUser1 = (item) => {
         displayArray.push(item)
-        setCount(count + 1)
+        // setCount(count + 1)
         console.log(displayArray)
+    }
+    
+    const addUser2 = (item) => {
+        friendsUserArray.push(item)
+        console.log("added")
+        console.log(friendsUserArray)
+        setValue(!value);
     }
     
     const renderUserItem = ({item}) => {
@@ -48,6 +64,109 @@ export default (props) => {
                 <Text style = {styles.selectedText}>{item.display}</Text>
             </TouchableOpacity>
         )
+    }
+
+    if (count === 0 && friendsUserArray.length === 0) {
+        const roomUsersArray = store.getState().room.room.users;
+
+        store.getState().user.user.friends.forEach(uid => {
+            if (!roomUsersArray.includes(uid)) {
+                usersCollection.doc(uid).get()
+                    .then((user) => addUser2(user.data())).then(()=> {
+                    useForceUpdate()
+                    });
+            }
+        })
+        setCount(count + 1)
+    }
+
+    const selectedFriendsContains = (userObject) => {
+        console.log("Start of selectedFriendsContains. selectedFriends[]: " + selectedFriends)
+        let loopcount = 0;
+        console.log("userobject uid: " + userObject.item.uid)
+        for (let i = 0; i < selectedFriends.length; i++) {
+            console.log("selectedfriend uid: " + selectedFriends[i].item.uid)
+            console.log(userObject.item.uid === selectedFriends[i].item.uid)
+            if (userObject.item.uid === selectedFriends[i].item.uid) {
+                break;
+            } else {
+                loopcount++;
+            }
+        }
+        console.log('count: ' + loopcount)
+        if (loopcount === selectedFriends.length || selectedFriends.length === 0) { return -1; }
+        else { return loopcount; }
+    }
+
+    const renderFriendItem = ( userObject ) => {
+        // console.log(selectedFriendsContains(userObject))
+        // console.log(selectedFriendsContains(userObject) >= 0);
+        if (selectedFriendsContains(userObject) >= 0) {
+            return (
+                <TouchableOpacity
+                    style = {styles.renderItem}
+                    onPress = {() => {
+                        setSelectedId(selectedId + 1);
+                        selectFriendItem(userObject);
+                        setValue(!value);
+                    }}
+                >
+                    <Text style = {styles.selectedText}>{userObject.item.display}</Text>
+                </TouchableOpacity>)
+        } else {
+            return (
+                <TouchableOpacity
+                    style = {styles.unRenderItem}
+                    onPress = {() => {
+                        setSelectedId(selectedId - 1);
+                        selectFriendItem(userObject);
+                        setValue(!value);
+                    }}
+                >
+                    <Text style = {styles.unselectedText}>{userObject.item.display}</Text>
+                </TouchableOpacity>
+            )
+        }
+    }
+
+    const selectFriendItem = (userObject) => { 
+        const index = selectedFriendsContains(userObject);
+        console.log(index)
+        if (index >= 0) {
+            selectedFriends.splice(index, 1); // deselect
+            console.log('removing ' + userObject.item.uid + ' from array')
+        } else {
+            selectedFriends.push(userObject); // select
+            console.log('adding ' + userObject.item.uid + ' to array')
+        }
+    }
+
+    const handleAddMembers = async () => {
+        let roomid = store.getState().room.room.roomid;
+
+        // add selectedFriends to room data
+        selectedFriends.forEach(async friend => {
+            await roomsCollection.doc(roomid).update({
+                'users': firebase.firestore.FieldValue.arrayUnion(friend.item.uid)
+            }).then(() => {
+                console.log("Room doc updated!");
+            });
+        })
+
+        // add room to selectedFriends' data
+        selectedFriends.forEach(async newRoomUser => {
+            await usersCollection
+            .doc(newRoomUser.item.uid)
+            .update({
+                'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
+            })
+            .then(() => {
+                console.log('Added room to users\' db!');
+            });
+        })
+
+        // update global state with new room
+        dispatch(fillGroupRoomState(roomid));
     }
 
     const handleLeaveGroup = async () => {
@@ -72,6 +191,8 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
+        <ScrollView contentContainerStyle = {styles.scroll}
+        >
 
             <Text style = {styles.roomNameText}>
                 {roomname}
@@ -88,13 +209,40 @@ export default (props) => {
 
             <View style = {styles.flatListView}>
                 <FlatList
+                    nestedScrollEnabled
                     data={displayArray}
                     renderItem={renderUserItem}
                     style = {styles.flatList}/>
             </View>
 
+            <Text style = {styles.roomNameText}>
+                Add Friends as Members:
+            </Text>
+            
+            <View style = {styles.flatListView}>
+                <FlatList
+                    data={friendsUserArray}
+                    extraData={selectedId}
+                    renderItem={renderFriendItem}
+                    keyExtractor={item => item}
+                    style = {styles.flatList}/>
+            </View>
+
             <TouchableOpacity
-                style = {styles.button}
+                style = {styles.buttonblack}
+                onPress = {async () => {
+                    await handleAddMembers();
+                    props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Main' }],
+                    });
+                }
+                }>
+                <Text style ={styles.buttonText}>Add Members</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+                style = {styles.buttonred}
                 onPress = {async () => {
                     await handleLeaveGroup();
                     props.navigation.reset({
@@ -106,6 +254,7 @@ export default (props) => {
                 <Text style ={styles.buttonText}>Leave Group</Text>
             </TouchableOpacity>
 
+        </ScrollView>
         </Screen>
     )
 }

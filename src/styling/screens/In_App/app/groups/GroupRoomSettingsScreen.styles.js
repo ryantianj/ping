@@ -16,7 +16,8 @@ export default StyleSheet.create({
         fontSize: 22,
         color: 'black',
         textAlign: 'center',
-        width: 2 * windowWidth / 3
+        width: 2 * windowWidth / 3,
+        marginBottom: 10
     },
     textInputBio :{
         paddingLeft: 15,
@@ -34,8 +35,25 @@ export default StyleSheet.create({
     },
     renderItem : {
         height: 50,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor:'orange'
+    },
+    unRenderItem : {
+        height: 50,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colours.textBox
+    },
+    unselectedText : {
+        fontSize: 20,
+        color: 'black'
+    },
+    selectedText : {
+        fontSize: 20,
+        color: 'white'
     },
     selectedTextHeader : {
         fontSize: 25,
@@ -55,9 +73,22 @@ export default StyleSheet.create({
     flatList: {
         marginTop: 20,
         width: 9 * windowWidth / 10,
+        marginBottom: 15
     },
-
-    button : {
+    buttonblack : {
+        bottom: 20,
+        fontSize: 50,
+        borderRadius: 10,
+        width: 2 * windowWidth / 3,
+        height: 50,
+        backgroundColor: colours.logInButton,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 25,
+        marginTop: 45
+    },
+    buttonred : {
         bottom: 20,
         fontSize: 50,
         borderRadius: 10,

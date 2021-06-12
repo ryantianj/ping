@@ -20,9 +20,9 @@ export default (props) => {
     const [interests, setInterests] = useState([]); // Server-side choice list
     const [selectInterests, setSelectInterests] = useState([]); // Client-side choices
     const [roomname, setRoomName] = useState("");
-    const [selectedFriends, setSelectedFriends] = useState([]); // user object of selected
     const [count, setCount] = useState(0)
     const [value, setValue] = useState(false);
+    const [selectedFriends, setSelectedFriends] = useState([]); // user object of selected
     const [friendsUserArray, setFriendsUserArray] = useState([]);
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
     const dispatch = useDispatch();
@@ -125,7 +125,6 @@ export default (props) => {
     useEffect(() => {
         const subscriber = interestsCollection.onSnapshot(querySnapshot => {
             const interests = [];
-
             querySnapshot.forEach(documentSnapshot => {
                 interests.push({
                     ...documentSnapshot.data(),
