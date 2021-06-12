@@ -20,8 +20,8 @@ const roomsData = []; // array of room objects
 
 export default (props) => {
     const isFocused = useIsFocused();
-
     const [count, setCount] = useState(0)
+    const [len, setLen] = useState(0);
     
     const renderGroupItem = ( room ) => {
         return (
@@ -54,6 +54,7 @@ export default (props) => {
             roomDataObject['roomid'] = roomid;
             isGroup(roomDataObject) ? roomsData.push(roomDataObject) : 
             setCount(count + 1)
+            setLen(len + 1)
         });
     }
 
@@ -86,7 +87,7 @@ export default (props) => {
                 style = {styles.flatList}
                 data = {roomsData}
                 renderItem = {renderGroupItem}
-                extraData={count}
+                extraData={len}
                 contentContainerStyle={{ paddingBottom: 20 }}/>
         </Screen>
     )

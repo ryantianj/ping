@@ -14,7 +14,7 @@ import firebase, {
     channelsCollection
 } from "../../../../../api/firebase";
 import Screen from "../../../../components/Screen";
-import { fillMultiRoomState } from "../../../../multiroomsSlice";
+import { fillChannelRoomState } from "../../../../roomsSlice";
 import { fillUserState } from "../../../../usersSlice";
 import { useDispatch } from 'react-redux';
 import store from "../../../../store";
@@ -55,7 +55,7 @@ export default (props) => {
                 'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
             })
         // update global state with new room
-        dispatch(fillMultiRoomState(roomid));
+        dispatch(fillChannelRoomState(roomid));
         dispatch(fillUserState(uid));
 
         // check if work? if doesn't render changes then useIsFocused

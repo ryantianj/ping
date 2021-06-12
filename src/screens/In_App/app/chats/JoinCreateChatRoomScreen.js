@@ -218,8 +218,9 @@ export default (props) => {
                         alert('Please key in a roomname between 1-20 characters')
                         return;
                     }
-                    await CreateChatRoom();
-                    props.navigation.navigate("Loading", {screen : "Chat"});
+                    await CreateChatRoom()
+                    props.navigation.navigate('Main')
+
 
                 }}
             >
