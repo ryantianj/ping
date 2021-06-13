@@ -22,9 +22,8 @@ export default (props) => {
     const isFocused = useIsFocused();
     const [roomsData, setRoomsData] = useState([])
     const [len, setLen] = useState(0);
-
     const [count, setCount] = useState(0)
-
+    const [update, setUpdate] = useState(store.getState().user.user.updateRoom);
     
     const renderChatItem = ( room ) => {
         return (
@@ -58,16 +57,23 @@ export default (props) => {
             const roomData = await roomsCollection.doc(roomid).get()
             const roomDataObject = roomData.data();
             roomDataObject['roomid'] = roomid;
-            isChat(roomDataObject) ? roomsData.push(roomDataObject) : 
-            setCount(count + 1)
+            isChat(roomDataObject) ? roomsData.push(roomDataObject) :
             setLen(len + 1)
         });
     }
 
-    if (count === 0) {
-        getAllChats()
-        setCount(count + 1)
+
+    if (isFocused) {
+        if (count === 0) {
+            getAllChats()
+            setCount(count + 1)
+        } else if (update !== store.getState().user.user.updateRoom) {
+            roomsData.length = 0
+            setUpdate(update + 1)
+            getAllChats()
+        }
     }
+
 
     // useEffect(() => {
     //     setLen(len + 1)
@@ -95,7 +101,7 @@ export default (props) => {
                 style = {styles.flatList}
                 data = {roomsData}
                 renderItem = {renderChatItem}
-                extraData={len}
+                extraData={[len, update, roomsData]}
                 contentContainerStyle={{ paddingBottom: 20 }}
                 />
         

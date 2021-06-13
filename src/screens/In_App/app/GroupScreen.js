@@ -16,12 +16,13 @@ import styles from '../../../styling/screens/In_App/app/GroupScreen.styles';
 
 import { useIsFocused } from "@react-navigation/native";
 
-const roomsData = []; // array of room objects
 
 export default (props) => {
     const isFocused = useIsFocused();
     const [count, setCount] = useState(0)
+    const [roomsData, setRoomsData] = useState([]);
     const [len, setLen] = useState(0);
+    const [update, setUpdate] = useState(store.getState().user.user.update);
     
     const renderGroupItem = ( room ) => {
         return (
@@ -52,20 +53,21 @@ export default (props) => {
             const roomData = await roomsCollection.doc(roomid).get()
             const roomDataObject = roomData.data();
             roomDataObject['roomid'] = roomid;
-            isGroup(roomDataObject) ? roomsData.push(roomDataObject) : 
-            setCount(count + 1)
+            isGroup(roomDataObject) ? roomsData.push(roomDataObject) :
             setLen(len + 1)
         });
     }
 
-    if (count === 0) {
-        getAllGroups()
-        setCount(count + 1)
+    if (isFocused) {
+        if (count === 0) {
+            getAllGroups()
+            setCount(count + 1)
+        } else if (update !== store.getState().user.user.update) {
+            roomsData.length = 0
+            setUpdate(update + 1)
+            getAllGroups()
+        }
     }
-    // useEffect(() => {
-    //     getAllGroups()
-    //     console.log('rerendered')
-    // }, [isFocused])
 
     return (
         <Screen style = {styles.container}>
@@ -87,7 +89,7 @@ export default (props) => {
                 style = {styles.flatList}
                 data = {roomsData}
                 renderItem = {renderGroupItem}
-                extraData={len}
+                extraData={[len, update, roomsData]}
                 contentContainerStyle={{ paddingBottom: 20 }}/>
         </Screen>
     )

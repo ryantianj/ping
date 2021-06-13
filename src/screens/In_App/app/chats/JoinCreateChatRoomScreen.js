@@ -88,7 +88,7 @@ export default (props) => {
 
         // update global state with new room
         dispatch(fillChatRoomState(roomid));
-        dispatch(fillUserState(uid));
+        await dispatch(fillUserState(uid));
         
         // check if work? if doesn't render changes then useIsFocused
     }
@@ -218,8 +218,8 @@ export default (props) => {
                         alert('Please key in a roomname between 1-20 characters')
                         return;
                     }
-                    await CreateChatRoom()
-                    props.navigation.navigate('Main')
+                    await CreateChatRoom().then(() => props.navigation.navigate('Chat'))
+
 
 
                 }}

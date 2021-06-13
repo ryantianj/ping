@@ -19,6 +19,7 @@ const initialState = [
         visibility: true,
         display: '',
         update: 0,
+        updateRoom: 0,
     }
 ]
 
@@ -50,6 +51,7 @@ const usersSlice = createSlice({
                         visibility: userData.visibility,
                         display: userData.display,
                         update: userData.channels.length + 1,
+                        updateRoom: userData.rooms.length + 1
                 }
             }
         }

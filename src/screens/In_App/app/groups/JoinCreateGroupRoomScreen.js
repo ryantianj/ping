@@ -83,7 +83,7 @@ export default (props) => {
 
         // update global state with new room
         dispatch(fillGroupRoomState(roomid));
-        dispatch(fillUserState(uid));
+        await dispatch(fillUserState(uid));
     }
 
     const renderTopicItem = ( {item} ) => {
@@ -243,12 +243,9 @@ export default (props) => {
                         alert('Please key in a roomname between 1-20 characters')
                         return;
                     }
-                    await CreateGroupRoom();
-                    // props.navigation.navigate("Chat");
-                    props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Main' }],
-                    });
+                    await CreateGroupRoom().then(() => {
+                        props.navigation.navigate("Group")});
+
                 }}
             >
                 <Text style = {styles.buttonText}>Create Group Room</Text>
