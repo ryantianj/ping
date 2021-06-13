@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
-import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
+import firebase, {usersCollection, roomsCollection, channelsCollection} from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillUserState } from '../../../../usersSlice';
 import { useDispatch } from 'react-redux';
@@ -14,14 +14,14 @@ export default (props) => {
     const dispatch = useDispatch();
     const [count, setCount] = useState(0);
     const [displayArray, setDisplayArray] = useState([]);
-    
+
     const mapUidToUserName = (uidArray) => {
         uidArray.forEach(async uid => {
             const user = await usersCollection.doc(uid).get();
             addUser(user.data());
         })
     }
-    
+
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
@@ -38,7 +38,7 @@ export default (props) => {
         setCount(count + 1)
         console.log(displayArray)
     }
-    
+
     const renderUserItem = ({item}) => {
         console.log(item.display)
         return (
@@ -50,16 +50,16 @@ export default (props) => {
         )
     }
 
-    const handleLeaveChat = async () => {
+    const handleLeaveChannel = async () => {
         await usersCollection
             .doc(uid)
             .update({
-                'rooms': firebase.firestore.FieldValue.arrayRemove(roomid)
+                'channels': firebase.firestore.FieldValue.arrayRemove(roomid)
             })
             .then(() => {
-                console.log('Removed room from user db!');
+                console.log('Removed channel from user db!');
             });
-        await roomsCollection
+        await channelsCollection
             .doc(roomid)
             .update({
                 'users': firebase.firestore.FieldValue.arrayRemove(uid)
@@ -67,7 +67,7 @@ export default (props) => {
             .then(() => {
                 console.log('Removed user from room db!');
             });
-        dispatch(fillUserState(uid));
+        await dispatch(fillUserState(uid));
     }
 
     return (
@@ -76,7 +76,7 @@ export default (props) => {
             <Text style = {styles.roomNameText}>
                 {roomname}
             </Text>
-            
+
             <View style = {styles.textInputBio}>
                 <Text style = {styles.selectedTextHeader}>Topics: </Text>
                 <Text style = {styles.selectedText}>{topics}</Text>
@@ -97,10 +97,12 @@ export default (props) => {
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {async () => {
-                    await handleLeaveChat().then(() => props.navigation.navigate("Chat"));
+                    await handleLeaveChannel()
+                        .then(() => props.navigation.navigate("Channel"));
+
                 }
                 }>
-                <Text style ={styles.buttonText}>Leave Chat</Text>
+                <Text style ={styles.buttonText}>Leave Channel</Text>
             </TouchableOpacity>
 
         </Screen>

@@ -22,7 +22,7 @@ export default (props) => {
     const [count, setCount] = useState(0)
     const [roomsData, setRoomsData] = useState([]);
     const [len, setLen] = useState(0);
-    const [update, setUpdate] = useState(store.getState().user.user.update);
+    const [update, setUpdate] = useState(store.getState().user.user.updateRoom);
     
     const renderGroupItem = ( room ) => {
         return (
@@ -62,9 +62,9 @@ export default (props) => {
         if (count === 0) {
             getAllGroups()
             setCount(count + 1)
-        } else if (update !== store.getState().user.user.update) {
+        } else if (update !== store.getState().user.user.updateRoom) {
             roomsData.length = 0
-            setUpdate(update + 1)
+            setUpdate(store.getState().user.user.updateRoom)
             getAllGroups()
         }
     }

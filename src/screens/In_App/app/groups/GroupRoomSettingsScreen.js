@@ -244,11 +244,7 @@ export default (props) => {
             <TouchableOpacity
                 style = {styles.buttonred}
                 onPress = {async () => {
-                    await handleLeaveGroup();
-                    props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Main' }],
-                    });
+                    await handleLeaveGroup().then(() => props.navigation.navigate("Group"));;
                 }
                 }>
                 <Text style ={styles.buttonText}>Leave Group</Text>
