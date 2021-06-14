@@ -66,6 +66,19 @@ export default StyleSheet.create({
         fontSize: 17,
         width: 9 * windowWidth / 10,
     },
-
-
+    image : {
+        width: 70,
+        height: 70,
+        marginTop: 10,
+        marginBottom: 10
+    },
+    iconCell: {
+        flex: 2
+    },
+    titleCell: {
+        flex: 9
+    }, 
+    topicCell: {
+        flex: 4
+    }
 })
