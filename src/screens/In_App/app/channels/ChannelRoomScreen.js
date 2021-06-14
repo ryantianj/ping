@@ -16,14 +16,18 @@ import {useIsFocused} from "@react-navigation/native";
 
 export default (prop) => {
     const [posts, setPosts] = useState([])
+    const [updatePost, setUpdatePost] = useState([])
     const [count, setCount] = useState(0)
+    const [countUpdate, setCountUpdate] = useState(0)
     const [len, setLen] = useState(0);
+    const [away, setAway] = useState(false)
 
 
     const isFocused = useIsFocused();
 
-    const getPosts = async () => { channelsCollection.doc(store.getState().room.room.roomid)
-        .collection("Posts").orderBy('createdAt', 'desc').get().then((querySnapshot) => {
+    const getPosts = async () => {
+        channelsCollection.doc(store.getState().room.room.roomid)
+            .collection("Posts").orderBy('createdAt', 'desc').get().then((querySnapshot) => {
             querySnapshot.forEach(async (doc) => {
                 posts.push(doc.data())
                 setCount(count + 1)
@@ -32,10 +36,14 @@ export default (prop) => {
         })
     }
 
+
+
     if (count === 0) {
         getPosts()
         setCount(count + 1)
     }
+
+
     const renderItem = (item) => {
         return (
             <Text>
@@ -50,6 +58,7 @@ export default (prop) => {
             <View style = {styles.toolBar}>
                 <TouchableOpacity
                     style = {styles.touchable1}
+                    onPress = {() => prop.navigation.navigate("ChannelSettings")}
                 >
                     <Ionicons style = {styles.icon}
                               name={'settings-outline'} size={35}  />
@@ -72,7 +81,7 @@ export default (prop) => {
                 <FlatList
                     data={posts}
                     renderItem={renderItem}
-                    extraData={len}
+                    extraData={[posts,len]}
                     />
             </View>
         </Screen>

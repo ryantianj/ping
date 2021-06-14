@@ -61,7 +61,7 @@ export default (props) => {
             setCount(count + 1)
         } else if (update !== store.getState().user.user.update) {
             roomsData.length = 0
-            setUpdate(update + 1)
+            setUpdate(store.getState().user.user.update)
             getAllChannels()
         }
     }

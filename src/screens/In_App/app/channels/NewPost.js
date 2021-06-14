@@ -55,7 +55,7 @@ export default (prop) => {
                 />
             <TouchableOpacity
                 style = {styles.button}
-                onPress={ () => {handlePost().then(() => prop.navigation.navigate("Main"))}}
+                onPress={ () => {handlePost().then(() => prop.navigation.goBack())}}
             >
                 <Text style = {styles.buttonText}>Create Post</Text>
             </TouchableOpacity>
