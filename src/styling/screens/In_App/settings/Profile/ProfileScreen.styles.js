@@ -67,12 +67,15 @@ export default StyleSheet.create({
         width: 9 * windowWidth / 10,
     },
     image : {
-        width: 70,
-        height: 70,
-        marginTop: 10,
-        marginBottom: 10
+        width: 2 * windowWidth / 20,
+        height: 2 * windowWidth / 20,
+    },
+    table: {
+        width: 9 * windowWidth / 10,
     },
     iconCell: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
         flex: 2
     },
     titleCell: {
