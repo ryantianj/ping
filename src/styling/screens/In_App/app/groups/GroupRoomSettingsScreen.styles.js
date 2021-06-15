@@ -59,10 +59,6 @@ export default StyleSheet.create({
         fontSize: 25,
         color: 'black'
     },
-    selectedText : {
-        fontSize: 20,
-        color: 'black'
-    },
     title: {
         fontSize: 32,
     },
@@ -73,7 +69,8 @@ export default StyleSheet.create({
     flatList: {
         marginTop: 20,
         width: 9 * windowWidth / 10,
-        marginBottom: 15
+        marginBottom: 15,
+        borderRadius: 10,
     },
     buttonblack : {
         bottom: 20,

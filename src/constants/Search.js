@@ -37,31 +37,31 @@ export default (props) => {
                     addUser(doc.data())
                 });
             }) .then(() => {
-            total.push({user: user.length,
-                type : 0})
-        })
+                total.push({user: user.length,
+                    type : 0})
+            })
         // Search channels
         const channels = () => firebase.firestore()
             .collection('Channel')
             .where('roomname', '>=', search)
             .where('roomname', '<=', search + '\uf8ff')
             .get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                addChannel(doc.data())
-            });
-        }).then(() => {
-            total.push({channel: channel.length,
-                type : 1})
-        })
-            users().then(() => channels())
-           .then(() => {
+                querySnapshot.forEach((doc) => {
+                    addChannel(doc.data())
+                });
+            }).then(() => {
+                total.push({channel: channel.length,
+                    type : 1})
+            })
+        users().then(() => channels())
+            .then(() => {
                 props.navigation.navigate('Search',
-                {   search: search,
-                    user: user,
-                    channel: channel,
-                    total: total
-                })
-                })
+                    {   search: search,
+                        user: user,
+                        channel: channel,
+                        total: total
+                    })
+            })
             .catch((error) => {
                 alert("Invalid Query")
             })
@@ -71,7 +71,7 @@ export default (props) => {
         <View style = {styles.container}>
             <TextInput
                 style = {styles.searchBarText}
-                placeholder = "Search (by display name)"
+                placeholder = "Search (by display/channel name)"
                 value = {search}
                 onChangeText = {setSearch}
                 autoCapitalize = "none"

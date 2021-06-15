@@ -80,11 +80,11 @@ export default (props) => {
             <View style = {styles.textInputBio}>
                 <Text style = {styles.selectedTextHeader}>Topics: </Text>
                 <Text style = {styles.selectedText}>{topics}</Text>
-            </View>
-
-            <View style = {styles.textInputBio}>
                 <Text style = {styles.selectedTextHeader}>Users: </Text>
             </View>
+
+
+
 
             <View style = {styles.flatListView}>
                 <FlatList

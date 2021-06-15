@@ -11,25 +11,30 @@ import Screen from "../../../../components/Screen";
 
 export default (prop) => {
     const [post ,setPost] = useState("")
+    const [title, setTitle] = useState("")
 
     const uid = store.getState().user.user.uid;
     const email = store.getState().user.user.email;
     const roomid = store.getState().room.room.roomid;
+    const display = store.getState().user.user.display;
     const handlePost = async () => {
 
         const text = post;
 
         await channelsCollection.doc(roomid).collection('Posts').add({
             roomid: roomid,
+            postid: '',
             content: text,
+            title: title,
             likedby: [],
             star: false,
-            text,
             createdAt: new Date().getTime(),
             user: {
                 _id: uid,
-                email: email
-            }
+                email: email,
+                display: display
+            },
+            comments: []
         });
 
         await channelsCollection.doc(roomid).set({
@@ -44,6 +49,15 @@ export default (prop) => {
 
     return (
         <Screen style = {styles.container}>
+            <TextInput
+                multiline
+                style = {styles.textInputTitle}
+                placeholder = "Post Title"
+                value = {title}
+                onChangeText = {setTitle}
+                returnKeyType = "go"
+                maxLength = {100}
+            />
             <TextInput
                 multiline
                 style = {styles.textInputBio}

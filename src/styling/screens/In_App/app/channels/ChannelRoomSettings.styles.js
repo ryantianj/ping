@@ -25,6 +25,8 @@ export default StyleSheet.create({
         fontSize: 20,
         backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
+        borderRadius: 10
+
     },
     item: {
         backgroundColor: '#f9c2ff',
@@ -55,6 +57,7 @@ export default StyleSheet.create({
     flatList: {
         marginTop: 20,
         width: 9 * windowWidth / 10,
+        borderRadius: 10
     },
 
     button : {

@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import Screen from "../../../../components/Screen";
 import store from "../../../../store"
 
-import styles from '../../../../styling/screens/In_App/app/chats/ChatRoomSettingsScreen.styles';
+import styles from '../../../../styling/screens/In_App/app/channels/ChannelRoomSettings.styles';
 
 export default (props) => {
     const dispatch = useDispatch();
@@ -36,11 +36,9 @@ export default (props) => {
     const addUser = (item) => {
         displayArray.push(item)
         setCount(count + 1)
-        console.log(displayArray)
     }
 
     const renderUserItem = ({item}) => {
-        console.log(item.display)
         return (
             <TouchableOpacity
                 style = {styles.textInputBio}
@@ -80,9 +78,6 @@ export default (props) => {
             <View style = {styles.textInputBio}>
                 <Text style = {styles.selectedTextHeader}>Topics: </Text>
                 <Text style = {styles.selectedText}>{topics}</Text>
-            </View>
-
-            <View style = {styles.textInputBio}>
                 <Text style = {styles.selectedTextHeader}>Users: </Text>
             </View>
 

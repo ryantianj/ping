@@ -4,59 +4,16 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import firebase, {
     channelsCollection,
 } from "../../../../../api/firebase";
+
 import store from '../../../../store';
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import styles from "../../../../styling/screens/In_App/app/channels/ChannelRoomScreen.styles"
+import styles from "../../../../styling/screens/In_App/app/channels/Comments.styles"
 import Screen from "../../../../components/Screen";
 
 export default (prop) => {
-    const [posts, setPosts] = useState([])
-
-
-    const upVote = (item) => {
-        if (item.upVotes.includes(store.getState().user.user.uid)) {
-            firebase.firestore()
-                .collection('Channel')
-                .doc(store.getState().room.room.roomid)
-                .collection("Posts")
-                .doc(item._id).update({
-                likedby: firebase.firestore.FieldValue.arrayRemove(store.getState().user.user.uid)
-            })
-        } else {
-            firebase.firestore()
-                .collection('Channel')
-                .doc(store.getState().room.room.roomid)
-                .collection("Posts")
-                .doc(item._id).update({
-                likedby: firebase.firestore.FieldValue.arrayUnion(store.getState().user.user.uid)
-            })
-        }
-    }
-
-    useEffect(() => {
-        const postListener = channelsCollection.doc(store.getState().room.room.roomid)
-            .collection("Posts").orderBy('createdAt', 'desc')
-            .onSnapshot(snapshot => {
-                const posts = snapshot.docs.map(doc => {
-                    const docId = doc.id
-                    const firebase = doc.data()
-                    const data = {
-                        _id: docId,
-                        title: firebase.title,
-                        text: firebase.content,
-                        upVotes: firebase.likedby,
-                        user: firebase.user,
-                        comments: firebase.comments,
-                    }
-                    return data;
-                })
-                setPosts(posts);
-            })
-        return () => postListener();
-    }, [])
-
+    const [comments, setComments] = useState(prop.route.params.comments)
 
     const renderItem = ({item}) => {
         return (
@@ -71,15 +28,12 @@ export default (prop) => {
                     {item.text}
                 </Text>
                 <View style = {styles.commentUpVote}>
-                    <TouchableOpacity style = {styles.postComments}
-                    onPress={() => prop.navigation.navigate("Comments", {comments: item.comments})}>
+                    <TouchableOpacity style = {styles.postComments}>
                         <Text style = {styles.postCommentsText}>
                             {item.comments.length} comments
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style = {styles.postUpVotes}
-                    onPress={() => upVote(item)}
-                    >
+                    <TouchableOpacity style = {styles.postUpVotes}>
                         <Text style = {styles.postUpVotesText}>
                             {item.upVotes.length} upvotes
                         </Text>
@@ -114,17 +68,17 @@ export default (prop) => {
 
             <Text
                 style = {styles.chatsText}>
-                {store.getState().room.room.roomname}
+                Comments
             </Text>
 
 
             <View style = {styles.flatList}>
                 <FlatList
-                    data={posts}
+                    data={comments}
                     renderItem={renderItem}
-                    extraData={posts}
+                    extraData={comments}
                     contentContainerStyle={{ paddingBottom: 20 }}
-                    />
+                />
             </View>
         </Screen>
     )

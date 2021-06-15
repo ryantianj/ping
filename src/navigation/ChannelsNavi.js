@@ -7,6 +7,7 @@ import JoinCreateChannelScreen from "../screens/In_App/app/channels/JoinCreateCh
 import ChannelRoomScreen from "../screens/In_App/app/channels/ChannelRoomScreen";
 import NewPost from "../screens/In_App/app/channels/NewPost";
 import ChannelRoomSettings from "../screens/In_App/app/channels/ChannelRoomSettings";
+import Comments from "../screens/In_App/app/channels/Comments";
 
 
 import Screen from "../components/Screen";
@@ -44,7 +45,7 @@ export default (props) =>  {
                     component = {ChannelRoomSettings}
                     options={{
                         headerShown: true,
-                        title: "Create Channel",
+                        title: "Channel Settings",
                         headerStyle: {
                             backgroundColor: colours.primary,
                         }}}/>
@@ -57,6 +58,16 @@ export default (props) =>  {
                         headerStyle: {
                             backgroundColor: colours.primary,
                         }}}/>
+                <Stack.Screen
+                    name = "Comments"
+                    component = {Comments}
+                    options={{
+                        headerShown: true,
+                        title: "Comments",
+                        headerStyle: {
+                            backgroundColor: colours.primary,
+                        }}}/>
+
             </Stack.Navigator>
         </Screen>
 
