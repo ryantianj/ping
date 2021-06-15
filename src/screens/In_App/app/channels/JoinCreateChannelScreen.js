@@ -24,14 +24,9 @@ export default (props) => {
     const [interests, setInterests] = useState([]); // Server-side choice list
     const [selectInterests, setSelectInterests] = useState([]); // Client-side choices
     const [roomname, setRoomName] = useState("");
-    const [count, setCount] = useState(0)
-    const [value, setValue] = useState(false);
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
     const dispatch = useDispatch();
 
-    function useForceUpdate() {
-        setValue(!value); // update the state to force render
-    }
     const CreateChannel = async () => {
 
         const uid = store.getState().user.user.uid;
@@ -39,12 +34,17 @@ export default (props) => {
         // create room on firebase
         await channelsCollection.add({
             roomname: roomname,
+            roomid : "",
             topics: selectInterests,
             type: 2,
             users: [uid]
 
         }).then((docRef) => {
             roomid = docRef.id;
+        }).then(() => {
+            channelsCollection.doc(roomid).update({
+                roomid: roomid
+            })
         });
 
         // update creator's uid with the room ID

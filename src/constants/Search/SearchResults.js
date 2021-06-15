@@ -14,25 +14,47 @@ import Search from "../Search";
 export default (props) => {
     const [search, setSearch] = useState('');
     const [user, setUser] = useState([])
+    const [channel, setChannel] = useState([])
+    const [total, setTotal] = useState([])
 
     useEffect(() => {
-
         setSearch(props.searchData.search)
         setUser(props.searchData.user)
+        setChannel(props.searchData.channel)
+        setTotal(props.searchData.total)
     })
 
+
     const renderItem = ( {item}) => {
+        if (item.type === 0) {
+            return (
+                <TouchableOpacity
+                    style = {styles.searchPress}
+                    onPress = {() => {props.navigation.navigate("searchUsers",
+                        {user: user,
+                    search : search})}}>
+                    <Text style = {styles.searchText}>
+                        Users: {}
+                        {item.user} result(s)
+                    </Text>
+                </TouchableOpacity>
 
-        return (
-            <TouchableOpacity
-                style = {styles.searchPress}
-                onPress = {() => {props.navigation.navigate("addUser",{user: item})}}>
-                <Text style = {styles.searchText}>
-                    {item.display}
-                </Text>
-            </TouchableOpacity>
+            )
+        } else {
+            return (
+                <TouchableOpacity
+                    style = {styles.searchPress}
+                    onPress = {() => {props.navigation.navigate("searchChannels",
+                        {channel: channel,
+                        search: search})}}>
+                    <Text style = {styles.searchText}>
+                        Channels: {}
+                        {item.channel} result(s)
+                    </Text>
+                </TouchableOpacity>
 
-        )
+            )
+        }
     }
 
 
@@ -49,12 +71,10 @@ export default (props) => {
                Results:
            </Text>
            <FlatList
-               data={user}
+               data={total}
                renderItem={renderItem}
                style = {styles.flatList}
-               extraData={user}/>
-
-
+               extraData={total}/>
        </Screen>
    )
 

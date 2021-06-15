@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions, StatusBar} from "react-native";
-import colours from "../../../../../constants/colours"
+import colours from "../../../constants/colours"
 
 const windowWidth = Dimensions.get('window').width;
 const statusBar = StatusBar.currentHeight;
@@ -49,7 +49,7 @@ export default StyleSheet.create({
         borderRadius: 10,
         width: 2 * windowWidth / 3,
         height: 50,
-        backgroundColor: colours.logOutButton,
+        backgroundColor: colours.logInButton,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',

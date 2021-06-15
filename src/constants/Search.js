@@ -9,6 +9,8 @@ import styles from "../styling/constants/Search.styles";
 export default (props) => {
     const [search, setSearch] = useState("");
     const [user, setUser] = useState([]);
+    const [channel, setChannel] = useState([]);
+    const [total, setTotal] = useState([]);
 
     const addUser = (item) => {
         // makes sure u cant add yourself
@@ -17,10 +19,16 @@ export default (props) => {
         }
     }
 
+    const addChannel = (item) => {
+        channel.push(item)
+    }
 
     const submitQueryToDatabase = () => {
         setUser([]);
-        firebase.firestore()
+        setChannel([]);
+        setTotal([]);
+        // Search users
+        const users = () => firebase.firestore()
             .collection('Users')
             .where('display', '>=', search)
             .where('display', '<=', search + '\uf8ff')
@@ -28,15 +36,34 @@ export default (props) => {
                 querySnapshot.forEach((doc) => {
                     addUser(doc.data())
                 });
-            })
-            .then(() => {
+            }) .then(() => {
+            total.push({user: user.length,
+                type : 0})
+        })
+        // Search channels
+        const channels = () => firebase.firestore()
+            .collection('Channel')
+            .where('roomname', '>=', search)
+            .where('roomname', '<=', search + '\uf8ff')
+            .get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                addChannel(doc.data())
+            });
+        }).then(() => {
+            total.push({channel: channel.length,
+                type : 1})
+        })
+            users().then(() => channels())
+           .then(() => {
                 props.navigation.navigate('Search',
                 {   search: search,
                     user: user,
+                    channel: channel,
+                    total: total
                 })
                 })
             .catch((error) => {
-                console.log("Error getting documents: ", error);
+                alert("Invalid Query")
             })
     }
 
