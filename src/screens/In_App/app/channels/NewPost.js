@@ -21,7 +21,7 @@ export default (prop) => {
 
         const text = post;
 
-        await channelsCollection.doc(roomid).collection('Posts').add({
+        (await channelsCollection.doc(roomid).collection('Posts').add({
             roomid: roomid,
             postid: '',
             content: text,
@@ -34,8 +34,7 @@ export default (prop) => {
                 email: email,
                 display: display
             },
-            comments: []
-        });
+        }))
 
         await channelsCollection.doc(roomid).set({
                 latestPost: {
@@ -45,6 +44,8 @@ export default (prop) => {
             },
             { merge: true }
         )
+
+        await channelsCollection.doc(roomid).collection('Posts').doc()
     }
 
     return (

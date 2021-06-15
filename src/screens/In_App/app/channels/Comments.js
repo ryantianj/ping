@@ -13,7 +13,7 @@ import styles from "../../../../styling/screens/In_App/app/channels/Comments.sty
 import Screen from "../../../../components/Screen";
 
 export default (prop) => {
-    const [comments, setComments] = useState(prop.route.params.comments)
+    const [comments, setComments] = useState([])
 
     const renderItem = ({item}) => {
         return (
@@ -21,26 +21,11 @@ export default (prop) => {
                 <Text style = {styles.user}>
                     {item.user.display} posted:
                 </Text>
-                <Text style = {styles.postTitle}>
-                    {item.title}
-                </Text>
+
                 <Text style = {styles.postText}>
                     {item.text}
                 </Text>
-                <View style = {styles.commentUpVote}>
-                    <TouchableOpacity style = {styles.postComments}>
-                        <Text style = {styles.postCommentsText}>
-                            {item.comments.length} comments
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style = {styles.postUpVotes}>
-                        <Text style = {styles.postUpVotesText}>
-                            {item.upVotes.length} upvotes
-                        </Text>
-                    </TouchableOpacity>
-                </View>
             </View>
-
         )
     }
 

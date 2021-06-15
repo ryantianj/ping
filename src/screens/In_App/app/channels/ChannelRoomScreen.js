@@ -48,7 +48,6 @@ export default (prop) => {
                         text: firebase.content,
                         upVotes: firebase.likedby,
                         user: firebase.user,
-                        comments: firebase.comments,
                     }
                     return data;
                 })
@@ -72,9 +71,9 @@ export default (prop) => {
                 </Text>
                 <View style = {styles.commentUpVote}>
                     <TouchableOpacity style = {styles.postComments}
-                    onPress={() => prop.navigation.navigate("Comments", {comments: item.comments})}>
+                    onPress={() => prop.navigation.navigate("Comments", {})}>
                         <Text style = {styles.postCommentsText}>
-                            {item.comments.length} comments
+                            ? comments
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.postUpVotes}
