@@ -61,11 +61,11 @@ export default (props) => {
         return badgesArray
             ? badgesArray.map(badgeData => (
                 <DataTable.Row>
-                    <DataTable.Cell style = {styles.iconCell}>
-                        <Image style = {styles.image} source = {badgeData.icon}/>
-                    </DataTable.Cell>
-                    <DataTable.Cell style = {styles.titleCell}>{badgeData.title}</DataTable.Cell>
-                    <DataTable.Cell style = {styles.topicCell}>{badgeData.topic}</DataTable.Cell>
+                    <View style = {styles.iconCell}>
+                    <Image style = {styles.image} source = {badgeData.icon}/>
+                    </View>
+                    <Text style = {styles.titleCell}>{badgeData.title}</Text>
+                    <Text style = {styles.topicCell}>{badgeData.topic}</Text>
                 </DataTable.Row>
             )) 
             : null;
@@ -124,7 +124,7 @@ export default (props) => {
                     style = {styles.textInputBio}
                 >
                     <Text style = {styles.selectedTextHeader}>Badges: </Text>
-                    <DataTable>
+                    <DataTable style = {styles.table}>
                         <DataTable.Header>
                             <DataTable.Title style = {styles.iconCell}></DataTable.Title>
                             <DataTable.Title style = {styles.titleCell}>Title</DataTable.Title>
@@ -139,8 +139,6 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
-        <ScrollView contentContainerStyle = {styles.scroll}>
-
             <Text style = {styles.profileText}>
                 Your Profile
             </Text>
@@ -148,15 +146,14 @@ export default (props) => {
             <FlatList
                 data={DATA}
                 renderItem={renderItem}
-                style = {styles.flatList}/>
+                style = {styles.flatList}
+                contentContainerStyle={{ paddingBottom: 20 }}/>
 
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {() => props.navigation.navigate('UpdateProfile')}>
                 <Text style ={styles.buttonText}>Update Profile</Text>
             </TouchableOpacity>
-
-        </ScrollView>
         </Screen>
     )
 }
