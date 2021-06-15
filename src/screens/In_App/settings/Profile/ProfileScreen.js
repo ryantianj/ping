@@ -32,23 +32,19 @@ export default (props) => {
         const badgesMap = store.getState().user.user.badges; // key:value is topic:0/1/2
         const badgesArray = [];
         for (const topic in badgesMap) {
-            // console.log('topic: ' + topic); // topic string
             const type = badgesMap[topic]; // number 0 1 2
             let icon = null;
             let title = "";
             
             if (type === 0) { // sage
-                // icon = '../../../../../assets/badgesage.png'
                 icon = badgesage
                 title = 'Sage (Exclusively Appointed)'
             } else if (type === 1) { // guru
-                // icon = '../../../../../assets/badgeguru.png'
                 icon = badgeguru
-                title = 'Guru (top 10th percentile for post upvotes ratio)'
+                title = 'Guru (Top 10th percentile for post upvotes ratio)'
             } else { // thinker
-                // icon = '../../../../../assets/badgethinker.png'
                 icon = badgethinker
-                title = 'Thinker (top 30th percentile for post upvotes ratio)'
+                title = 'Thinker (Top 30th percentile for post upvotes ratio)'
             }
             badgesArray.push({topic: topic, icon: icon, title: title, type: type});
         }
@@ -65,15 +61,11 @@ export default (props) => {
         return badgesArray
             ? badgesArray.map(badgeData => (
                 <DataTable.Row>
-                    {/* <DataTable.Cell>icon replacement</DataTable.Cell> */}
                     <DataTable.Cell style = {styles.iconCell}>
-                    <Image style = {styles.image} source = {badgeData.icon}/>
+                        <Image style = {styles.image} source = {badgeData.icon}/>
                     </DataTable.Cell>
-                    {/* <DataTable.Cell>{badgeData.icon}</DataTable.Cell> */}
                     <DataTable.Cell style = {styles.titleCell}>{badgeData.title}</DataTable.Cell>
                     <DataTable.Cell style = {styles.topicCell}>{badgeData.topic}</DataTable.Cell>
-                    
-                    {/* <DataTable.Cell numeric>105</DataTable.Cell> */}
                 </DataTable.Row>
             )) 
             : null;
@@ -138,10 +130,8 @@ export default (props) => {
                             <DataTable.Title style = {styles.titleCell}>Title</DataTable.Title>
                             <DataTable.Title style = {styles.topicCell}>Topic</DataTable.Title>
                         </DataTable.Header>
-
                         {renderBadges()}
                     </DataTable>
-
                 </View>
             )
         }
