@@ -68,7 +68,7 @@ export default StyleSheet.create({
         },
         signUpButtonTextOpac : {
             position:'absolute',
-            bottom: 10,
+            bottom: 28,
             color: 'white',
 
         },
