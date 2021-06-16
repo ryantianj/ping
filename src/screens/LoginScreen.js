@@ -62,8 +62,6 @@ const LoginScreen = (props) => {
                 } else if (error.code === 'auth/wrong-password') {
                     Alert.alert('Oops! Please retry with the correct password :(');
                 }                
-            } finally {
-
             }
         }
     }
