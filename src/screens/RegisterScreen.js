@@ -47,7 +47,7 @@ export default (props) => {
 
     const handleRegister = async () => {
         try {
-            firebase
+            await firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .then(async user => {
@@ -59,19 +59,21 @@ export default (props) => {
                 })
                 // Set the user profile into global store
                 dispatch(fillUserState(uid));
+
+                props.navigation.navigate('CreateProfile');
             })
-            props.navigation.navigate('CreateProfile');
 
         } catch (error) {
-            if (error.code) {
-                if (error.code === "auth/invalid-email") {
-                    alert("Please enter a valid email address");
-                } else if (error.code === "auth/email-already-in-use") {
-                    alert("There is an existing account associated with this email. Forgot your password?");
-                } else if (error.code === 'auth/weak-password') {
-                    alert("Please use a stronger password with at least 6 characters");
-                }
-            }
+            if (error.code === "auth/invalid-email") {
+                Alert.alert("Please enter a valid email address");
+            } else if (error.code === "auth/email-already-in-use") {
+                Alert.alert("There is an existing account associated with this email. Forgot your password?");
+            } else if (error.code === 'auth/weak-password') {
+                Alert.alert("Please use a stronger password with at least 6 characters");
+            }                
+        } finally {
+            
+
         }
     }
 

@@ -1,5 +1,4 @@
 import firebase from 'firebase/app';
-import database from '@react-native-firebase/database';
 import 'firebase/firestore';
 import 'firebase/auth';
 // import 'firebase/messaging';
@@ -18,15 +17,9 @@ firebase.initializeApp(firebaseConfig);
 firebase.auth();
 
 const infodb = firebase.firestore();
-// export const firebaseTimestamp = firebase.firestore.FieldValue.serverTimestamp;
-
-// const chatdb = database().ref('??????');
-// OR
-// const messaging = firebase.messaging();
 
 export const usersCollection = infodb.collection('Users');
 // export const badgesCollection = infodb.collection('badges');
-// export const tagsCollection = infodb.collection('tags');
 export const roomsCollection = infodb.collection('Rooms');
 export const interestsCollection = infodb.collection('Interests');
 export const channelsCollection = infodb.collection('Channel');
