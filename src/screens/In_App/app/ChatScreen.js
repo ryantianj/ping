@@ -24,7 +24,7 @@ export default (props) => {
     const [len, setLen] = useState(0);
     const [count, setCount] = useState(0)
     const [update, setUpdate] = useState(store.getState().user.user.updateRoom);
-    
+
     const renderChatItem = ( room ) => {
         return (
             <TouchableOpacity
@@ -41,7 +41,7 @@ export default (props) => {
                 {console.log(room.item.roomid)} */}
                 <Text style = {styles.chats}>{room.item.roomname}</Text>
             </TouchableOpacity>
-            );
+        );
 
     }
 
@@ -58,7 +58,7 @@ export default (props) => {
             const roomDataObject = roomData.data();
             roomDataObject['roomid'] = roomid;
             isChat(roomDataObject) ? roomsData.push(roomDataObject) :
-            setLen(len + 1)
+                setLen(len + 1)
         });
     }
 
@@ -89,7 +89,7 @@ export default (props) => {
                 <TouchableOpacity
                     style = {styles.touchable}
                     onPress = {() => props.navigation.navigate('ChatRooms',{ screen: 'JoinCreateRoom' })}
-                     >
+                >
                     <Ionicons style = {styles.icon}
                               name={'add-outline'} size={35}  />
                 </TouchableOpacity>
@@ -103,8 +103,8 @@ export default (props) => {
                 renderItem = {renderChatItem}
                 extraData={[len, update, roomsData]}
                 contentContainerStyle={{ paddingBottom: 20 }}
-                />
-        
+            />
+
         </Screen>
     )
 }

@@ -30,8 +30,8 @@ export default (props) => {
         // Search users
         const users = () => firebase.firestore()
             .collection('Users')
-            .where('display', '>=', search)
-            .where('display', '<=', search + '\uf8ff')
+            .where('search', '>=', search.toLowerCase())
+            .where('search', '<=', search.toLowerCase() + '\uf8ff')
             .get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     addUser(doc.data())
@@ -43,8 +43,8 @@ export default (props) => {
         // Search channels
         const channels = () => firebase.firestore()
             .collection('Channel')
-            .where('roomname', '>=', search)
-            .where('roomname', '<=', search + '\uf8ff')
+            .where('search', '>=', search.toLowerCase())
+            .where('search', '<=', search.toLowerCase() + '\uf8ff')
             .get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     addChannel(doc.data())

@@ -37,6 +37,7 @@ export default (props) => {
                 friends: [],
                 pending: [],
                 display: "",
+                search: ""
             }).then(() => {
                 console.log(data)
             }).catch(e => {
@@ -56,8 +57,6 @@ export default (props) => {
                     console.log('mail sent')
                     alert("An verification link has been sent to your email. Please verify your account")
                 })
-
-                console.log(uid);
                 // Set the user profile into global store
                 dispatch(fillUserState(uid));
             })

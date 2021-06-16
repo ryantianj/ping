@@ -82,13 +82,13 @@ export default (props) => {
                 </TouchableOpacity>
             </View>
 
-           <FlatList
-               style = {styles.flatList}
-               data={roomsData}
-               renderItem={renderChannelItem}
-               extraData={[len, update, roomsData]}
-               contentContainerStyle={{ paddingBottom: 20 }}
-               />
+            <FlatList
+                style = {styles.flatList}
+                data={roomsData}
+                renderItem={renderChannelItem}
+                extraData={[len, update, roomsData]}
+                contentContainerStyle={{ paddingBottom: 20 }}
+            />
         </Screen>
 
     )
