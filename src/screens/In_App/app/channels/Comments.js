@@ -22,6 +22,15 @@ export default (prop) => {
     const postid = prop.route.params.item._id;
 
     const renderItem = ({item}) => {
+        let trash;
+        if (item.user._id === store.getState().user.user.uid) {
+            trash = <TouchableOpacity style = {styles.trash}
+                                      hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                      onPress = {()=> deleteCommentButton(item)}>
+                <Ionicons style = {styles.iconTrash}
+                          name={'trash-outline'} size={25}  />
+            </TouchableOpacity>
+        }
         const upVoteToggle = item.upVotes.includes(store.getState().user.user.uid);
         return (
             <View style = {styles.post}>
@@ -29,12 +38,7 @@ export default (prop) => {
                     <Text style = {styles.user}>
                         {item.user.display} commented:
                     </Text>
-                    <TouchableOpacity style = {styles.trash}
-                                      hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
-                                      onPress = {()=> deleteCommentButton(item)}>
-                        <Ionicons style = {styles.iconTrash}
-                                  name={'trash-outline'} size={25}  />
-                    </TouchableOpacity>
+                    {trash}
                 </View>
                 <Text style = {styles.postText}>
                     {item.text}
@@ -53,6 +57,13 @@ export default (prop) => {
     }
     const deleteCommentButton = (item) => {
         const deleteComment = () => {
+            //Update comments count on post doc
+                channelsCollection.doc(roomid)
+                .collection('Posts').doc(postid)
+                .update({
+                    comments: prop.route.params.item.comments - 1
+                })
+            //delete comment
             firebase.firestore()
                 .collection('Channel')
                 .doc(roomid)

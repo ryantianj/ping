@@ -89,7 +89,17 @@ export default (prop) => {
     }, [])
 
 
+
     const renderItem = ({item}) => {
+        let trash;
+        if (item.user._id === store.getState().user.user.uid) {
+            trash = <TouchableOpacity style = {styles.trash}
+                                      hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                      onPress = {()=> deletePostButton(item)}>
+                <Ionicons style = {styles.iconTrash}
+                          name={'trash-outline'} size={25}  />
+            </TouchableOpacity>
+        }
         const upVoteToggle = item.upVotes.includes(store.getState().user.user.uid);
         return (
             <View style = {styles.post}>
@@ -97,13 +107,8 @@ export default (prop) => {
                     <Text style = {styles.user}>
                         {item.user.display} posted:
                     </Text>
-                    <TouchableOpacity style = {styles.trash}
-                                      hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
-                                      onPress = {()=> deletePostButton(item)}>
-                        <Ionicons style = {styles.iconTrash}
-                                  name={'trash-outline'} size={25}  />
-                    </TouchableOpacity>
-                </View>
+                    {trash}
+                    </View>
                 <Text style = {styles.postTitle}>
                     {item.title}
                 </Text>
