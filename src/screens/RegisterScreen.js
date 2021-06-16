@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {Image, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Alert, Image, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
 import firebase, { usersCollection } from '../../api/firebase';
 import { fillUserState } from '../usersSlice';
 import { useSelector, useDispatch } from 'react-redux';
