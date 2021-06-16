@@ -16,16 +16,17 @@ export default StyleSheet.create({
         fontSize: 22,
         color: 'black',
         textAlign: 'center',
-        width: 2 * windowWidth / 3
+        paddingBottom: 10
     },
-    textInputBio :{
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingTop: 15,
+    textInputBio : {
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 10,
+
         fontSize: 20,
         backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
-        borderRadius: 10,
+        borderRadius: 0,
     },
     item: {
         backgroundColor: '#f9c2ff',
@@ -44,7 +45,14 @@ export default StyleSheet.create({
     },
     selectedText : {
         fontSize: 20,
-        color: 'black'
+        color: 'black',
+        marginBottom: 10,
+        marginTop: 10
+    },
+    userText : {
+        fontSize: 20,
+        color: 'black',
+        marginBottom: 10
     },
     title: {
         fontSize: 32,
@@ -54,7 +62,7 @@ export default StyleSheet.create({
         flex: 1,
     },
     flatList: {
-        marginTop: 20,
+        marginTop: 0,
         width: 9 * windowWidth / 10,
         borderRadius: 10,
     },
@@ -63,12 +71,12 @@ export default StyleSheet.create({
         bottom: 20,
         fontSize: 50,
         borderRadius: 10,
-        width: 2 * windowWidth / 3,
         height: 50,
         backgroundColor: colours.logOutButton,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        width: 9 * windowWidth / 10
     },
     buttonText: {
         color: 'white',

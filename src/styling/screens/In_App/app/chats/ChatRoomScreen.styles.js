@@ -47,7 +47,7 @@ export default StyleSheet.create({
         bottom: 10,
         fontSize: 50,
         borderRadius: 10,
-        width: 1 * windowWidth / 6,
+        width: 4 * windowWidth / 9,
         height: 50,
         backgroundColor: colours.logInButton,
         flexDirection: 'column',

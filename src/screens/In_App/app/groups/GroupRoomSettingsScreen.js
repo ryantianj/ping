@@ -191,8 +191,7 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
-        <ScrollView contentContainerStyle = {styles.scroll}
-        >
+        <ScrollView contentContainerStyle = {styles.scroll}>
 
             <Text style = {styles.roomNameText}>
                 {roomname}
@@ -207,7 +206,7 @@ export default (props) => {
                 <Text style = {styles.selectedTextHeader}>Users: </Text>
             </View>
 
-            <View style = {styles.flatListView}>
+            <View style = {styles.flatListView}> 
                 <FlatList
                     nestedScrollEnabled
                     data={displayArray}
@@ -221,6 +220,7 @@ export default (props) => {
             
             <View style = {styles.flatListView}>
                 <FlatList
+                    nestedScrollEnabled
                     data={friendsUserArray}
                     extraData={selectedId}
                     renderItem={renderFriendItem}
@@ -249,7 +249,7 @@ export default (props) => {
                 }>
                 <Text style ={styles.buttonText}>Leave Group</Text>
             </TouchableOpacity>
-
+        
         </ScrollView>
         </Screen>
     )

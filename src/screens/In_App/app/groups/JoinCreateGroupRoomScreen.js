@@ -208,8 +208,7 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
-        <ScrollView contentContainerStyle = {styles.scroll}
-        >
+        <ScrollView contentContainerStyle = {styles.scroll}>
             <Text style = {styles.headerText}>
                 Create Group
             </Text>

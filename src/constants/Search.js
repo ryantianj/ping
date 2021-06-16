@@ -71,7 +71,7 @@ export default (props) => {
         <View style = {styles.container}>
             <TextInput
                 style = {styles.searchBarText}
-                placeholder = "Search (by display/channel name)"
+                placeholder = "Search (by display/channel)"
                 value = {search}
                 onChangeText = {setSearch}
                 autoCapitalize = "none"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {FlatList, Text, TextInput, TouchableOpacity, View, ScrollView} from "react-native";
 import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillUserState } from '../../../../usersSlice';
@@ -45,7 +45,7 @@ export default (props) => {
             <TouchableOpacity
                 style = {styles.textInputBio}
             >
-                <Text style = {styles.selectedText}>{item.display}</Text>
+                <Text style = {styles.userText}>{item.display}</Text>
             </TouchableOpacity>
         )
     }
@@ -83,9 +83,6 @@ export default (props) => {
                 <Text style = {styles.selectedTextHeader}>Users: </Text>
             </View>
 
-
-
-
             <View style = {styles.flatListView}>
                 <FlatList
                     data={displayArray}
@@ -102,7 +99,6 @@ export default (props) => {
                 }>
                 <Text style ={styles.buttonText}>Leave Chat</Text>
             </TouchableOpacity>
-
         </Screen>
     )
 }
