@@ -1,5 +1,5 @@
 import React, {useState}from "react";
-import {FlatList, Text, TouchableOpacity, TextInput} from "react-native";
+import {Text, TouchableOpacity, TextInput} from "react-native";
 
 import firebase, {
     channelsCollection
@@ -14,27 +14,27 @@ export default (prop) => {
     const [title, setTitle] = useState("")
 
     const uid = store.getState().user.user.uid;
-    const email = store.getState().user.user.email;
     const roomid = store.getState().room.room.roomid;
     const display = store.getState().user.user.display;
+
+    //Add posts and comments section
     const handlePost = async () => {
 
         const text = post;
 
-        (await channelsCollection.doc(roomid).collection('Posts').add({
+        await channelsCollection.doc(roomid).collection('Posts').add({
             roomid: roomid,
-            postid: '',
             content: text,
             title: title,
             likedby: [],
+            comments: 0,
             star: false,
             createdAt: new Date().getTime(),
             user: {
                 _id: uid,
-                email: email,
                 display: display
             },
-        }))
+        })
 
         await channelsCollection.doc(roomid).set({
                 latestPost: {
@@ -44,8 +44,6 @@ export default (prop) => {
             },
             { merge: true }
         )
-
-        await channelsCollection.doc(roomid).collection('Posts').doc()
     }
 
     return (
