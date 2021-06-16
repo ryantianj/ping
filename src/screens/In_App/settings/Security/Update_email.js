@@ -53,11 +53,11 @@ export default (props) => {
         <Screen style = {styles.container}>
 
             <Text style = {styles.usernameText}>
-                Enter new Email
+                Update Email
             </Text>
             <TextInput
                 style = {styles.textInput}
-                placeholder = "Enter New Email Here"
+                placeholder = "Enter New Email"
                 keyboardType = "email-address"
                 value = {newEmail}
                 onChangeText = {setEmail}
@@ -66,7 +66,7 @@ export default (props) => {
             />
             <TextInput
                 style = {styles.textInput}
-                placeholder = "Enter Existing Password Here"
+                placeholder = "Enter Existing Password"
                 value = {password}
                 onChangeText = {setPassword}
                 autoCapitalize = "none"

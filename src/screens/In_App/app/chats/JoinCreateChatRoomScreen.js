@@ -193,7 +193,7 @@ export default (props) => {
                 <TextInput
                     multiline
                     style = {styles.textInputChatName}
-                    placeholder = "Chat Room Name (1-20 characters)"
+                    placeholder = "Chat Name (1-20 characters)"
                     value = {roomname}
                     onChangeText = {setRoomName}
                     returnKeyType = "next"

@@ -38,7 +38,7 @@ export default StyleSheet.create({
         fontSize: 17,
         color: 'black',
         textAlign: 'left',
-        width: 9 * windowWidth / 10
+        width: 8.4 * windowWidth / 10
     },
     chats : {
         color: colours.chatText,

@@ -24,7 +24,7 @@ export default StyleSheet.create({
         marginTop: 10,
         fontSize: 50,
         borderRadius: 10,
-        width: windowWidth,
+        width: 19 * windowWidth / 20,
         height: 50,
         backgroundColor: colours.settingsButton,
         flexDirection: 'column',

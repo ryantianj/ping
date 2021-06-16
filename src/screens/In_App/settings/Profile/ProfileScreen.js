@@ -60,7 +60,7 @@ export default (props) => {
 
         return badgesArray
             ? badgesArray.map(badgeData => (
-                <DataTable.Row>
+                <DataTable.Row style = {styles.row}>
                     <View style = {styles.iconCell}>
                     <Image style = {styles.image} source = {badgeData.icon}/>
                     </View>
@@ -125,7 +125,7 @@ export default (props) => {
                 >
                     <Text style = {styles.selectedTextHeader}>Badges: </Text>
                     <DataTable style = {styles.table}>
-                        <DataTable.Header>
+                        <DataTable.Header style = {styles.row}>
                             <DataTable.Title style = {styles.iconCell}></DataTable.Title>
                             <DataTable.Title style = {styles.titleCell}>Title</DataTable.Title>
                             <DataTable.Title style = {styles.topicCell}>Topic</DataTable.Title>

@@ -50,8 +50,10 @@ export default StyleSheet.create({
         fontSize: 25,
         color: 'black',
         textAlign: 'left',
-        marginBottom: 20,
+        marginBottom: 10,
         paddingLeft: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
     },
     post: {
         marginTop: 20,

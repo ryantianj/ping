@@ -216,7 +216,7 @@ export default (props) => {
                 <TextInput
                     multiline
                     style = {styles.textInputGroupName}
-                    placeholder = "Group Room Name (1-20 characters)"
+                    placeholder = "Group Name (1-20 characters)"
                     value = {roomname}
                     onChangeText = {setRoomName}
                     returnKeyType = "next"

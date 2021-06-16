@@ -107,7 +107,7 @@ export default (prop) => {
 
     const submitComment = async () => {
         // Upload comment in comments collection
-         await channelsCollection.doc(roomid)
+        await channelsCollection.doc(roomid)
              .collection('Posts').doc(postid)
              .collection('Comments').add({
                  roomid: roomid,
@@ -161,15 +161,12 @@ export default (prop) => {
                     <Ionicons style = {styles.icon}
                               name={'settings-outline'} size={35}  />
                 </TouchableOpacity>
-
-
             </View>
 
             <Text
                 style = {styles.chatsText}>
                 Comments
             </Text>
-
 
             <View style = {styles.flatList}>
                 <FlatList
@@ -192,7 +189,7 @@ export default (prop) => {
                 <TouchableOpacity
                     style = {styles.touchable}
                     onPress = {() => {
-                        if (comments !== '') {
+                        if (comments && comments !== '') {
                             submitComment()
                             setComments('')
                         } else {

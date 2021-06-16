@@ -43,7 +43,7 @@ export default (props) => {
             <TouchableOpacity
                 style = {styles.textInputBio}
             >
-                <Text style = {styles.selectedText}>{item.display}</Text>
+                <Text style = {styles.selectedText2}>{item.display}</Text>
             </TouchableOpacity>
         )
     }
@@ -77,7 +77,7 @@ export default (props) => {
 
             <View style = {styles.textInputBio}>
                 <Text style = {styles.selectedTextHeader}>Topics: </Text>
-                <Text style = {styles.selectedText}>{topics}</Text>
+                <Text style = {styles.selectedText1}>{topics}</Text>
                 <Text style = {styles.selectedTextHeader}>Users: </Text>
             </View>
 

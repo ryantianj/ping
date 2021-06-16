@@ -49,11 +49,11 @@ export default (props) => {
         <Screen style = {styles.container}>
 
             <Text style = {styles.passwordText}>
-                Enter new Password
+                Update Password
             </Text>
             <TextInput
                 style = {styles.textInput}
-                placeholder = "Enter Old Password Here"
+                placeholder = "Enter Old Password"
                 value = {oldPassword}
                 onChangeText = {setOldPassword}
                 autoCapitalize = "none"
@@ -61,7 +61,7 @@ export default (props) => {
             />
             <TextInput
                 style = {styles.textInput}
-                placeholder = "Enter New Password Here"
+                placeholder = "Enter New Password"
                 value = {newPassword1}
                 onChangeText = {setNewPassword1}
                 autoCapitalize = "none"
@@ -69,7 +69,7 @@ export default (props) => {
             />
             <TextInput
                 style = {styles.textInput}
-                placeholder = "Re-enter New Password Here"
+                placeholder = "Re-enter New Password"
                 value = {newPassword2}
                 onChangeText = {setNewPassword2}
                 autoCapitalize = "none"

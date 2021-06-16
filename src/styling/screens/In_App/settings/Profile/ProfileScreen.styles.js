@@ -21,7 +21,7 @@ export default StyleSheet.create({
         width: windowWidth
     },
     textInputBio :{
-        paddingLeft: 15,
+        paddingLeft: 5,
         paddingRight: 15,
         paddingTop: 15,
         fontSize: 20,
@@ -79,9 +79,14 @@ export default StyleSheet.create({
         flex: 2
     },
     titleCell: {
-        flex: 9
+        flex: 9,
+        paddingLeft: 2,
+        paddingRight: 5
     }, 
     topicCell: {
         flex: 4
+    },
+    row: {
+        marginTop: 10
     }
 })
