@@ -191,8 +191,14 @@ export default (prop) => {
                 />
                 <TouchableOpacity
                     style = {styles.touchable}
-                    onPress = {() => {submitComment()
-                        setComments('')}}
+                    onPress = {() => {
+                        if (comments !== '') {
+                            submitComment()
+                            setComments('')
+                        } else {
+                            Alert.alert("Comment", "Please key in some text for the comment")
+                        }
+                       }}
                 >
                     <Ionicons style = {styles.checkIcon}
                               name={'checkmark-outline'} size={35}  />

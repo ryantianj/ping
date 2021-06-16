@@ -1,5 +1,5 @@
 import React, {useState}from "react";
-import {Text, TouchableOpacity, TextInput} from "react-native";
+import {Text, TouchableOpacity, TextInput, Alert} from "react-native";
 
 import firebase, {
     channelsCollection
@@ -68,7 +68,14 @@ export default (prop) => {
                 />
             <TouchableOpacity
                 style = {styles.button}
-                onPress={ () => {handlePost().then(() => prop.navigation.goBack())}}
+                onPress={ () => {
+                    if (post === '') {
+                        Alert.alert("Post", "Please key in some text for the post")
+                    } else if (title === '') {
+                        Alert.alert("Title", "Please key in some text for the title")
+                    } else {
+                        handlePost().then(() => prop.navigation.goBack())
+                    }}}
             >
                 <Text style = {styles.buttonText}>Create Post</Text>
             </TouchableOpacity>
