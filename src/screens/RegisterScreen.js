@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {Image, Pressable, Text, TextInput, TouchableOpacity, View, Alert} from "react-native";
+import {Image, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
 import firebase, { usersCollection } from '../../api/firebase';
 import { fillUserState } from '../usersSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ export default (props) => {
     const [showPass, isPassVisible] = useState(true);
 
     const nextInput = useRef();
-    
+
     const dispatch = useDispatch();
 
     const togglePassVisible = () => {
@@ -55,7 +55,7 @@ export default (props) => {
                 const response = await createUserInDatabase(user);
                 user.user.sendEmailVerification().then(() => {
                     console.log('mail sent')
-                    Alert.alert("An verification link has been sent to your email. Please verify your account")
+                    alert("An verification link has been sent to your email. Please verify your account")
                 })
                 // Set the user profile into global store
                 dispatch(fillUserState(uid));
@@ -65,12 +65,12 @@ export default (props) => {
         } catch (error) {
             if (error.code) {
                 if (error.code === "auth/invalid-email") {
-                    Alert.alert("Please enter a valid email address");
+                    alert("Please enter a valid email address");
                 } else if (error.code === "auth/email-already-in-use") {
-                    Alert.alert("There is an existing account associated with this email. Forgot your password?");
+                    alert("There is an existing account associated with this email. Forgot your password?");
                 } else if (error.code === 'auth/weak-password') {
-                    Alert.alert("Please use a stronger password with at least 6 characters");
-                }                
+                    alert("Please use a stronger password with at least 6 characters");
+                }
             }
         }
     }
