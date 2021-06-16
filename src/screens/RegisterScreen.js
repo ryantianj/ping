@@ -71,10 +71,7 @@ export default (props) => {
             } else if (error.code === 'auth/weak-password') {
                 Alert.alert("Please use a stronger password with at least 6 characters");
             }                
-        } finally {
-            
-
-        }
+        } 
     }
 
     return (
