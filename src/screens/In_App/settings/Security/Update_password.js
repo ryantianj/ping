@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, TextInput, TouchableOpacity} from "react-native";
+import {Text, TextInput, TouchableOpacity, Alert} from "react-native";
 import firebase, { usersCollection } from '../../../../../api/firebase';
 
 import Screen from "../../../../components/Screen";
@@ -13,9 +13,9 @@ export default (props) => {
 
     const handleUpdatePassword = async () => {
         if (newPassword1 !== newPassword2) {
-            alert('Your new passwords do not match!')
+            Alert.alert('Your new passwords do not match!')
         } else if (oldPassword === newPassword1) {
-            alert('Your new password cannot be the same as your existing password. Please try something new.')
+            Alert.alert('Your new password cannot be the same as your existing password. Please try something new.')
         } else {
             let getUser = firebase.auth().currentUser;
             let credential = firebase.auth.EmailAuthProvider
@@ -27,19 +27,19 @@ export default (props) => {
                         try {
                             const response1 = await getUser.updatePassword(newPassword1).then(() => {
                                 console.log('password changed')
-                                alert('Your password has been changed!')
+                                Alert.alert('Your password has been changed!')
                                 props.navigation.navigate('Update_password');
                             })
                         } catch (error) { // catching errors for updateEmail
                             if (error.code === "auth/weak-password") {
-                                alert("Please use a stronger password with at least 6 characters");
+                                Alert.alert("Please use a stronger password with at least 6 characters");
                             } 
                         }
                     })
                 }
             } catch (error) { // catching errors for reauthenticateWithCredential
                 if (error.code === "auth/wrong-password") {
-                    alert('Oops! Please retry with the correct existing password.');
+                    Alert.alert('Oops! Please retry with the correct existing password.');
                 }
             }
         }

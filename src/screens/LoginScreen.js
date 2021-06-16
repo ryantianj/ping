@@ -1,5 +1,5 @@
 import React, {useState, useRef} from "react";
-import {Text, TextInput, TouchableOpacity, View, Image, Pressable, KeyboardAvoidingView} from "react-native";
+import {Text, TextInput, TouchableOpacity, View, Image, Pressable, KeyboardAvoidingView, Alert} from "react-native";
 import firebase from '../../api/firebase';
 import { fillUserState, hasData } from '../usersSlice';
 import { useDispatch , useSelector} from 'react-redux';
@@ -51,16 +51,16 @@ const LoginScreen = (props) => {
                             });
                             console.log('signed in, email verified')
                         } else {
-                            alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
+                            Alert.alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
                         }
                     })               
             } catch (error) {
                 if (error.code === "auth/invalid-email") {
-                    alert("Please enter a valid email address");
+                    Alert.alert("Please enter a valid email address");
                 } else if (error.code === "auth/user-not-found") {
-                    alert("A user with that email does not exist. Try signing up!");
+                    Alert.alert("A user with that email does not exist. Try signing up!");
                 } else if (error.code === 'auth/wrong-password') {
-                    alert('Oops! Please retry with the correct password :(');
+                    Alert.alert('Oops! Please retry with the correct password :(');
                 }                
             } finally {
 

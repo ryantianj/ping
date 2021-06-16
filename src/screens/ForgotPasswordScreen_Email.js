@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, TextInput, TouchableOpacity} from "react-native";
+import {Text, TextInput, TouchableOpacity, Alert} from "react-native";
 import firebase, { usersCollection } from '../../api/firebase';
 
 import Screen from "../components/Screen";
@@ -15,7 +15,7 @@ export default (props) => {
             .sendPasswordResetEmail(email)
             .then(user => {
                      console.log('mail sent')
-                     alert("A password reset link has been sent to your email.")
+                     Alert.alert("A password reset link has been sent to your email.")
             })
             // this.handleStoreRegisterUser(user);
             props.navigation.navigate('Login');

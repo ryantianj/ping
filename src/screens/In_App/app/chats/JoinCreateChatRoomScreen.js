@@ -4,7 +4,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList, ScrollView
+    FlatList, ScrollView, Alert
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -211,11 +211,11 @@ export default (props) => {
                 style = {styles.button}
                 onPress = {async () => {
                     if (selectedFriend.item.display === "______") {
-                        alert('Choose exactly one friend to proceed')
+                        Alert.alert('Choose exactly one friend to proceed')
                         return;
                     }
                     if (roomname === "") {
-                        alert('Please key in a roomname between 1-20 characters')
+                        Alert.alert('Please key in a roomname between 1-20 characters')
                         return;
                     }
                     await CreateChatRoom().then(() => props.navigation.navigate('Chat'))

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, TextInput, TouchableOpacity} from "react-native";
+import {Text, TextInput, TouchableOpacity, Alert} from "react-native";
 import firebase, { usersCollection } from '../../../../../api/firebase';
 
 import Screen from "../../../../components/Screen";
@@ -17,7 +17,7 @@ export default (props) => {
 
         // if user types his EXISTING email, no change occurs.
         if (newEmail === getUser.email) {
-            alert('You have keyed in your existing email. Please try again with a new email.')
+            Alert.alert('You have keyed in your existing email. Please try again with a new email.')
             return; 
         }
 
@@ -29,22 +29,22 @@ export default (props) => {
                             console.log('email changed')
                             user.user.sendEmailVerification().then(() => {
                                 console.log('mail sent')
-                                alert('Your account email has been changed! Please check your NEW associated email for an account verification link')
+                                Alert.alert('Your account email has been changed! Please check your NEW associated email for an account verification link')
                                 props.navigation.navigate('Settings_Screen');
                             })
                         })
                     } catch (error) { // catching errors for updateEmail
                         if (error.code === "auth/invalid-email") {
-                            alert("Please enter a valid email address");
+                            Alert.alert("Please enter a valid email address");
                         } else if (error.code === "auth/email-already-in-use") {
-                            alert("A user with that email already exists! Please try another new email.");
+                            Alert.alert("A user with that email already exists! Please try another new email.");
                         }
                     }
                 })
             }
         } catch (error) { // catching errors for reauthenticateWithCredential
             if (error.code === "auth/wrong-password") {
-                alert('Oops! Please retry with the correct password :(');
+                Alert.alert('Oops! Please retry with the correct password :(');
             }
         }
     }

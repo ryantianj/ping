@@ -4,7 +4,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList, ScrollView
+    FlatList, ScrollView, Alert
 } from "react-native";
 
 import firebase, { usersCollection, roomsCollection, interestsCollection } from "../../../../../api/firebase";
@@ -236,11 +236,11 @@ export default (props) => {
                 style = {styles.button}
                 onPress = {async () => {
                     if (selectedFriends.length === 0) {
-                        alert('Choose exactly one friend to proceed')
+                        Alert.alert('Choose exactly one friend to proceed')
                         return;
                     }
                     if (roomname === "") {
-                        alert('Please key in a roomname between 1-20 characters')
+                        Alert.alert('Please key in a roomname between 1-20 characters')
                         return;
                     }
                     await CreateGroupRoom().then(() => {
