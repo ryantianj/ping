@@ -54,7 +54,7 @@ export default (props) =>  {
                     component = {NewPost}
                     options={{
                         headerShown: true,
-                        title: "New post",
+                        title: "New Post",
                         headerStyle: {
                             backgroundColor: colours.primary,
                         }}}/>

@@ -1,9 +1,7 @@
-import {StyleSheet, Dimensions, StatusBar} from "react-native";
+import {StyleSheet, Dimensions} from "react-native";
 import colours from "../../../../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const statusBar = StatusBar.currentHeight;
 
 export default StyleSheet.create({
     container: {
@@ -26,7 +24,19 @@ export default StyleSheet.create({
     touchable: {
         position: 'absolute',
         right : 10,
-        top: 15,
+        top: 5,
+    },
+    iconTrash: {
+        right : 5,
+        top: 10,
+    },
+    trash: {
+        height: 30,
+        width: 30,
+    },
+    userTrash: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     touchable1: {
         position: 'absolute',
@@ -52,10 +62,7 @@ export default StyleSheet.create({
     user: {
         fontSize: 20,
     },
-    postTitle: {
-        fontSize: 30,
-        fontWeight: 'bold'
-    },
+
     postText: {
         fontSize: 20,
     },
@@ -65,7 +72,14 @@ export default StyleSheet.create({
     postUpVotesText: {
         fontWeight: 'bold',
         fontSize: 13,
-        textAlign:'right'
+        textAlign:'right',
+        color: 'black'
+    },
+    postUpVotesText1: {
+        fontWeight: 'bold',
+        fontSize: 13,
+        textAlign:'right',
+        color: colours.logOutButton
     },
     postComments: {
         height: 30,
@@ -83,6 +97,23 @@ export default StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
         width: 18 * windowWidth / 20,
+    },
+    commentsBox: {
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingTop: 10,
+        paddingBottom: 10,
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: 'black',
+        fontSize: 20,
+        backgroundColor: colours.textBox,
+        width: 19 * windowWidth / 20,
+        borderRadius: 10,
+        textAlignVertical: 'top',
+    },
+    checkIcon: {
+
     },
     toolBar : {
         marginBottom: 20,

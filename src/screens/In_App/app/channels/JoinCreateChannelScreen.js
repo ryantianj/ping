@@ -79,8 +79,12 @@ export default (props) => {
                 <TouchableOpacity
                     style = {styles.unRenderItem}
                     onPress = {() => {
-                        setSelectedId(selectedId - 1);
-                        selectInterestItem(item);
+                        if (selectInterests.length >= 2) {
+                            alert("Maximum of 2 topics!")
+                        } else {
+                            setSelectedId(selectedId - 1);
+                            selectInterestItem(item);
+                        }
                     }}
                 >
                     <Text style = {styles.unselectedText}>{item}</Text>
@@ -91,11 +95,14 @@ export default (props) => {
 
     const selectInterestItem = (item) => {
         const index = selectInterests.indexOf(item)
+
         if (index >= 0) {
             selectInterests.splice(index, 1)
         } else {
             selectInterests.push(item)
         }
+
+
     }
 
     useEffect(() => {

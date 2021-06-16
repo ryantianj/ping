@@ -1,9 +1,7 @@
-import {StyleSheet, Dimensions, StatusBar} from "react-native";
+import {StyleSheet, Dimensions} from "react-native";
 import colours from "../../../../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const statusBar = StatusBar.currentHeight;
 
 export default StyleSheet.create({
     container: {
@@ -27,6 +25,18 @@ export default StyleSheet.create({
         position: 'absolute',
         right : 10,
         top: 15,
+    },
+    iconTrash: {
+        right : 5,
+        top: 10,
+    },
+    trash: {
+        height: 30,
+        width: 30,
+    },
+    userTrash: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     touchable1: {
         position: 'absolute',
@@ -65,7 +75,14 @@ export default StyleSheet.create({
     postUpVotesText: {
         fontWeight: 'bold',
         fontSize: 13,
-        textAlign:'right'
+        textAlign:'right',
+        color: 'black'
+    },
+    postUpVotesText1: {
+        fontWeight: 'bold',
+        fontSize: 13,
+        textAlign:'right',
+        color: colours.logOutButton
     },
     postComments: {
         height: 30,
