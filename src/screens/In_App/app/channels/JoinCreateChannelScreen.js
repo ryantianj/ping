@@ -37,8 +37,8 @@ export default (props) => {
             roomid : "",
             topics: selectInterests,
             type: 2,
-            users: [uid]
-
+            users: [uid],
+            search: roomname.toLowerCase()
         }).then((docRef) => {
             roomid = docRef.id;
         }).then(() => {

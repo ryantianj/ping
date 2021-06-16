@@ -35,7 +35,10 @@ export default (props) => {
                 .doc(channel.roomid)
                 .update({
                     users: firebase.firestore.FieldValue.arrayUnion(uid)
-                }) ).then(() => dispatch(fillUserState(uid))).then(() => alert("Channel Added!"))
+                }) ).then(() => dispatch(fillUserState(uid))).then(() => {
+                    alert("Channel Added!")
+                    props.navigation.navigate("Channel")
+                })
         }
     }
 

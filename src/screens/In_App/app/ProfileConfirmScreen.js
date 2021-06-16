@@ -43,10 +43,8 @@ const ProfileConfirmScreen = (props) => {
             interests: selectInterests,
             hasData: true,
             visibility: visibility,
-            display: display
-        })
-        .then(() => {
-            console.log('Profile added!');
+            display: display,
+            search: display.toLowerCase()
         })
     }
 
