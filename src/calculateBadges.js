@@ -1,7 +1,11 @@
 // this module is for ascertaining whether a user has attained
 // a certain badge tier for any given topic.
 
-// EXPORTED FUNCTIONS
+// Cloud function is supposed to maintain a certain threshold score for the 10th and 30th
+// percentiles of guru and thinker as fields in each interest doc in interestsCollection
+// call them 10pctGuru and 30pctThinker
+
+// HELPER FUNCTIONS
 
 // 1.
 // hasBadge(topic, badgecode 0S/1G/2T): 
@@ -16,24 +20,39 @@
 // run hasBadge() with the same 2 params. if true, return true. 
 // ELSE if hasBadge() returns false check the criteria.
 // const upvotesCount = tallyIndivUpvotes(topic)
-// let minCount = 0, if badgecode === 1/2 then minCount = 15/5
-// return upvotesCount >= minCount &&
+// if badgecode === 1/2
+    // let minCount = 0
+    // minCount = 15/5 (ARBITRARY: 15 5)
+    // return upvotesCount >= minCount && upvotesCount >= 10pctGuru/30pctThinker
+// else (badgecode 0 so sage) return false
 
 // 3.
 // awardBadge(topic, badgecode 0S/1G/2T):
-// run hasBadge() with the same 2 params. if true, do nothing.
-// if false, update user.badges['topic'] with new badgecode AND createNotif() with same 2 params.
+// update user.badges['topic'] with new badgecode AND createNotif() with same 2 params.
+// dispatch(fillUserState(uid))
 
-// helper functions:
-
+// 4.
 // tallyIndivUpvotes(topic): return integer
 
-// percentileFinder(topic):
-// totalUsers = usersCollection.count() or sth
-// let rank = 1
-// loop through all i users and calculate tallyIndivUpvotes(topic) for all of them
-    // for
-
+// 5.
 // createNotif(topic, tag): 
-// each user should have a notifications object, where each element has timestamp and message and type
-// within awardSage/awardGuru/awardThinker, 
+// each user should have a notifications array, where each object/element has 
+// timestamp and message and type.
+// So just push a notif object to this array
+
+// 6. 
+// handleTopicBadge(topic) return integer (trit)
+// let resultBadgeCode = -1;
+// for (let i = 0; i < 3; i++) {
+    // if checkIfBadge(i), resultBadgeCode = i;
+    // awardBadge(topic, i);
+    // createNotif(topic, i);
+    // return;
+// }
+
+// 7. 
+// Looper. for profileScreen?
+// findAllBadges()
+// for (let i = 0; i < interestsCollection.count(); i++) {
+    //    handleTopicBadge(interestsCollection.doc(???))
+// }
