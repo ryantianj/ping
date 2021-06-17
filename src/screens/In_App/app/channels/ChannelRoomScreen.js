@@ -77,7 +77,8 @@ export default (prop) => {
                         text: firebase.content,
                         upVotes: firebase.likedby,
                         user: firebase.user,
-                        comments: firebase.comments
+                        comments: firebase.comments,
+                        roomname: firebase.roomname
                     }
                     return data;
                 })

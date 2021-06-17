@@ -9,37 +9,37 @@ admin.initializeApp(functions.config().firebase);
 
 //New Post notification
 exports.postNoti = functions.firestore
-    .document('Channel/{ChannelIds}/Posts/{PostsId}')
+    .document('GlobalNoti/{NotiIds}')
     .onCreate((snap, context) => {
-        //Get doc ID from path
-        const docFullPath = snap.ref.path
-        const docPathSplit = docFullPath.split('/')
-        const channelId = docPathSplit[1];
-        let channelUsers;
-
-        admin.firestore().collection('Channel').doc(channelId).get()
-            .then((doc) => {
-                const docData = doc.data()
-                // Array of channel users
-                channelUsers = docData.users
-            }).then(() => {
-                //Update noti array of each user
-            channelUsers.forEach(userId => {
-                admin.firestore().collection('Users').doc(userId)
-                    .update({
-                        noti: admin.firestore.FieldValue.arrayUnion(snap.data())
-                    })
-            })
+        const notiData = snap.data();
+        const users = notiData.users;
+        //Update noti collection in users
+        users.forEach(userID => {
+            admin.firestore().collection('Users').doc(userID)
+                .collection('noti').add(snap.data())
         })
 
-      // const newValue = snap.data().title
-      //
-      // // to upper
-      // const title = newValue.toUpperCase()
-      //
-      //
-      // // perform desired operations ...
-      // return snap.ref.set({title}, {merge: true});
+
+        // //Get doc ID from path
+        // const docFullPath = snap.ref.path
+        // const docPathSplit = docFullPath.split('/')
+        // const notiId = docPathSplit[1];
+        // let channelUsers;
+        //
+        // admin.firestore().collection('Channel').doc(notiId).get()
+        //     .then((doc) => {
+        //         const docData = doc.data()
+        //         // Array of channel users
+        //         channelUsers = docData.users
+        //     }).then(() => {
+        //         //Update noti array of each user
+        //     channelUsers.forEach(userId => {
+        //         admin.firestore().collection('Users').doc(userId)
+        //             .collection("noti").add(snap.data())
+        //
+        //     })
+        // })
+
     });
 
 

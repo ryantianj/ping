@@ -1,7 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-// import 'firebase/messaging';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAW5E4TNBtX9z-O_1aRwdPcof_Wy2MkF7I",
@@ -23,5 +22,6 @@ export const usersCollection = infodb.collection('Users');
 export const roomsCollection = infodb.collection('Rooms');
 export const interestsCollection = infodb.collection('Interests');
 export const channelsCollection = infodb.collection('Channel');
+export const globalNotiCollection = infodb.collection('GlobalNoti')
 
 export default firebase;

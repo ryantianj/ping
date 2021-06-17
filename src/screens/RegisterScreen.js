@@ -38,7 +38,6 @@ export default (props) => {
                 pending: [],
                 display: "",
                 search: "",
-                noti: []
             }).then(() => {
                 console.log(data)
             }).catch(e => {

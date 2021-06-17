@@ -2,7 +2,8 @@ import React, {useState}from "react";
 import {Text, TouchableOpacity, TextInput, Alert} from "react-native";
 
 import firebase, {
-    channelsCollection
+    channelsCollection,
+    globalNotiCollection
 } from "../../../../../api/firebase";
 import store from '../../../../store';
 
@@ -16,6 +17,7 @@ export default (prop) => {
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
     const display = store.getState().user.user.display;
+    const roomname = store.getState().room.room.roomname;
 
     //Add posts and comments section
     const handlePost = async () => {
@@ -24,6 +26,7 @@ export default (prop) => {
 
         await channelsCollection.doc(roomid).collection('Posts').add({
             roomid: roomid,
+            roomname: roomname,
             content: text,
             title: title,
             likedby: [],
@@ -34,7 +37,20 @@ export default (prop) => {
                 _id: uid,
                 display: display
             },
-            notiType: "Channel"
+            notiType: 0
+        })
+        await globalNotiCollection.add({
+            title: title,
+            text: text,
+            user: {
+                _id: uid,
+                display: display
+            },
+            createdAt: new Date().getTime(),
+            //Users to send to
+            users: store.getState().room.room.users,
+            roomname: roomname,
+            notiType: 0,
         })
 
         await channelsCollection.doc(roomid).set({

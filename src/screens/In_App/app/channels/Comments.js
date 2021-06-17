@@ -2,7 +2,7 @@ import React, { useEffect, useState} from "react";
 import {Alert, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
 
 import firebase, {
-    channelsCollection,
+    channelsCollection, globalNotiCollection,
 } from "../../../../../api/firebase";
 
 import store from '../../../../store';
@@ -121,6 +121,20 @@ export default (prop) => {
                      display: display
                  },
              })
+
+        await globalNotiCollection.add({
+            title: prop.route.params.item.title,
+            text: comments,
+            user: {
+                _id: uid,
+                display: display
+            },
+            createdAt: new Date().getTime(),
+            //Users to send to
+            users: store.getState().room.room.users,
+            roomname: prop.route.params.item.roomname,
+            notiType: 1,
+        })
         //Update comments count on post doc
         await channelsCollection.doc(roomid)
             .collection('Posts').doc(postid)
