@@ -6,7 +6,7 @@ import Screen from "../../../../components/Screen";
 import store from "../../../../store"
 
 import styles from "../../../../styling/screens/In_App/settings/Pending/AcceptRequest.styles"
-import firebase from "../../../../../api/firebase";
+import firebase, {globalNotiCollection} from "../../../../../api/firebase";
 import {fillUserState} from "../../../../usersSlice";
 
 export default (props) => {
@@ -43,7 +43,32 @@ export default (props) => {
             })).then(() => dispatch(fillUserState(uid)))
             .then(() => {
             alert(user.display + " is now your friend")
-            props.navigation.navigate('Settings', {count: count})})
+            props.navigation.goBack( {count: count })})
+        globalNotiCollection.add({
+            title: "Friend Request Accepted",
+            text: store.getState().user.user.display,
+            user: {
+                _id: uid,
+                display: store.getState().user.user.display
+            },
+            createdAt: new Date().getTime(),
+            //Users to send to
+            users: [user.uid],
+            roomname: "",
+            notiType: 6,
+        })
+    }
+
+    const rejectUser = () => {
+        firebase.firestore()
+            .collection('Users')
+            .doc(uid)
+            .update({
+                pending: firebase.firestore.FieldValue.arrayRemove(user.uid)
+            }).then(() => dispatch(fillUserState(uid)))
+            .then(() => {
+                alert(user.display + " rejected")
+                props.navigation.navigate('Settings', {count: count})})
     }
 
     const renderItem = ( {item}) => {
@@ -99,13 +124,23 @@ export default (props) => {
                 renderItem={renderItem}
                 style = {styles.flatList}/>
 
-            <TouchableOpacity
-                style = {styles.button}
-                onPress = {() => {
-                   acceptUser()
-                }}>
-                <Text style ={styles.buttonText}>Accept Request</Text>
-            </TouchableOpacity>
+            <View style = {styles.buttons}>
+                <TouchableOpacity
+                    style = {styles.button}
+                    onPress = {() => {
+                        acceptUser()
+                    }}>
+                    <Text style ={styles.buttonText}>Accept</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style = {styles.buttonReject}
+                    onPress = {() => {
+                        rejectUser()
+                    }}>
+                    <Text style ={styles.buttonText}>Reject</Text>
+                </TouchableOpacity>
+            </View>
+
         </Screen>
     )
 }

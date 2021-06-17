@@ -6,7 +6,7 @@ import Screen from "../../components/Screen";
 import store from "../../store"
 
 import styles from "../../styling/constants/Search/addUser.styles"
-import firebase from "../../../api/firebase";
+import firebase, {globalNotiCollection} from "../../../api/firebase";
 import {fillUserState} from "../../usersSlice";
 
 export default (props) => {
@@ -28,13 +28,26 @@ export default (props) => {
             if (store.getState().user.user.friends.includes(user.uid)) {
                 alert("User is already your friend!")
             } else {
-                //public, send friend request
+                //private, send friend request
                 firebase.firestore()
                     .collection('Users')
                     .doc(user.uid)
                     .update({
                         pending: firebase.firestore.FieldValue.arrayUnion(uid)
                     }).then(() => alert("Friend Request Sent!"))
+                 globalNotiCollection.add({
+                    title: "Friend Request",
+                    text: store.getState().user.user.display,
+                    user: {
+                        _id: uid,
+                        display: store.getState().user.user.display
+                    },
+                    createdAt: new Date().getTime(),
+                    //Users to send to
+                    users: [user.uid],
+                    roomname: "",
+                    notiType: 5,
+                })
             }
         } else {
             if (store.getState().user.user.friends.includes(user.uid)) {
@@ -52,6 +65,19 @@ export default (props) => {
                     .update({
                         friends: firebase.firestore.FieldValue.arrayUnion(uid)
                     }) ).then(() => dispatch(fillUserState(uid))).then(() => alert("User Added!"))
+                globalNotiCollection.add({
+                    title: "Friend Request Public",
+                    text: store.getState().user.user.display,
+                    user: {
+                        _id: uid,
+                        display: store.getState().user.user.display
+                    },
+                    createdAt: new Date().getTime(),
+                    //Users to send to
+                    users: [user.uid],
+                    roomname: "",
+                    notiType: 7,
+                })
             }
         }
     }

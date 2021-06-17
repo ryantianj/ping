@@ -7,6 +7,8 @@ export default {
     naviBar: "#F0D18F",
     chat: "#523E33",
     chatText:"#FFFFFF",
-    channel: "#B98E8E"
+    channel: "#B98E8E",
+    group: "#F8D9D9",
+    request: "#F07F0E"
 
 }

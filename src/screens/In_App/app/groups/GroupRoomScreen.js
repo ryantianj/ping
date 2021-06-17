@@ -4,7 +4,7 @@ import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
 // import { GiftedChat, Bubble, Send, SystemMessage } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
 
-import { roomsCollection } from '../../../../../api/firebase';
+import {globalNotiCollection, roomsCollection} from '../../../../../api/firebase';
 import store from '../../../../store';
 
 import Screen from "../../../../components/Screen";
@@ -13,8 +13,11 @@ import styles from '../../../../styling/screens/In_App/app/groups/GroupRoomScree
 export default (props) => {
 
     const uid = store.getState().user.user.uid;
+    const display = store.getState().user.user.display;
+    const users = store.getState().room.room.users;
     const email = store.getState().user.user.email;
     const roomid = store.getState().room.room.roomid;
+    const roomname = store.getState().room.room.roomname;
 
     const [messages, setMessages] = useState([
         // Mock message data
@@ -55,6 +58,7 @@ export default (props) => {
             }
         });
 
+
         await roomsCollection.doc(roomid).set({
             latestMessage: {
                 text: text,
@@ -63,6 +67,19 @@ export default (props) => {
         },
         { merge: true }
         )
+        await globalNotiCollection.add({
+            title: roomname,
+            text: text,
+            user: {
+                _id: uid,
+                display: display
+            },
+            createdAt: new Date().getTime(),
+            //Users to send to
+            users: users,
+            roomname: roomname,
+            notiType: 2,
+        })
     }
     
     function renderBubble(props) {

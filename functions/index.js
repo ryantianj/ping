@@ -7,6 +7,39 @@ admin.initializeApp(functions.config().firebase);
 // Create and Deploy Your First Cloud Functions
 // https://firebase.google.com/docs/functions/write-firebase-functions
 
+// New Post notification
+exports.postNoti = functions.firestore
+    .document('GlobalNoti/{NotiIds}')
+    .onCreate((snap, context) => {
+        const notiData = snap.data();
+        const users = notiData.users;
+        //Update noti collection in users
+        users.forEach(userID => {
+            admin.firestore().collection('Users').doc(userID)
+                .collection('noti').add(snap.data())
+        })
+
+        // //Get doc ID from path
+        // const docFullPath = snap.ref.path
+        // const docPathSplit = docFullPath.split('/')
+        // const notiId = docPathSplit[1];
+        // let channelUsers;
+        //
+        // admin.firestore().collection('Channel').doc(notiId).get()
+        //     .then((doc) => {
+        //         const docData = doc.data()
+        //         // Array of channel users
+        //         channelUsers = docData.users
+        //     }).then(() => {
+        //         //Update noti array of each user
+        //     channelUsers.forEach(userId => {
+        //         admin.firestore().collection('Users').doc(userId)
+        //             .collection("noti").add(snap.data())
+        //
+        //     })
+        // })
+    });
+
 
 // WORKS
 // exports.helloWorld = functions.https.onRequest((req, res) => {

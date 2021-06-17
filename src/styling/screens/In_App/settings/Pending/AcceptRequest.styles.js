@@ -47,9 +47,20 @@ export default StyleSheet.create({
         bottom: 10,
         fontSize: 50,
         borderRadius: 10,
-        width: 2 * windowWidth / 3,
+        width: windowWidth / 2,
         height: 50,
         backgroundColor: colours.logInButton,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonReject : {
+        bottom: 10,
+        fontSize: 50,
+        borderRadius: 10,
+        width: windowWidth / 2,
+        height: 50,
+        backgroundColor: colours.logOutButton,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
@@ -67,6 +78,11 @@ export default StyleSheet.create({
         fontSize: 17,
         width: 9 * windowWidth / 10,
     },
+    buttons: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    }
 
 
 })
