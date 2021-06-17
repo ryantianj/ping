@@ -43,7 +43,7 @@ export default (props) => {
             })).then(() => dispatch(fillUserState(uid)))
             .then(() => {
             alert(user.display + " is now your friend")
-            props.navigation.navigate('Settings', {count: count})})
+            props.navigation.goBack( {count: count })})
         globalNotiCollection.add({
             title: "Friend Request Accepted",
             text: store.getState().user.user.display,
@@ -57,6 +57,18 @@ export default (props) => {
             roomname: "",
             notiType: 6,
         })
+    }
+
+    const rejectUser = () => {
+        firebase.firestore()
+            .collection('Users')
+            .doc(uid)
+            .update({
+                pending: firebase.firestore.FieldValue.arrayRemove(user.uid)
+            }).then(() => dispatch(fillUserState(uid)))
+            .then(() => {
+                alert(user.display + " rejected")
+                props.navigation.navigate('Settings', {count: count})})
     }
 
     const renderItem = ( {item}) => {
@@ -112,13 +124,23 @@ export default (props) => {
                 renderItem={renderItem}
                 style = {styles.flatList}/>
 
-            <TouchableOpacity
-                style = {styles.button}
-                onPress = {() => {
-                   acceptUser()
-                }}>
-                <Text style ={styles.buttonText}>Accept Request</Text>
-            </TouchableOpacity>
+            <View style = {styles.buttons}>
+                <TouchableOpacity
+                    style = {styles.button}
+                    onPress = {() => {
+                        acceptUser()
+                    }}>
+                    <Text style ={styles.buttonText}>Accept</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style = {styles.buttonReject}
+                    onPress = {() => {
+                        rejectUser()
+                    }}>
+                    <Text style ={styles.buttonText}>Reject</Text>
+                </TouchableOpacity>
+            </View>
+
         </Screen>
     )
 }
