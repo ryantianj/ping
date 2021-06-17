@@ -1,12 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {useState } from "react";
 import {
     Text,
-    TextInput,
     TouchableOpacity,
-    View,
-    FlatList, ScrollView
+    View, ScrollView
 } from "react-native";
-import firebase, { usersCollection } from '../../../../api/firebase';
+import  { usersCollection } from '../../../../api/firebase';
 import { fillUserState } from '../../../usersSlice';
 import { useDispatch } from 'react-redux';
 import store from '../../../store';

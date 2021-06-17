@@ -37,7 +37,8 @@ export default (props) => {
                 friends: [],
                 pending: [],
                 display: "",
-                search: ""
+                search: "",
+                noti: []
             }).then(() => {
                 console.log(data)
             }).catch(e => {

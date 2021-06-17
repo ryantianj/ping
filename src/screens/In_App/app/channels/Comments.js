@@ -137,6 +137,7 @@ export default (prop) => {
                 const comments = snapshot.docs.map(doc => {
                     const docId = doc.id
                     const firebase = doc.data()
+                    // console.log(doc.ref.path)
                     const data = {
                         _id: docId,
                         text: firebase.content,
