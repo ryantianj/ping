@@ -17,5 +17,23 @@ export default StyleSheet.create({
         color: 'red',
         textAlign: 'center',
         width: 2 * windowWidth / 3
-    }
+    },
+    postTitle: {
+        fontSize: 30,
+        fontWeight: 'bold'
+    },
+    postText: {
+        fontSize: 20,
+    },
+    post: {
+        marginTop: 20,
+        paddingLeft: 10,
+        borderRadius: 10,
+        backgroundColor: colours.channel,
+    },
+    flatList : {
+        flex: 1,
+        backgroundColor: colours.primary,
+        width: 19 * windowWidth / 20,
+    },
 })

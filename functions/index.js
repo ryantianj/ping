@@ -27,7 +27,7 @@ exports.postNoti = functions.firestore
             channelUsers.forEach(userId => {
                 admin.firestore().collection('Users').doc(userId)
                     .update({
-                        noti: admin.firestore.FieldValue.arrayUnion(userId)
+                        noti: admin.firestore.FieldValue.arrayUnion(snap.data())
                     })
             })
         })
@@ -49,9 +49,9 @@ exports.postNoti = functions.firestore
 // });
 
 // WORKS TOO
-exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 2 minutes").onRun(async context => {
-    console.log('This will be run every 30 minutes. Updating Upvotes');
-    const data = await admin.firestore().collection('Interests').doc('profile').get()
-    // console.log(data.data())
-    return null;
-});
+// exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 2 minutes").onRun(async context => {
+//     console.log('This will be run every 30 minutes. Updating Upvotes');
+//     const data = await admin.firestore().collection('Interests').doc('profile').get()
+//     // console.log(data.data())
+//     return null;
+// });

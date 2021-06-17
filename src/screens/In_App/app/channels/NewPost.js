@@ -34,6 +34,7 @@ export default (prop) => {
                 _id: uid,
                 display: display
             },
+            notiType: "Channel"
         })
 
         await channelsCollection.doc(roomid).set({
