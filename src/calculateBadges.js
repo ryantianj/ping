@@ -1,5 +1,5 @@
-// this module is for ascertaining whether a user has attained
-// a certain badge tier for any given topic.
+// this module is for determining all the badge tiers for a user. 
+// run findAllBadges() everytime login / profile screen is rendered
 
 // Cloud function is supposed to maintain a certain threshold score for the 10th and 30th
 // percentiles of guru and thinker as fields in each interest doc in interestsCollection
