@@ -37,7 +37,7 @@ export default (prop) => {
                 _id: uid,
                 display: display
             },
-            notiType: 0
+            notiType: 0,
         })
         await globalNotiCollection.add({
             title: title,
@@ -51,6 +51,7 @@ export default (prop) => {
             users: store.getState().room.room.users,
             roomname: roomname,
             notiType: 0,
+            roomid: roomid
         })
 
         await channelsCollection.doc(roomid).set({

@@ -20,6 +20,7 @@ export default (prop) => {
     const roomid = store.getState().room.room.roomid;
     const display = store.getState().user.user.display;
     const postid = prop.route.params.item._id;
+    const roomname = store.getState().room.room.roomname;
 
     const renderItem = ({item}) => {
         let trash;
@@ -134,6 +135,11 @@ export default (prop) => {
             users: store.getState().room.room.users,
             roomname: prop.route.params.item.roomname,
             notiType: 1,
+            roomid: roomid,
+            //special comments params
+            id: postid,
+            comments: prop.route.params.item.comments
+
         })
         //Update comments count on post doc
         await channelsCollection.doc(roomid)
@@ -180,7 +186,7 @@ export default (prop) => {
 
             <Text
                 style = {styles.chatsText}>
-                Comments
+                Comments - {roomname}
             </Text>
 
             <View style = {styles.flatList}>

@@ -66,55 +66,55 @@ const LoginScreen = (props) => {
         }
     }
 
-    const topicalUpvotes = {};
-    useEffect(async () => {
-        let size = 0;
-        await usersCollection.get().then(snapshot => {
-            size = snapshot.size // will return the collection size
-            console.log(size)
-        });
-
-        await channelsCollection.where('topics', 'array-contains', 'Basketball')
-        .get().then(channels => {
-            channels.forEach(channelDoc => {
-                console.log(channelDoc.id);
-                channelsCollection.doc(channelDoc.id).collection('Posts').get().then(posts => {
-                    posts.forEach(postDoc => {
-                        console.log(postDoc.id);
-                        channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id).collection('Comments').get().then(comments => {
-                            comments.forEach(commentDoc => {
-                                console.log(commentDoc.id);
-
-                                // take commentDoc.data() and count the likedby
-                                const commentData = commentDoc.data();
-                                if (!topicalUpvotes[commentData.user._id]) {
-                                    topicalUpvotes[commentData.user._id] = 0;
-                                }
-                                topicalUpvotes[commentData.user._id] = topicalUpvotes[commentData.user._id] + commentData.likedby.length
-                                console.log(topicalUpvotes);
-                            }) 
-                        })
-
-                        // take postDoc.data() and count the likedby
-                        const postData = postDoc.data();
-                        if (!topicalUpvotes[postData.user._id]) {
-                            topicalUpvotes[postData.user._id] = 0;
-                        }
-                        topicalUpvotes[postData.user._id] = topicalUpvotes[postData.user._id] + postData.likedby.length
-                        console.log(topicalUpvotes);
-                    })
-                })
-                console.log(channelDoc.data().roomname); // nba news
-            })
-            // Take all values from the map and put into an array
-            const upvotesArray = [];
-            for (const uid in topicalUpvotes) {
-                upvotesArray.push(topicalUpvotes[uid]);
-            }
-            console.log(upvotesArray);
-        })
-        
-    }, [])
+    // const topicalUpvotes = {};
+    // useEffect(async () => {
+    //     let size = 0;
+    //     await usersCollection.get().then(snapshot => {
+    //         size = snapshot.size // will return the collection size
+    //         console.log(size)
+    //     });
+    //
+    //     await channelsCollection.where('topics', 'array-contains', 'Basketball')
+    //     .get().then(channels => {
+    //         channels.forEach(channelDoc => {
+    //             console.log(channelDoc.id);
+    //             channelsCollection.doc(channelDoc.id).collection('Posts').get().then(posts => {
+    //                 posts.forEach(postDoc => {
+    //                     console.log(postDoc.id);
+    //                     channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id).collection('Comments').get().then(comments => {
+    //                         comments.forEach(commentDoc => {
+    //                             console.log(commentDoc.id);
+    //
+    //                             // take commentDoc.data() and count the likedby
+    //                             const commentData = commentDoc.data();
+    //                             if (!topicalUpvotes[commentData.user._id]) {
+    //                                 topicalUpvotes[commentData.user._id] = 0;
+    //                             }
+    //                             topicalUpvotes[commentData.user._id] = topicalUpvotes[commentData.user._id] + commentData.likedby.length
+    //                             console.log(topicalUpvotes);
+    //                         })
+    //                     })
+    //
+    //                     // take postDoc.data() and count the likedby
+    //                     const postData = postDoc.data();
+    //                     if (!topicalUpvotes[postData.user._id]) {
+    //                         topicalUpvotes[postData.user._id] = 0;
+    //                     }
+    //                     topicalUpvotes[postData.user._id] = topicalUpvotes[postData.user._id] + postData.likedby.length
+    //                     console.log(topicalUpvotes);
+    //                 })
+    //             })
+    //             console.log(channelDoc.data().roomname); // nba news
+    //         })
+    //         // Take all values from the map and put into an array
+    //         const upvotesArray = [];
+    //         for (const uid in topicalUpvotes) {
+    //             upvotesArray.push(topicalUpvotes[uid]);
+    //         }
+    //         console.log(upvotesArray);
+    //     })
+    //
+    // }, [])
 
     return (
         <Screen style = {styles.container}>

@@ -43,7 +43,12 @@ export default (props) => {
             })).then(() => dispatch(fillUserState(uid)))
             .then(() => {
             alert(user.display + " is now your friend")
-            props.navigation.goBack( {count: count })})
+                props.navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Settings' }],
+                })
+            })
+
         globalNotiCollection.add({
             title: "Friend Request Accepted",
             text: store.getState().user.user.display,
@@ -68,7 +73,10 @@ export default (props) => {
             }).then(() => dispatch(fillUserState(uid)))
             .then(() => {
                 alert(user.display + " rejected")
-                props.navigation.navigate('Settings', {count: count})})
+                props.navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Settings' }],
+                })})
     }
 
     const renderItem = ( {item}) => {
