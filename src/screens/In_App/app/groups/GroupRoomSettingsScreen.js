@@ -4,6 +4,7 @@ import firebase, { usersCollection, roomsCollection } from "../../../../../api/f
 import 'react-native-gesture-handler';
 import { fillGroupRoomState } from "../../../../roomsSlice";
 import { useDispatch } from 'react-redux';
+import { fillUserState } from "../../../../usersSlice";
 
 import Screen from "../../../../components/Screen";
 import store from "../../../../store"
@@ -26,37 +27,41 @@ export default (props) => {
             addUser1(user.data());
         })
     }
+
+    const mapUidToUserName2 = (uidArray, friendsArray) => {
+        friendsArray.forEach(async uid => {
+            if (!uidArray.includes(uid)) {
+                const user = await usersCollection.doc(uid).get();
+                addUser2(user.data());
+            }
+        })
+    }
     
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
     const topics = store.getState().room.room.topics.join(", ");
 
-    if (displayArray.length === 0 && count2 === 0) {
+    if (displayArray.length === 0) {
         mapUidToUserName(store.getState().room.room.users)
-        setCount2(1);
     }
 
-    function useForceUpdate() {
-        console.log("force updated")
-        setValue(!value); // update the state to force render
+    if (friendsUserArray.length === 0 && count === 0) {
+        mapUidToUserName2(store.getState().room.room.users, store.getState().user.user.friends)
     }
+
 
     const addUser1 = (item) => {
         displayArray.push(item)
-        // setCount(count + 1)
-        console.log(displayArray)
+        setCount(count + 1)
     }
     
     const addUser2 = (item) => {
         friendsUserArray.push(item)
-        console.log("added")
-        console.log(friendsUserArray)
-        setValue(!value);
+        setCount2(count2 + 1)
     }
     
     const renderUserItem = ({item}) => {
-        console.log(item.display)
         return (
             <TouchableOpacity
                 style = {styles.textInputBio}
@@ -66,34 +71,17 @@ export default (props) => {
         )
     }
 
-    if (count === 0 && friendsUserArray.length === 0) {
-        const roomUsersArray = store.getState().room.room.users;
 
-        store.getState().user.user.friends.forEach(uid => {
-            if (!roomUsersArray.includes(uid)) {
-                usersCollection.doc(uid).get()
-                    .then((user) => addUser2(user.data())).then(()=> {
-                    useForceUpdate()
-                    });
-            }
-        })
-        setCount(count + 1)
-    }
 
     const selectedFriendsContains = (userObject) => {
-        console.log("Start of selectedFriendsContains. selectedFriends[]: " + selectedFriends)
         let loopcount = 0;
-        console.log("userobject uid: " + userObject.item.uid)
         for (let i = 0; i < selectedFriends.length; i++) {
-            console.log("selectedfriend uid: " + selectedFriends[i].item.uid)
-            console.log(userObject.item.uid === selectedFriends[i].item.uid)
             if (userObject.item.uid === selectedFriends[i].item.uid) {
                 break;
             } else {
                 loopcount++;
             }
         }
-        console.log('count: ' + loopcount)
         if (loopcount === selectedFriends.length || selectedFriends.length === 0) { return -1; }
         else { return loopcount; }
     }
@@ -222,7 +210,6 @@ export default (props) => {
                 <FlatList
                     nestedScrollEnabled
                     data={friendsUserArray}
-                    extraData={selectedId}
                     renderItem={renderFriendItem}
                     keyExtractor={item => item}
                     style = {styles.flatList}/>
@@ -234,17 +221,35 @@ export default (props) => {
                     await handleAddMembers();
                     props.navigation.reset({
                         index: 0,
-                        routes: [{ name: 'Main' }],
+                        routes: [{ name: 'GroupRoom' }],
                     });
                 }
                 }>
                 <Text style ={styles.buttonText}>Add Members</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity
+                style = {styles.buttonred}
+                onPress = {() => {
+                    props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Main' }],
+                    })
+                    props.navigation.navigate('Room')
+                }
+                }>
+                <Text style ={styles.buttonText}>Leave Groupsads</Text>
+            </TouchableOpacity>
+
             
             <TouchableOpacity
                 style = {styles.buttonred}
                 onPress = {async () => {
-                    await handleLeaveGroup().then(() => props.navigation.navigate("Group"));;
+                    await handleLeaveGroup().then(() =>
+                    props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Main' }],
+                    }))
                 }
                 }>
                 <Text style ={styles.buttonText}>Leave Group</Text>

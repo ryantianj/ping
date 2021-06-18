@@ -12,7 +12,6 @@ import LoadingScreen from "../constants/LoadingScreen";
 
 import styles from "../styling/navigation/HomeNavigation.styles"
 import Screen from "../components/Screen";
-import colours from "../constants/colours";
 
 
 const Stack = createStackNavigator();
