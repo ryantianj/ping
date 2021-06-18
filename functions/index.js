@@ -71,7 +71,7 @@ exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 2 minutes").on
         const topicalUpvotes = {};
 
         // filter all channels related to this topic
-        channelsCollection.where('topics', 'array-contains', 'Basketball')
+        channelsCollection.where('topics', 'array-contains', topic)
         .get().then(channels => {
             channels.forEach(channelDoc => {
                 console.log(channelDoc.id);
@@ -108,7 +108,7 @@ exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 2 minutes").on
         })
 
         // Take all values from the map and put into an array
-        upvotesArray = [];
+        const upvotesArray = [];
         for (const uid in topicalUpvotes) {
             upvotesArray.push(topicalUpvotes[uid]);
         }
@@ -118,10 +118,10 @@ exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 2 minutes").on
         upvotesArray.sort((a, b) => b - a);
 
         const length = upvotesArray.length;
-        const tenth = Math.ceil(length / 10);
-        const thirtieth = Math.ceil(3 * length / 10)
-        const minGuru = upvotesArray[tenth - 1];
-        const minThinker = upvotesArray[thirtieth - 1];
+        const tenth = Math.ceil(length / 10) > 0 ? Math.ceil(length / 10) : 1;
+        const thirtieth = Math.ceil(3 * length / 10) > 0 ? Math.ceil(3 * length / 10) : 1;
+        const minGuru = length >= tenth ? upvotesArray[tenth - 1] : 1;
+        const minThinker = length >= thirtieth ? upvotesArray[thirtieth - 1] : 1;
 
         // add minGuru to TenPctGuru(key = topic, value = minGuru)
         // add minGuru to ThirtyPctThinker(key = topic, value = minThinker)
@@ -129,7 +129,7 @@ exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 2 minutes").on
         ThirtyPctThinker[topic] = minThinker;
     }
     
-    await admin.firestore().collection('Interests').doc('profile').update({
+    await interestsCollection.doc('profile').update({
         TenPctGuru : TenPctGuru,
         ThirtyPctThinker: ThirtyPctThinker
     })

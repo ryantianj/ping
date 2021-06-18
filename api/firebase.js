@@ -18,7 +18,6 @@ firebase.auth();
 const infodb = firebase.firestore();
 
 export const usersCollection = infodb.collection('Users');
-// export const badgesCollection = infodb.collection('badges');
 export const roomsCollection = infodb.collection('Rooms');
 export const interestsCollection = infodb.collection('Interests');
 export const channelsCollection = infodb.collection('Channel');
