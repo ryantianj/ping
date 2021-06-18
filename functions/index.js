@@ -75,13 +75,15 @@ exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 2 minutes").on
         const topic = topicArray[i];
         
         // Get the upvotes scores for users in a map(key = uid, value = upvote count)
-        const topicalUpvotes = {};
+        let topicalUpvotes = {};
+        let upvotesArray = [];
 
         // filter all channels related to this topic
-        channelsCollection.where('topics', 'array-contains', topic)
-        .get().then(channels => {
+        channelsCollection.where('topics', 'array-contains', topic).get()
+        .then(channels => {
             channels.forEach(channelDoc => {
                 console.log(channelDoc.id);
+                console.log(channelDoc.data().roomname); // channel name
                 channelsCollection.doc(channelDoc.id).collection('Posts')
                 .get().then(posts => {
                     posts.forEach(postDoc => {
@@ -97,8 +99,9 @@ exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 2 minutes").on
                                     topicalUpvotes[commentData.user._id] = 0;
                                 }
                                 topicalUpvotes[commentData.user._id] = topicalUpvotes[commentData.user._id] + commentData.likedby.length
+                                console.log('current topicalUpvotes for ' + topic + ': ')
                                 console.log(topicalUpvotes);
-                            }) 
+                            })
                         })
 
                         // take postDoc.data() and count the likedby
@@ -107,33 +110,35 @@ exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 2 minutes").on
                             topicalUpvotes[postData.user._id] = 0;
                         }
                         topicalUpvotes[postData.user._id] = topicalUpvotes[postData.user._id] + postData.likedby.length
+                        console.log('current topicalUpvotes for '+topic+': ')
                         console.log(topicalUpvotes);
                     })
                 })
-                console.log(channelDoc.data().roomname); // channel name
             })
+        }).then(() => {
+            // Take all values from the map and put into an array
+            upvotesArray = [];
+            for (const uid in topicalUpvotes) {
+                upvotesArray.push(topicalUpvotes[uid]);
+            }
+        }).then(() => {
+            console.log('upvotesArray for ' + topic + ': ' + upvotesArray);
+
+            // Find 10th pct and 30th pct and retrieve these values as minGuru and minThinker
+            upvotesArray.sort((a, b) => b - a);
+
+            const length = upvotesArray.length;
+            console.log(length)
+            const tenth = Math.ceil(length / 10) > 0 ? Math.ceil(length / 10) : 1;
+            const thirtieth = Math.ceil(3 * length / 10) > 0 ? Math.ceil(3 * length / 10) : 1;
+            const minGuru = length >= tenth ? upvotesArray[tenth - 1] : 1;
+            const minThinker = length >= thirtieth ? upvotesArray[thirtieth - 1] : 1;
+
+            // add minGuru to TenPctGuru(key = topic, value = minGuru)
+            // add minGuru to ThirtyPctThinker(key = topic, value = minThinker)
+            TenPctGuru[topic] = minGuru;
+            ThirtyPctThinker[topic] = minThinker;
         })
-
-        // Take all values from the map and put into an array
-        const upvotesArray = [];
-        for (const uid in topicalUpvotes) {
-            upvotesArray.push(topicalUpvotes[uid]);
-        }
-        console.log(upvotesArray);
-
-        // Find 10th pct and 30th pct and retrieve these values as minGuru and minThinker
-        upvotesArray.sort((a, b) => b - a);
-
-        const length = upvotesArray.length;
-        const tenth = Math.ceil(length / 10) > 0 ? Math.ceil(length / 10) : 1;
-        const thirtieth = Math.ceil(3 * length / 10) > 0 ? Math.ceil(3 * length / 10) : 1;
-        const minGuru = length >= tenth ? upvotesArray[tenth - 1] : 1;
-        const minThinker = length >= thirtieth ? upvotesArray[thirtieth - 1] : 1;
-
-        // add minGuru to TenPctGuru(key = topic, value = minGuru)
-        // add minGuru to ThirtyPctThinker(key = topic, value = minThinker)
-        TenPctGuru[topic] = minGuru;
-        ThirtyPctThinker[topic] = minThinker;
     }
     
     await interestsCollection.doc('profile').update({
