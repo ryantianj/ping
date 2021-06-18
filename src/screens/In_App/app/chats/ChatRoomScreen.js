@@ -39,6 +39,9 @@ export default (props) => {
           }
         }
       ]);
+    const removeElement = (arr, userID) => {
+        return arr.filter(users => users !== userID);
+    }
     
     const handleSend = async (messages) => {
 
@@ -75,7 +78,7 @@ export default (props) => {
             },
             createdAt: new Date().getTime(),
             //Users to send to
-            users: users,
+            users: removeElement(users, uid),
             roomname: roomname,
             notiType: 3,
             roomid: roomid

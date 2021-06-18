@@ -45,7 +45,7 @@ export default (props) => {
     }, [])
 
     //NotiTypes: 0: Channel Post 1: Channel Comments 2: New group message 3: New chat message
-    // 4: Badges 5: Receive friend request 6: friend request accepted 7: Someone added you (public)
+    // 4: Badges 5: Receive friend request (add user) 6: friend request accepted 7: Someone added you (public)
 
     const renderItem = ({item}) => {
             if (item.notiType === 0) {

@@ -2,7 +2,7 @@ import React, { useEffect, useState} from "react";
 import {Alert, FlatList, Text, TouchableOpacity, View} from "react-native";
 
 import firebase, {
-    channelsCollection,
+    channelsCollection, globalNotiCollection,
 } from "../../../../../api/firebase";
 import store from '../../../../store';
 
@@ -36,19 +36,15 @@ export default (prop) => {
 
     const deletePostButton = (item) => {
         const deletePost = () => {
-            //Delete comments collection
-            // firebase.firestore()
-            //     .collection('Channel')
-            //     .doc(store.getState().room.room.roomid)
-            //     .collection("Posts")
-            //     .doc(item._id).collection('Comments')
+            //Delete comments collection ??
 
-            //Delete post
-            firebase.firestore()
+            //Delete post, delete from global noti
+            globalNotiCollection.doc(item.notiId).delete().then(() => firebase.firestore()
                 .collection('Channel')
                 .doc(store.getState().room.room.roomid)
                 .collection("Posts")
-                .doc(item._id).delete().then(() => Alert.alert("Delete Post", "Post Deleted"))
+                .doc(item._id).delete().then(() => Alert.alert("Delete Post", "Post Deleted")))
+
         }
         Alert.alert("Delete Post", "Are you sure you want to delete this post?",
             [
@@ -78,7 +74,8 @@ export default (prop) => {
                         upVotes: firebase.likedby,
                         user: firebase.user,
                         comments: firebase.comments,
-                        roomname: firebase.roomname
+                        roomname: firebase.roomname,
+                        notiId: firebase.notiId
                     }
                     return data;
                 })

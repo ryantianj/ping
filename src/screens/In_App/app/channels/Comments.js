@@ -21,6 +21,7 @@ export default (prop) => {
     const display = store.getState().user.user.display;
     const postid = prop.route.params.item._id;
     const roomname = store.getState().room.room.roomname;
+    const users = store.getState().room.room.users;
 
     const renderItem = ({item}) => {
         let trash;
@@ -71,6 +72,7 @@ export default (prop) => {
                 .collection('Posts')
                 .doc(postid).collection('Comments').doc(item._id)
                 .delete().then(() => Alert.alert("Delete Comment", "Comment Deleted"))
+                .then(() => globalNotiCollection.doc(item.notiId).delete())
         }
         Alert.alert("Delete Comment", "Are you sure you want to delete this comment?",
             [
@@ -105,10 +107,33 @@ export default (prop) => {
         }
     }
 
+    const removeElement = (arr, userID) => {
+        return arr.filter(users => users !== userID);
+    }
 
     const submitComment = async () => {
+        let notiId;
         // Upload comment in comments collection
-        await channelsCollection.doc(roomid)
+         globalNotiCollection.add({
+            title: prop.route.params.item.title,
+            text: comments,
+            user: {
+                _id: uid,
+                display: display
+            },
+            createdAt: new Date().getTime(),
+            //Users to send to
+            users: removeElement(users, uid),
+            roomname: prop.route.params.item.roomname,
+            notiType: 1,
+            roomid: roomid,
+            //special comments params
+            id: postid,
+            comments: prop.route.params.item.comments,
+             notiId: ''
+        }).then((docRef) => {
+            notiId = docRef.id
+            channelsCollection.doc(roomid)
              .collection('Posts').doc(postid)
              .collection('Comments').add({
                  roomid: roomid,
@@ -121,26 +146,11 @@ export default (prop) => {
                      _id: uid,
                      display: display
                  },
-             })
+                 notiId: docRef.id
+             })})
 
-        await globalNotiCollection.add({
-            title: prop.route.params.item.title,
-            text: comments,
-            user: {
-                _id: uid,
-                display: display
-            },
-            createdAt: new Date().getTime(),
-            //Users to send to
-            users: store.getState().room.room.users,
-            roomname: prop.route.params.item.roomname,
-            notiType: 1,
-            roomid: roomid,
-            //special comments params
-            id: postid,
-            comments: prop.route.params.item.comments
 
-        })
+
         //Update comments count on post doc
         await channelsCollection.doc(roomid)
             .collection('Posts').doc(postid)
@@ -163,6 +173,7 @@ export default (prop) => {
                         text: firebase.content,
                         upVotes: firebase.likedby,
                         user: firebase.user,
+                        notiId: firebase.notiId,
                     }
                     return data;
                 })
