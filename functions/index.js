@@ -15,29 +15,36 @@ exports.postNoti = functions.firestore
         const users = notiData.users;
         //Update noti collection in users
         users.forEach(userID => {
+            const updateNotiId = () => {
+                let org = snap.data()
+                org['notiId'] = snap.ref.id
+                return org
+            }
             admin.firestore().collection('Users').doc(userID)
-                .collection('noti').add(snap.data())
+                .collection('noti').add(updateNotiId())
+
         })
 
-        // //Get doc ID from path
-        // const docFullPath = snap.ref.path
-        // const docPathSplit = docFullPath.split('/')
-        // const notiId = docPathSplit[1];
-        // let channelUsers;
-        //
-        // admin.firestore().collection('Channel').doc(notiId).get()
-        //     .then((doc) => {
-        //         const docData = doc.data()
-        //         // Array of channel users
-        //         channelUsers = docData.users
-        //     }).then(() => {
-        //         //Update noti array of each user
-        //     channelUsers.forEach(userId => {
-        //         admin.firestore().collection('Users').doc(userId)
-        //             .collection("noti").add(snap.data())
-        //
-        //     })
-        // })
+    });
+
+// Edit Post notification on deletion (comments, posts etc)
+exports.updatePostNoti = functions.firestore
+    .document('GlobalNoti/{NotiIds}')
+    .onDelete((snap, context) => {
+        const notiData = snap.data();
+        const users = notiData.users;
+        //Update noti collection in users
+        users.forEach(userID => {
+            admin.firestore().collection('Users').doc(userID)
+                .collection('noti').where("notiId", "==" , snap.ref.id)
+                .get().then((snap) => {
+                    snap.forEach(doc => {
+                        admin.firestore().collection('Users').doc(userID)
+                            .collection('noti').doc(doc.ref.id).delete()
+                    })
+            })
+        })
+
     });
 
 

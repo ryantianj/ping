@@ -1,10 +1,7 @@
-import React, {useState}from "react";
-import {Text, TouchableOpacity, TextInput, Alert} from "react-native";
+import React, {useState} from "react";
+import {Alert, Text, TextInput, TouchableOpacity} from "react-native";
 
-import firebase, {
-    channelsCollection,
-    globalNotiCollection
-} from "../../../../../api/firebase";
+import {channelsCollection, globalNotiCollection} from "../../../../../api/firebase";
 import store from '../../../../store';
 
 import styles from "../../../../styling/screens/In_App/app/channels/NewPost.styles"
@@ -13,6 +10,10 @@ import Screen from "../../../../components/Screen";
 export default (prop) => {
     const [post ,setPost] = useState("")
     const [title, setTitle] = useState("")
+
+    const removeElement = (arr, userID) => {
+        return arr.filter(users => users !== userID);
+    }
 
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
@@ -23,23 +24,8 @@ export default (prop) => {
     const handlePost = async () => {
 
         const text = post;
-
-        await channelsCollection.doc(roomid).collection('Posts').add({
-            roomid: roomid,
-            roomname: roomname,
-            content: text,
-            title: title,
-            likedby: [],
-            comments: 0,
-            star: false,
-            createdAt: new Date().getTime(),
-            user: {
-                _id: uid,
-                display: display
-            },
-            notiType: 0
-        })
-        await globalNotiCollection.add({
+        let notiId;
+         globalNotiCollection.add({
             title: title,
             text: text,
             user: {
@@ -48,10 +34,30 @@ export default (prop) => {
             },
             createdAt: new Date().getTime(),
             //Users to send to
-            users: store.getState().room.room.users,
+            users: removeElement(store.getState().room.room.users, uid),
             roomname: roomname,
             notiType: 0,
-        })
+            roomid: roomid,
+             notiId: ''
+        }).then((docRef) => {
+            notiId = docRef.id
+            channelsCollection.doc(roomid).collection('Posts').add({
+             roomid: roomid,
+             roomname: roomname,
+             content: text,
+             title: title,
+             likedby: [],
+             comments: 0,
+             star: false,
+             createdAt: new Date().getTime(),
+             user: {
+                 _id: uid,
+                 display: display
+             },
+             notiType: 0,
+             notiId: docRef.id
+         })})
+
 
         await channelsCollection.doc(roomid).set({
                 latestPost: {

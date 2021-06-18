@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View, ActivityIndicator } from "react-native";
-import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
-// import { GiftedChat, Bubble, Send, SystemMessage } from 'react-native-gifted-chat';
+// import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
+import { GiftedChat, Bubble, Send, SystemMessage } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
 
 import {globalNotiCollection, roomsCollection} from '../../../../../api/firebase';
@@ -39,6 +39,10 @@ export default (props) => {
           }
         }
       ]);
+
+    const removeElement = (arr, userID) => {
+        return arr.filter(users => users !== userID);
+    }
     
     const handleSend = async (messages) => {
 
@@ -76,9 +80,10 @@ export default (props) => {
             },
             createdAt: new Date().getTime(),
             //Users to send to
-            users: users,
+            users: removeElement(users, uid),
             roomname: roomname,
             notiType: 2,
+            roomid: roomid
         })
     }
     

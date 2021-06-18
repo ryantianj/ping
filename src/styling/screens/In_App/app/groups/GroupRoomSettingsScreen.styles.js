@@ -53,7 +53,9 @@ export default StyleSheet.create({
     },
     selectedText : {
         fontSize: 20,
-        color: 'white'
+        color: 'black',
+        marginBottom: 10,
+        marginTop: 10
     },
     selectedTextHeader : {
         fontSize: 25,

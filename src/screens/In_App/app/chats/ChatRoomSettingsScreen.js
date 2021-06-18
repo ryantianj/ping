@@ -36,11 +36,9 @@ export default (props) => {
     const addUser = (item) => {
         displayArray.push(item)
         setCount(count + 1)
-        console.log(displayArray)
     }
     
     const renderUserItem = ({item}) => {
-        console.log(item.display)
         return (
             <TouchableOpacity
                 style = {styles.textInputBio}
