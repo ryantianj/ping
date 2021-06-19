@@ -5,7 +5,7 @@ import {
     FlatList,
     View,
 } from "react-native";
-import { roomsCollection } from '../../../../api/firebase';
+import {roomsCollection, usersCollection} from '../../../../api/firebase';
 import { fillChatRoomState } from '../../../roomsSlice';
 import { useDispatch } from 'react-redux';
 import store from '../../../store';
@@ -22,8 +22,6 @@ export default (props) => {
     const isFocused = useIsFocused();
     const [roomsData, setRoomsData] = useState([])
     const [len, setLen] = useState(0);
-    const [count, setCount] = useState(0)
-    const [update, setUpdate] = useState(store.getState().user.user.updateRoom);
 
     const renderChatItem = ( room ) => {
         return (
@@ -47,37 +45,29 @@ export default (props) => {
 
     const dispatch = useDispatch();
 
-    let rooms = store.getState().user.user.rooms;
-
-    const getAllChats = async () => {
-        rooms = await store.getState().user.user.rooms;
-        roomsData.length = 0;
-        const isChat = (roomDataObject) => { return roomDataObject.type === 0 }
-        rooms.forEach(async roomid => {
-            const roomData = await roomsCollection.doc(roomid).get()
-            const roomDataObject = roomData.data();
-            roomDataObject['roomid'] = roomid;
-            isChat(roomDataObject) ? roomsData.push(roomDataObject) :
-                setLen(len + 1)
-        });
-    }
-
-
-    if (isFocused) {
-        if (count === 0) {
-            getAllChats()
-            setCount(count + 1)
-        } else if (update !== store.getState().user.user.updateRoom) {
-            roomsData.length = 0
-            setUpdate(store.getState().user.user.updateRoom)
-            getAllChats()
-        }
-    }
-
-
-    // useEffect(() => {
-    //     setLen(len + 1)
-    // }, [isFocused])
+    useEffect(() => {
+        const chatListener = usersCollection.doc(store.getState().user.user.uid)
+            .onSnapshot(snapshot => {
+                const isChat = (roomDataObject) => { return roomDataObject.type === 0 }
+                const firebase = snapshot.data()
+                const chatArray = firebase.rooms
+                const chatObjectArray = [];
+                chatArray.forEach(roomId => {
+                        roomsCollection.doc(roomId).get()
+                            .then((roomData) => {
+                                const roomDataObject = roomData.data()
+                                roomDataObject['roomid'] = roomId;
+                                isChat(roomDataObject) ?  chatObjectArray.push(roomDataObject)
+                                    : setLen(len + 1)
+                            })
+                    }
+                )
+                setRoomsData(chatObjectArray)
+            })
+        return () => {
+            chatListener()
+        };
+    }, [])
 
     return (
         <Screen style = {styles.container}>
@@ -101,7 +91,7 @@ export default (props) => {
                 style = {styles.flatList}
                 data = {roomsData}
                 renderItem = {renderChatItem}
-                extraData={[len, update, roomsData]}
+                extraData={roomsData}
                 contentContainerStyle={{ paddingBottom: 20 }}
             />
 

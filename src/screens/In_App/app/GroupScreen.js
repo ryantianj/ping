@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     Text,
     TouchableOpacity,
     FlatList,
     View,
 } from "react-native";
-import { roomsCollection } from '../../../../api/firebase';
+import {channelsCollection, roomsCollection, usersCollection} from '../../../../api/firebase';
 import { fillGroupRoomState } from '../../../roomsSlice';
 import { useDispatch } from 'react-redux';
 import store from '../../../store';
@@ -19,10 +19,8 @@ import { useIsFocused } from "@react-navigation/native";
 
 export default (props) => {
     const isFocused = useIsFocused();
-    const [count, setCount] = useState(0)
     const [roomsData, setRoomsData] = useState([]);
     const [len, setLen] = useState(0);
-    const [update, setUpdate] = useState(store.getState().user.user.updateRoom);
     
     const renderGroupItem = ( room ) => {
         return (
@@ -42,32 +40,31 @@ export default (props) => {
 
     const dispatch = useDispatch();
 
-    let rooms = store.getState().user.user.rooms;
+    useEffect(() => {
+        const groupListener = usersCollection.doc(store.getState().user.user.uid)
+            .onSnapshot(snapshot => {
+                const isGroup = (roomDataObject) => { return roomDataObject.type === 1 }
+                const firebase = snapshot.data()
+                const groupArray = firebase.rooms
+                const groupObjectArray = [];
+                groupArray.forEach(roomId => {
+                        roomsCollection.doc(roomId).get()
+                            .then((roomData) => {
+                                const roomDataObject = roomData.data()
+                                roomDataObject['roomid'] = roomId;
+                                isGroup(roomDataObject) ?  groupObjectArray.push(roomDataObject)
+                                    : setLen(len + 1)
+                            })
+                    }
+                )
+                setRoomsData(groupObjectArray)
+            })
+        return () => {
+            groupListener()
+        };
+    }, [])
 
-    const getAllGroups = async () => {
-        rooms = await store.getState().user.user.rooms;
-        console.log(rooms)
-        roomsData.length = 0;
-        const isGroup = (roomDataObject) => { return roomDataObject.type === 1 }
-        rooms.forEach(async roomid => {
-            const roomData = await roomsCollection.doc(roomid).get()
-            const roomDataObject = roomData.data();
-            roomDataObject['roomid'] = roomid;
-            isGroup(roomDataObject) ? roomsData.push(roomDataObject) :
-            setLen(len + 1)
-        });
-    }
 
-    if (isFocused) {
-        if (count === 0) {
-            getAllGroups()
-            setCount(count + 1)
-        } else if (update !== store.getState().user.user.updateRoom) {
-            roomsData.length = 0
-            setUpdate(store.getState().user.user.updateRoom)
-            getAllGroups()
-        }
-    }
 
     return (
         <Screen style = {styles.container}>
@@ -89,7 +86,7 @@ export default (props) => {
                 style = {styles.flatList}
                 data = {roomsData}
                 renderItem = {renderGroupItem}
-                extraData={[len, update, roomsData]}
+                extraData={roomsData}
                 contentContainerStyle={{ paddingBottom: 20 }}/>
         </Screen>
     )
