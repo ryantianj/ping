@@ -219,9 +219,6 @@ export default (props) => {
                         return;
                     }
                     await CreateChatRoom().then(() => props.navigation.navigate('Chat'))
-
-
-
                 }}
             >
                 <Text style = {styles.buttonText}>Create Chat Room</Text>

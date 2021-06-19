@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {View, FlatList, Text, TouchableOpacity} from "react-native";
 
 import Screen from "../../../components/Screen";
@@ -8,18 +8,14 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import {fillChannelRoomState} from "../../../roomsSlice";
 import {useDispatch} from "react-redux";
 import store from "../../../store";
-import {channelsCollection} from "../../../../api/firebase";
+import {channelsCollection, usersCollection} from "../../../../api/firebase";
 
 import { useIsFocused } from "@react-navigation/native";
 
 
 export default (props) => {
     const isFocused = useIsFocused();
-    const [count, setCount] = useState(0)
     const [roomsData, setRoomsData] = useState([]);
-    const [len, setLen] = useState(0);
-    const [update, setUpdate] = useState(store.getState().user.user.update);
-
 
     const renderChannelItem = ( room ) => {
         return (
@@ -40,31 +36,29 @@ export default (props) => {
 
     const dispatch = useDispatch();
 
-    let channels = store.getState().user.user.channels;
 
-    const getAllChannels = async () => {
-        channels = await store.getState().user.user.channels;
-        roomsData.length = 0;
-        channels.forEach(async roomid => {
-            console.log(roomid)
-            const roomData = await channelsCollection.doc(roomid).get()
-            const roomDataObject = roomData.data();
-            roomDataObject['roomid'] = roomid;
-            roomsData.push(roomDataObject)
-            setLen(len + 1)
-        })
-    }
+    useEffect(() => {
+        const channelListener = usersCollection.doc(store.getState().user.user.uid)
+            .onSnapshot(snapshot => {
+                const firebase = snapshot.data()
+                const channelArray = firebase.channels
+                const channelObjectArray = [];
+                channelArray.forEach(channelId => {
+                    channelsCollection.doc(channelId).get()
+                        .then((roomData) => {
+                            const roomDataObject = roomData.data()
+                            roomDataObject['roomid'] = channelId;
+                            channelObjectArray.push(roomDataObject)
+                        })
+                    }
+                )
+                setRoomsData(channelObjectArray)
+            })
+        return () => {
+            channelListener()
+        };
+    }, [])
 
-    if (isFocused) {
-        if (count === 0) {
-            getAllChannels()
-            setCount(count + 1)
-        } else if (update !== store.getState().user.user.update) {
-            roomsData.length = 0
-            setUpdate(store.getState().user.user.update)
-            getAllChannels()
-        }
-    }
 
     return (
         <Screen style = {styles.container}>
@@ -80,13 +74,14 @@ export default (props) => {
                     <Ionicons style = {styles.icon}
                               name={'add-outline'} size={35}  />
                 </TouchableOpacity>
+
             </View>
 
             <FlatList
                 style = {styles.flatList}
                 data={roomsData}
                 renderItem={renderChannelItem}
-                extraData={[len, update, roomsData]}
+                extraData={roomsData}
                 contentContainerStyle={{ paddingBottom: 20 }}
             />
         </Screen>
