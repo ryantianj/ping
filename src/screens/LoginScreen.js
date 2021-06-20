@@ -65,99 +65,103 @@ const LoginScreen = (props) => {
             }
         }
     }
+    
 
-    useEffect(async () => {
-        const response = await interestsCollection.doc('profile').get();
-        const topicArray = response.data().fields;
+    // useEffect(() => {
+    //     interestsCollection.doc('profile').set({
+            
+    //         }
+    //     },{merge:true})
+    // }, [])
 
-        const TenPctGuru = {};
-        const ThirtyPctThinker = {};
+    // useEffect(async () => {
 
-        for (let i = 0; i < 11; i++) {
-            const topic = topicArray[i];
+    //     const response = await interestsCollection.doc('profile').get();
+    //     const topicArray = response.data().fields;
 
-            // Get the upvotes scores for users in a map(key = uid, value = upvote count)
+    //     const TenPctGuru = {};
+    //     const ThirtyPctThinker = {};
 
-            let upvotesArray = [];
+    //     for (let i = 0; i < 105; i++) {
+    //         const topic = topicArray[i];
 
-            // filter all channels related to this topic
-            channelsCollection.where('topics', 'array-contains', topic).get()
-            .then(channels => {
-                let topicalUpvotes = {};
-                channels.forEach( channelDoc => {
-                    console.log(channelDoc.id);
-                    console.log(channelDoc.data().roomname); // channel name
-                     channelsCollection.doc(channelDoc.id).collection('Posts')
-                    .get().then(posts => {
-                        posts.forEach( postDoc => {
-                            console.log(postDoc.id);
-                             channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
-                            .collection('Comments').get().then(comments => {
-                                comments.forEach( commentDoc => {
-                                    console.log(commentDoc.id);
+    //         // Get the upvotes scores for users in a map(key = uid, value = upvote count)
+    //         let upvotesArray = [];
 
-                                    // take commentDoc.data() and count the likedby
-                                    const commentData = commentDoc.data();
-                                    if (!topicalUpvotes[commentData.user._id]) {
-                                        topicalUpvotes[commentData.user._id] = 0;
-                                    }
-                                    topicalUpvotes[commentData.user._id] = topicalUpvotes[commentData.user._id] + commentData.likedby.length
-                                    console.log('current topicalUpvotes for ' + topic + ': ')
-                                    console.log(topicalUpvotes);
-                                })
-                            }).then(() => {
-                                 // take postDoc.data() and count the likedby
-                                 const postData = postDoc.data();
-                                 if (!topicalUpvotes[postData.user._id]) {
-                                     topicalUpvotes[postData.user._id] = 0;
-                                 }
-                                 topicalUpvotes[postData.user._id] = topicalUpvotes[postData.user._id] + postData.likedby.length
-                                 console.log('current topicalUpvotes for '+topic+': ')
-                                 console.log(topicalUpvotes);
-                                 return topicalUpvotes
-                             }).then((t) => {
-                                 // Take all values from the map and put into an array
-                                 console.log("upvotesArray" + topic)
-                                 upvotesArray = [];
-                                 for (const uid in t) {
-                                     upvotesArray.push(t[uid]);
-                                     console.log("pushing: " + topic)
-                                 }
-                                 return upvotesArray
-                             }).then((x) => {
-                                 console.log(x);
+    //         // filter all channels related to this topic
+    //         await channelsCollection.where('topics', 'array-contains', topic).get()
+    //         .then(channels => {
+    //             let topicalUpvotes = {};
+    //             channels.forEach( channelDoc => {
+    //                 console.log(channelDoc.id);
+    //                 console.log(channelDoc.data().roomname); // channel name
+    //                  channelsCollection.doc(channelDoc.id).collection('Posts')
+    //                 .get().then(posts => {
+    //                     posts.forEach( postDoc => {
+    //                         console.log(postDoc.id);
+    //                          channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
+    //                         .collection('Comments').get().then(comments => {
+    //                             comments.forEach( commentDoc => {
+    //                                 console.log(commentDoc.id);
 
-                                 // Find 10th pct and 30th pct and retrieve these values as minGuru and minThinker
-                                 x.sort((a, b) => b - a);
+    //                                 // take commentDoc.data() and count the likedby
+    //                                 const commentData = commentDoc.data();
+    //                                 if (!topicalUpvotes[commentData.user._id]) {
+    //                                     topicalUpvotes[commentData.user._id] = 0;
+    //                                 }
+    //                                 topicalUpvotes[commentData.user._id] = topicalUpvotes[commentData.user._id] + commentData.likedby.length
+    //                                 console.log('current topicalUpvotes for ' + topic + ': ')
+    //                                 console.log(topicalUpvotes);
+    //                             })
+    //                         }).then(() => {
+    //                              // take postDoc.data() and count the likedby
+    //                              const postData = postDoc.data();
+    //                              if (!topicalUpvotes[postData.user._id]) {
+    //                                  topicalUpvotes[postData.user._id] = 0;
+    //                              }
+    //                              topicalUpvotes[postData.user._id] = topicalUpvotes[postData.user._id] + postData.likedby.length
+    //                              console.log('current topicalUpvotes for '+topic+': ')
+    //                              console.log(topicalUpvotes);
+    //                              return topicalUpvotes
+    //                          }).then((t) => {
+    //                              // Take all values from the map and put into an array
+    //                              console.log("upvotesArray" + topic)
+    //                              upvotesArray = [];
+    //                              for (const uid in t) {
+    //                                  upvotesArray.push(t[uid]);
+    //                                  console.log("pushing: " + topic)
+    //                              }
+    //                              return upvotesArray
+    //                          }).then((x) => {
+    //                              console.log(x);
 
-                                 const length = x.length;
-                                 console.log(length)
-                                 const tenth = Math.ceil(length / 10) > 0 ? Math.ceil(length / 10) : 1;
-                                 const thirtieth = Math.ceil(3 * length / 10) > 0 ? Math.ceil(3 * length / 10) : 1;
-                                 const minGuru = length >= tenth ? x[tenth - 1] : 1;
-                                 const minThinker = length >= thirtieth ? x[thirtieth - 1] : 1;
+    //                              // Find 10th pct and 30th pct and retrieve these values as minGuru and minThinker
+    //                              x.sort((a, b) => b - a);
 
-                                 // add minGuru to TenPctGuru(key = topic, value = minGuru)
-                                 // add minGuru to ThirtyPctThinker(key = topic, value = minThinker)
-                                 TenPctGuru[topic] = minGuru;
-                                 ThirtyPctThinker[topic] = minThinker;
-                             })
+    //                              const length = x.length;
+    //                              console.log(length)
+    //                              const tenth = Math.ceil(length / 10);
+    //                              const thirtieth = Math.ceil(3 * length / 10);
+    //                              const minGuru = x[tenth - 1];
+    //                              const minThinker = x[thirtieth - 1];
 
+    //                              // add minGuru to TenPctGuru(key = topic, value = minGuru)
+    //                              // add minGuru to ThirtyPctThinker(key = topic, value = minThinker)
+    //                              TenPctGuru[topic] = minGuru;
+    //                              ThirtyPctThinker[topic] = minThinker;
+    //                          })
+    //                     })
+    //                 })
+    //             })
+    //         })
+    //     }
+    //     console.log('here')
+    //     await interestsCollection.doc('profile').set({
+    //         TenPctGuru : TenPctGuru,
+    //         ThirtyPctThinker: ThirtyPctThinker
+    //     }, {merge:true})
 
-                        })
-
-                    })
-                })
-
-            })
-        }
-
-        await interestsCollection.doc('profile').update({
-            TenPctGuru : TenPctGuru,
-            ThirtyPctThinker: ThirtyPctThinker
-        })
-
-    }, [])
+    // }, [])
 
     return (
         <Screen style = {styles.container}>
@@ -196,6 +200,7 @@ const LoginScreen = (props) => {
 
             <TouchableOpacity
                 style = {styles.button} 
+                returnKeyType = "go"
                 onPress = {handleLogin}>
                 <Text style ={styles.buttonText}>Log In</Text>
             </TouchableOpacity>

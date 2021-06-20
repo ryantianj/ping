@@ -10,6 +10,7 @@ import styles from '../../../styling/screens/In_App/app/HomeScreen.styles'
 import { usersCollection} from "../../../../api/firebase";
 import store from "../../../store";
 import {fillChannelRoomState, fillChatRoomState, fillGroupRoomState} from "../../../roomsSlice";
+import { findAllBadges } from '../../../calculateBadges';
 
 export default (props) => {
     const [noti, setNoti] = useState([]);
@@ -17,6 +18,9 @@ export default (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        
+        findAllBadges()
+
         //channels noti
          const allNoti = usersCollection.doc(store.getState().user.user.uid)
              .collection('noti').orderBy('createdAt', 'desc')

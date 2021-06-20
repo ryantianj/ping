@@ -1,6 +1,8 @@
 import React from "react";
 import {ScrollView, Text, TouchableOpacity} from "react-native";
 import firebase, { usersCollection } from '../../../../api/firebase';
+import { useDispatch } from 'react-redux';
+import { fillUserState } from '../../../usersSlice';
 
 import Screen from "../../../components/Screen";
 import store from "../../../store"
@@ -9,6 +11,8 @@ import styles from '../../../styling/screens/In_App/settings/SettingsScreen.styl
 
 
 export default (props) => {
+    const dispatch = useDispatch();
+    dispatch(fillUserState(store.getState().user.user.uid));
 
     const handleLogout = async () => {
         const response = await firebase

@@ -1,10 +1,11 @@
-import { fillUserState } from '../usersSlice';
-import { useDispatch } from 'react-redux';
+import { fillUserState } from '../src/usersSlice';
+// import { useDispatch } from 'react-redux';
 import firebase, { interestsCollection, usersCollection, channelsCollection } from './../api/firebase';
-import store from "../store";
+import store from "../src/store";
 
-const uid = store.getState().user.user.uid;
-const dispatch = useDispatch();
+// const uid = store.getState().user.user.uid;
+// const dispatch = useDispatch();
+
 // this module is for determining all the badge tiers for a user. 
 // run findAllBadges() everytime login / profile screen is rendered
 
@@ -42,18 +43,26 @@ const hasBadge = (topic, badgecode) => {
 // else (badgecode 0 so sage) return false
 const checkIfBadge = async (topic, badgecode) => {
     if (hasBadge(topic, badgecode)) {
+        console.log('already has badge ' + topic + badgecode)
         return true;
     } else if (badgecode >= 1) {
-        const upvotesCount = tallyIndivUpvotes(topic);
-        const response = await interestsCollection.doc('profile').get();
-        const topicalTenPctGuru = response.data().TenPctGuru[topic]
-        const topicalThirtyPctThinker = response.data().topicalThirtyPctThinker[topic]
-        if (badgecode === 1) {
-            return upvotesCount >= 15 && upvotesCount >= topicalTenPctGuru;
-        } else if (badgecode === 2) {
-            return upvotesCount >= 5 && upvotesCount >= topicalThirtyPctThinker;
-        }
+        // const upvotesCount = await tallyIndivUpvotes(topic);
+        // console.log('upvotesCount: ' + upvotesCount)
+        // const response = await interestsCollection.doc('profile').get();
+        // const topicalTenPctGuru = response.data().TenPctGuru[topic]
+        // console.log('topicalTenPctGuru score: ' + topicalTenPctGuru)
+        // const topicalThirtyPctThinker = response.data().ThirtyPctThinker[topic]
+        // console.log('topicalThirtyPctThinker score: ' + topicalThirtyPctThinker)
+        // if (badgecode === 1) {
+        //     return upvotesCount >= /*15*/ 1 && upvotesCount >= topicalTenPctGuru;
+        // } else if (badgecode === 2) {
+        //     return upvotesCount >= /*5*/ 1 && upvotesCount >= topicalThirtyPctThinker;
+        // }
+        tallyIndivUpvotes(topic).then((upvotesCount) => {
+            console.log('upvotesCount: ' + upvotesCount)
+        })
     } else {
+        console.log('returning false for checkIf')
         return false;
     }
 }
@@ -63,7 +72,7 @@ const checkIfBadge = async (topic, badgecode) => {
 // update user.badges['topic'] with new badgecode AND createNotif() with same 2 params.
 // dispatch(fillUserState(uid))
 const awardBadge = async (topic, badgecode) => {
-    usersCollection.doc(uid).set({
+    usersCollection.doc(store.getState().user.user.uid).set({
         'badges': {
             topic: badgecode
         }
@@ -74,44 +83,56 @@ const awardBadge = async (topic, badgecode) => {
         if (originalTier != badgecode) {
             createNotif(topic, badgecode);
         }
-        dispatch(fillUserState(uid));
+        console.log('awarded badge! ' + topic + badgecode)
+        // dispatch(fillUserState(store.getState().user.user.uid));
     })
 }
 
 // 4.
 // tallyIndivUpvotes(topic): return integer
-const tallyIndivUpvotes = (topic) => {
+const tallyIndivUpvotes = async (topic) => {
     let topicCount = 0;
     // filter all channels with this user related to this topic
-    channelsCollection.where('users', 'array-contains', uid).where('topics', 'array-contains', topic)
+    channelsCollection.where('users', 'array-contains', store.getState().user.user.uid)
+    // .where('topics', 'array-contains', topic)
     .get().then(channels => {
         channels.forEach(channelDoc => {
-            console.log(channelDoc.id);
-            channelsCollection.doc(channelDoc.id).collection('Posts')
-            .get().then(posts => {
-                posts.forEach(postDoc => {
-                    console.log(postDoc.id);
-                    channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
-                    .collection('Comments').get().then(comments => {
-                        comments.forEach(commentDoc => {
-                            console.log(commentDoc.id);
-                            // take commentDoc.data() and count the likedby
-                            const commentData = commentDoc.data();
-                            topicCount += commentData.likedby.length
+            // look into channels
+            const channelTopicsArray = channelDoc.data().topics;
+            if (channelTopicsArray[0] === topic || channelTopicsArray[1] === topic) {
+                console.log(channelDoc.id);
+                channelsCollection.doc(channelDoc.id).collection('Posts')
+                .get().then(posts => {
+                    posts.forEach(postDoc => {
+                        console.log(postDoc.id);
+                        channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
+                        .collection('Comments').get().then(comments => {
+                            comments.forEach(commentDoc => {
+                                console.log(commentDoc.id);
+                                // take commentDoc.data() and count the likedby
+                                const commentData = commentDoc.data();
+                                topicCount += commentData.likedby.length
+                                console.log(topicCount);
+                            })
+                        }).then(() => {
+                            // take postDoc.data() and count the likedby
+                            const postData = postDoc.data();
+                            topicCount += postData.likedby.length
                             console.log(topicCount);
-                        }) 
+                            console.log('topicCount from tally fn of ' + topic + ': ' + topicCount)
+                            return topicCount;
+                        })
                     })
-                    // take postDoc.data() and count the likedby
-                    const postData = postDoc.data();
-                    topicCount += postData.likedby.length
-                    console.log(topicCount);
                 })
-            })
-            console.log(channelDoc.data().roomname); // channel name
+                console.log(channelDoc.data().roomname); // channel name
+            }   
         })
-    }).then(() => {
-        return topicCount;
+        // console.log('topicCount from tally fn: ' + topicCount)
+        // return topicCount;
     })
+    // .then(() => {
+        
+    // })
 }
 
 // 5.
@@ -119,14 +140,17 @@ const tallyIndivUpvotes = (topic) => {
 // each user should have a notifications array, where each object/element has 
 // timestamp and message and type.
 // So just push a notif object to this array
+const createNotif = (topic, badgecode) => {
+
+}
 
 // 6. 
 // handleTopicBadge(topic) return integer (trit)
-const handleTopicBadge = (topic) => {
-    let resultBadgeCode = -1;
+const handleTopicBadge = async (topic) => {
     for (let i = 0; i < 3; i++) {
-        if (checkIfBadge(topic, i)) {
-            resultBadgeCode = i;
+        const boolean = await checkIfBadge(topic, i)
+        console.log(boolean)
+        if (boolean) {
             awardBadge(topic, i);
             return;
         }
@@ -140,6 +164,7 @@ export const findAllBadges = async () => {
     const data = response.data();
     for (let i = 0; i < 105; i++) {
         const topic = data.fields[i];
+        // works fine
         handleTopicBadge(topic);
     }
 }
