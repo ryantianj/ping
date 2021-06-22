@@ -14,7 +14,7 @@ export default (props) => {
 
     const DATA = [
         channel.roomname,
-        channel.topics
+        channel.topics.join(", ")
     ]
 
     const dispatch = useDispatch();

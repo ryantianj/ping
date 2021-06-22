@@ -62,7 +62,9 @@ const checkIfBadge = async (topic, badgecode) => {
         
         tallyIndivUpvotes(topic).then((upvotesCount) => {
             console.log('upvotesCount: ' + upvotesCount)
-        })
+            }
+        )
+
     } else {
         console.log('returning false for checkIf')
         return false;
@@ -92,45 +94,81 @@ const awardBadge = async (topic, badgecode) => {
 
 // 4.
 // tallyIndivUpvotes(topic): return integer
-const tallyIndivUpvotes = async (topic) => {
+const tallyIndivUpvotes = (topic) => {
     let topicCount = 0;
     // filter all channels with this user related to this topic
-    channelsCollection.where('users', 'array-contains', store.getState().user.user.uid)
+    return channelsCollection.where('users', 'array-contains', store.getState().user.user.uid)
     // .where('topics', 'array-contains', topic)
-    .get().then(channels => {
-        channels.forEach(channelDoc => {
-            // look into channels
+    .get().then(async channels => {
+
+        for (const channel in channels.docs) {
+            const channelDoc = channels.docs[channel]
             const channelTopicsArray = channelDoc.data().topics;
             if (channelTopicsArray[0] === topic || channelTopicsArray[1] === topic) {
                 console.log(channelDoc.id);
-                channelsCollection.doc(channelDoc.id).collection('Posts')
-                .get().then(posts => {
-                    posts.forEach(postDoc => {
-                        console.log(postDoc.id);
-                        channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
-                        .collection('Comments').get().then(comments => {
-                            comments.forEach(commentDoc => {
-                                console.log(commentDoc.id);
-                                // take commentDoc.data() and count the likedby
-                                const commentData = commentDoc.data();
-                                topicCount += commentData.likedby.length
-                                console.log(topicCount);
-                            })
-                        }).then(() => {
-                            // take postDoc.data() and count the likedby
-                            const postData = postDoc.data();
-                            topicCount += postData.likedby.length
-                            console.log(topicCount);
-                            console.log('topicCount from tally fn of ' + topic + ': ' + topicCount)
-                            return topicCount;
-                        })
-                    })
-                })
-                console.log(channelDoc.data().roomname); // channel name
-            }   
-        })
-        // console.log('topicCount from tally fn: ' + topicCount)
-        // return topicCount;
+
+                const posts =  await channelsCollection.doc(channelDoc.id).collection('Posts')
+                    .get()
+
+                for (const postDocs in posts.docs) {
+                    const postDoc = posts.docs[postDocs]
+                    console.log(postDoc.id);
+                   const comments = await channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
+                        .collection('Comments').get()
+
+
+                    for (const commentDocs in comments.docs) {
+                        const commentDoc = comments.docs[commentDocs]
+                        console.log(commentDoc.id);
+                        const commentData = commentDoc.data();
+                        topicCount += commentData.likedby.length
+                        console.log(topicCount);
+
+                        const postData = postDoc.data();
+                        topicCount += postData.likedby.length
+                        console.log(topicCount);
+                        console.log('topicCount from tally fn of ' + topic + ': ' + topicCount)
+                    }
+                }
+
+
+                // console.log(channelDoc.data().roomname); // channel name
+            }
+        }
+            console.log('topicCount from tally fn: ' + topic + topicCount)
+        return topicCount;
+        // channels.forEach( channelDoc => {
+        //     // look into channels
+        //     const channelTopicsArray = channelDoc.data().topics;
+        //     if (channelTopicsArray[0] === topic || channelTopicsArray[1] === topic) {
+        //         console.log(channelDoc.id);
+        //          channelsCollection.doc(channelDoc.id).collection('Posts')
+        //         .get().then(posts => {
+        //             posts.forEach( postDoc => {
+        //                 console.log(postDoc.id);
+        //                  channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
+        //                 .collection('Comments').get().then(comments => {
+        //                     comments.forEach(commentDoc => {
+        //                         console.log(commentDoc.id);
+        //                         // take commentDoc.data() and count the likedby
+        //                         const commentData = commentDoc.data();
+        //                         topicCount += commentData.likedby.length
+        //                         console.log(topicCount);
+        //                     })
+        //                 }).then(() => {
+        //                     // take postDoc.data() and count the likedby
+        //                     const postData = postDoc.data();
+        //                     topicCount += postData.likedby.length
+        //                     console.log(topicCount);
+        //                     console.log('topicCount from tally fn of ' + topic + ': ' + topicCount)
+        //                     return topicCount;
+        //                 })
+        //             })
+        //              return topicCount;
+        //         })
+        //         // console.log(channelDoc.data().roomname); // channel name
+        //     }
+        // })
     })
     // .then(() => {
         
