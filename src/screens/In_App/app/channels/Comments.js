@@ -60,11 +60,16 @@ export default (prop) => {
     const deleteCommentButton = (item) => {
         const deleteComment = () => {
             //Update comments count on post doc
-                channelsCollection.doc(roomid)
+            channelsCollection.doc(roomid)
+                .collection('Posts').doc(postid)
+                .get().then((doc) => {
+                const dat = doc.data()
+                return dat.comments
+            }).then((com) => channelsCollection.doc(roomid)
                 .collection('Posts').doc(postid)
                 .update({
-                    comments: prop.route.params.item.comments - 1
-                })
+                    comments: com - 1
+                }))
             //delete comment
             firebase.firestore()
                 .collection('Channel')
@@ -147,16 +152,23 @@ export default (prop) => {
                      display: display
                  },
                  notiId: docRef.id
-             })})
+             })})  //Update comments count on post doc
+             .then(() => {
+                 channelsCollection.doc(roomid)
+                     .collection('Posts').doc(postid)
+                     .get().then((doc) => {
+                         const dat = doc.data()
+                         return dat.comments
+                     }).then((com) => channelsCollection.doc(roomid)
+                         .collection('Posts').doc(postid)
+                         .update({
+                             comments: com + 1
+                         }))
+
+             })
 
 
 
-        //Update comments count on post doc
-        await channelsCollection.doc(roomid)
-            .collection('Posts').doc(postid)
-            .update({
-                comments: prop.route.params.item.comments + 1
-            })
     }
 
     useEffect(() => {
