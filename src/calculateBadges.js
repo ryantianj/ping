@@ -59,7 +59,7 @@ const checkIfBadge = async (topic, badgecode) => {
         //     return upvotesCount >= /*5*/ 1 && upvotesCount >= topicalThirtyPctThinker;
         // }
 
-        
+
         tallyIndivUpvotes(topic).then((upvotesCount) => {
             console.log('upvotesCount: ' + upvotesCount)
         })
