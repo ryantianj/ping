@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator} from "react-native";
+import {Alert, FlatList, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator} from "react-native";
 import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillGroupRoomState } from "../../../../roomsSlice";
@@ -158,7 +158,8 @@ export default (props) => {
         dispatch(fillGroupRoomState(roomid));
     }
 
-    const handleLeaveGroup = async () => {
+    const leaveGroup = async () => {
+        isLoading(true);
         await usersCollection
             .doc(uid)
             .update({
@@ -175,7 +176,29 @@ export default (props) => {
             .then(() => {
                 console.log('Removed user from room db!');
             });
-        dispatch(fillUserState(uid));
+        
+        Alert.alert("Leave Group", "You have left the group.")
+
+        dispatch(fillUserState(uid)).then(() => {
+            props.navigation.navigate("Group")
+            isLoading(false);
+        })
+    }
+
+    const handleLeaveGroup = async () => {
+        Alert.alert("Leave Group", "Are you sure you want to leave this group?",
+        [
+            {
+                text: "Yes",
+                onPress: () => {
+                    leaveGroup();
+                },
+            },
+            {
+                text: "No",
+                onPress: () => {},
+            }
+        ])
     }
 
     return (
@@ -228,33 +251,11 @@ export default (props) => {
                 }>
                 <Text style ={styles.buttonText}>Add Members</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity
-                style = {styles.buttonred}
-                onPress = {() => {
-                    props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Main' }],
-                    })
-                    props.navigation.navigate('Room')
-                }
-                }>
-                <Text style ={styles.buttonText}>Leave Groupsads</Text>
-            </TouchableOpacity>
-
             
             <TouchableOpacity
                 style = {styles.buttonred}
-                onPress = {async () => {
-                    isLoading(true);
-                    await handleLeaveGroup().then(() =>{
-                        props.navigation.navigate("Group")
-                        isLoading(false)
-                    }
-
-                    )
-                }
-                }>
+                onPress = {async () => { await handleLeaveGroup() }}
+            >
                 <Text style ={styles.buttonText}>Leave Group</Text>
             </TouchableOpacity>
         

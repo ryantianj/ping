@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {Alert, ActivityIndicator, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import firebase, { usersCollection } from '../../../../api/firebase';
 import { useDispatch } from 'react-redux';
 import { fillUserState } from '../../../usersSlice';
@@ -18,19 +18,33 @@ export default (props) => {
     // this is done to update badges state
 
     const handleLogout = async () => {
-        isLoading(true);
-        const response = await firebase
-        .auth()
-        .signOut();
-        firebase.auth().onAuthStateChanged((user) => {
-            if (!user) { console.log('signed out!') }
-          });
-        props.navigation.reset({
-            index: 0,
-            routes: [{ name: 'Login' }],
-        });
-        isLoading(false);
-
+        Alert.alert("Log Out", "Are you sure you want to log out?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                    logOut()},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
+        
+        const logOut = async () => {
+            isLoading(true);
+            const response = await firebase
+            .auth()
+            .signOut();
+            firebase.auth().onAuthStateChanged((user) => {
+                if (!user) { console.log('signed out!') }
+            });
+            props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'Login' }],
+            });
+            isLoading(false);
+        }
     }
 
     return (

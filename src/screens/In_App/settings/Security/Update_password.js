@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, TextInput, TouchableOpacity, Alert} from "react-native";
+import {Alert, Text, TextInput, TouchableOpacity} from "react-native";
 import firebase, { usersCollection } from '../../../../../api/firebase';
 
 import Screen from "../../../../components/Screen";
@@ -11,11 +11,13 @@ export default (props) => {
     const [newPassword1, setNewPassword1] = useState("");
     const [newPassword2, setNewPassword2] = useState("");
 
-    const handleUpdatePassword = async () => {
-        if (newPassword1 !== newPassword2) {
+    const updatePassword = async () => {
+        if (oldPassword === '' || newPassword1 === '' || newPassword2 === '') {
+            Alert.alert('Please fill in all fields.')
+        } else if (newPassword1 !== newPassword2) {
             Alert.alert('Your new passwords do not match!')
         } else if (oldPassword === newPassword1) {
-            Alert.alert('Your new password cannot be the same as your existing password. Please try something new.')
+            Alert.alert('Your new password is the same as existing password!')
         } else {
             let getUser = firebase.auth().currentUser;
             let credential = firebase.auth.EmailAuthProvider
@@ -43,6 +45,21 @@ export default (props) => {
                 }
             }
         }
+    }
+
+    const handleUpdatePassword = async () => {
+        Alert.alert("Update Password", "Are you sure you want to update your password?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                    updatePassword()},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
     }
 
     return (

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Alert, ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
 import { useDispatch } from 'react-redux';
 
 import Screen from "../../../../components/Screen";
@@ -24,7 +24,7 @@ export default (props) => {
 
     const uid = store.getState().user.user.uid;
 
-    const deleteUser = () => {
+    const removeFriend = () => {
         isLoading(true);
         if (store.getState().user.user.friends.includes(user.uid)) {
             firebase.firestore()
@@ -42,6 +42,21 @@ export default (props) => {
                     isLoading(false);
                     props.navigation.navigate('Settings')})
         }
+    }
+
+    const handleRemoveFriend = async () => {
+        Alert.alert("Remove Friend", "Are you sure you want to remove this friend?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                    removeFriend()},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
     }
 
     const renderItem = ( {item}) => {
@@ -100,10 +115,10 @@ export default (props) => {
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {async () => {
-                    await deleteUser()
+                    await handleRemoveFriend()
                     dispatch(fillUserState(uid))
                 }}>
-                <Text style ={styles.buttonText}>Delete User</Text>
+                <Text style ={styles.buttonText}>Remove Friend</Text>
             </TouchableOpacity>
 
             {loading && <View style={styles.loading}>

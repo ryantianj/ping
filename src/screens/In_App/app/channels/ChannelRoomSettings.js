@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Alert, ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
 import firebase, {usersCollection, roomsCollection, channelsCollection} from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillUserState } from '../../../../usersSlice';
@@ -49,7 +49,8 @@ export default (props) => {
         )
     }
 
-    const handleLeaveChannel = async () => {
+    const leaveChannel = async () => {
+        isLoading(true);
         await usersCollection
             .doc(uid)
             .update({
@@ -67,7 +68,29 @@ export default (props) => {
             .then(() => {
                 console.log('Removed user from room db!');
             });
-        await dispatch(fillUserState(uid));
+        
+        Alert.alert("Leave Channel", "You have left the channel.")
+
+        dispatch(fillUserState(uid)).then(() => {
+            props.navigation.navigate("Channel")
+            isLoading(false);
+        })
+    }
+
+    const handleLeaveChannel = async () => {
+        Alert.alert("Leave Channel", "Are you sure you want to leave this channel?",
+        [
+            {
+                text: "Yes",
+                onPress: () => {
+                    leaveChannel();
+                },
+            },
+            {
+                text: "No",
+                onPress: () => {},
+            }
+        ])
     }
 
     return (
@@ -93,15 +116,8 @@ export default (props) => {
 
             <TouchableOpacity
                 style = {styles.button}
-                onPress = {async () => {
-                    isLoading(true)
-                    await handleLeaveChannel()
-                        .then(() => {
-                            isLoading(false);
-                            props.navigation.navigate("Channel")});
-
-                }
-                }>
+                onPress = {async () => { await handleLeaveChannel() }}
+            >
                 <Text style ={styles.buttonText}>Leave Channel</Text>
             </TouchableOpacity>
 

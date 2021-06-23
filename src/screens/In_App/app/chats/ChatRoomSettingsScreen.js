@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator} from "react-native";
+import {Alert, FlatList, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator} from "react-native";
 import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillUserState } from '../../../../usersSlice';
@@ -49,7 +49,8 @@ export default (props) => {
         )
     }
 
-    const handleLeaveChat = async () => {
+    const leaveChat = async () => {
+        isLoading(true);
         await usersCollection
             .doc(uid)
             .update({
@@ -66,7 +67,29 @@ export default (props) => {
             .then(() => {
                 console.log('Removed user from room db!');
             });
-        dispatch(fillUserState(uid));
+        
+        Alert.alert("Leave Chat", "You have left the chat.")
+
+        dispatch(fillUserState(uid)).then(() => {
+            props.navigation.navigate("Chat")
+            isLoading(false);
+        })
+    }
+
+    const handleLeaveChat = async () => {
+        Alert.alert("Leave Chat", "Are you sure you want to leave this chat?",
+        [
+            {
+                text: "Yes",
+                onPress: () => {
+                    leaveChat();
+                },
+            },
+            {
+                text: "No",
+                onPress: () => {},
+            }
+        ])
     }
 
     return (
@@ -92,14 +115,8 @@ export default (props) => {
 
             <TouchableOpacity
                 style = {styles.button}
-                onPress = {async () => {
-                    isLoading(true);
-                    await handleLeaveChat().then(() => {
-                        props.navigation.navigate("Chat")
-                        isLoading(false);
-                    });
-                }
-                }>
+                onPress = { async () => { await handleLeaveChat() }}
+            >
                 <Text style ={styles.buttonText}>Leave Chat</Text>
             </TouchableOpacity>
 

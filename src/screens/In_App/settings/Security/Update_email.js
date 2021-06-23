@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, TextInput, TouchableOpacity, Alert} from "react-native";
+import {Alert, Text, TextInput, TouchableOpacity} from "react-native";
 import firebase, { usersCollection } from '../../../../../api/firebase';
 
 import Screen from "../../../../components/Screen";
@@ -10,13 +10,15 @@ export default (props) => {
     const [newEmail, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleUpdateEmail = async () => {
+    const updateEmail = async () => {
         let getUser = firebase.auth().currentUser;
         let credential = firebase.auth.EmailAuthProvider
                         .credential(getUser.email, password);
 
         // if user types his EXISTING email, no change occurs.
-        if (newEmail === getUser.email) {
+        if (password === '' || newEmail === '') {
+            Alert.alert('Please fill in all fields.')
+        } else if (newEmail === getUser.email) {
             Alert.alert('You have keyed in your existing email. Please try again with a new email.')
             return; 
         }
@@ -47,6 +49,21 @@ export default (props) => {
                 Alert.alert('Oops! Please retry with the correct password :(');
             }
         }
+    }
+
+    const handleUpdateEmail = async () => {
+        Alert.alert("Update Email", "Are you sure you want to update your email?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                    updateEmail()},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
     }
 
     return (
