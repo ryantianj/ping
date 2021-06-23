@@ -23,6 +23,7 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         borderColor:'black',
         borderBottomWidth:1,
+        paddingBottom: 2
     },
     postTitle2: {
         marginTop: 8,
@@ -30,6 +31,7 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         borderColor:'black',
         // borderBottomWidth:1,
+        paddingBottom: 2
     },
     postText: {
         fontSize: 18,
@@ -40,6 +42,7 @@ export default StyleSheet.create({
         color: 'white',
         borderColor:'white',
         borderBottomWidth:1,
+        paddingBottom: 2
     },
     chatText: {
         fontSize: 18,
@@ -51,6 +54,7 @@ export default StyleSheet.create({
         color: 'black',
         borderColor:'black',
         borderBottomWidth:1,
+        paddingBottom: 2
     },
     requestText: {
         fontSize: 18,
@@ -111,6 +115,12 @@ export default StyleSheet.create({
         top: 10,
         backgroundColor: colours.group,
         borderRadius: 10,
+    },
+    iconTrashChatBlack: {
+        right : 5,
+        top: 10,
+        backgroundColor: colours.chat,
+        borderRadius: 1,
     },
     trash: {
         position: 'absolute',

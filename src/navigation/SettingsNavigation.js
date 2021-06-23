@@ -17,6 +17,7 @@ import DeleteFriend from "../screens/In_App/settings/Friends/DeleteFriend";
 import HelpMain from "../screens/In_App/settings/Help/HelpMain";
 import FriendHelp from "../screens/In_App/settings/Help/FriendHelp";
 import RoomHelp from "../screens/In_App/settings/Help/RoomHelp";
+import BadgesHelp from "../screens/In_App/settings/Help/BadgesHelp";
 
 import styles from "../styling/navigation/SettingsNavigation.styles"
 import colours from "../constants/colours";
@@ -142,6 +143,15 @@ export default (props) => {
                     component = {FriendHelp}
                     options={{
                         title: "Friends",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+                
+                <Stack.Screen
+                    name = "Badges"
+                    component = {BadgesHelp}
+                    options={{
+                        title: "Badges",
                         headerStyle: {
                             backgroundColor: colours.primary
                         }}}/>

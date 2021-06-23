@@ -36,6 +36,9 @@ export default StyleSheet.create({
         marginTop: 10,
         textDecorationLine: 'underline'
     },
+    italicText: {
+        fontStyle: 'italic'
+    },
     bodyText: {
         fontSize: 16,
         color: 'black',

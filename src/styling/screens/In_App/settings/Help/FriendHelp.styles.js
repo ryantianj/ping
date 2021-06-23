@@ -14,11 +14,19 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    profileText: {
-        fontSize: 30,
+    headerText: {
+        fontSize: 25,
         color: 'black',
         textAlign: 'center',
-        width: windowWidth
+        width: windowWidth, 
+        marginBottom: 10
+    },
+    bodyText: {
+        fontSize: 16,
+        color: 'black',
+        width: 8.2 * windowWidth / 10,
+        marginBottom: 10,
+        textAlign: "justify"
     },
     Button : {
         marginTop: 10,

@@ -14,28 +14,44 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    profileText: {
-        fontSize: 30,
+    headerText: {
+        fontSize: 25,
         color: 'black',
         textAlign: 'center',
-        width: windowWidth
+        width: windowWidth, 
+        marginBottom: 10
+    },
+    bodyText: {
+        fontSize: 16,
+        color: 'black',
+        width: 8.2 * windowWidth / 10,
+        marginBottom: 10,
+        textAlign: "justify"
+    },
+    bodyText2: {
+        marginTop: 25,
+        fontSize: 16,
+        color: 'black',
+        width: 8.2 * windowWidth / 10,
+        marginBottom: 10,
+        textAlign: "justify"
     },
     Button : {
-        marginTop: 10,
+        marginTop: 25,
         fontSize: 50,
         borderRadius: 10,
-        width: 19 * windowWidth / 20,
+        width: 7.5 * windowWidth / 10,
         height: 50,
         backgroundColor: colours.settingsButton,
-        flexDirection: 'column',
+        // flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
     },
     ButtonText : {
         color: 'black',
-        textAlign: 'left',
-        width: windowWidth,
-        left: 20,
+        textAlign: 'center',
+        paddingRight: 40,
+        width: 8.5 * windowWidth / 10,
         fontSize: 20,
     },
 })

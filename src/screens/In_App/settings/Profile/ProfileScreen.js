@@ -41,10 +41,10 @@ export default (props) => {
                 title = 'Sage (Exclusively Appointed)'
             } else if (type === 1) { // guru
                 icon = badgeguru
-                title = 'Guru (Top 10th percentile for post upvotes ratio)'
+                title = 'Guru (Top 10th percentile for total post upvotes)'
             } else { // thinker
                 icon = badgethinker
-                title = 'Thinker (Top 30th percentile for post upvotes ratio)'
+                title = 'Thinker (Top 30th percentile for total post upvotes)'
             }
             badgesArray.push({topic: topic, icon: icon, title: title, type: type});
         }
