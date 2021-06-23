@@ -240,6 +240,12 @@ export default (props) => {
                 contentContainerStyle={{ paddingBottom: 20 }}/>
         </View>
 
+        <TouchableOpacity onPress = {() => console.log(noti)}>
+                        <Text>
+                            here
+                        </Text>
+                    </TouchableOpacity>
+
         </Screen>
 
     )
