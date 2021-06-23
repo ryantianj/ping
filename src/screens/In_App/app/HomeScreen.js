@@ -254,7 +254,6 @@ export default (props) => {
                 style = {styles.notificationsText}>
                 Your Notifications
             </Text>
-            
 
         <View style = {styles.flatList}>
             <FlatList
