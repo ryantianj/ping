@@ -1,19 +1,19 @@
-import React, {useState, useRef, useEffect} from "react";
-import {Text, TextInput, TouchableOpacity, View, Image, Pressable, KeyboardAvoidingView, Alert} from "react-native";
-import firebase, {channelsCollection, usersCollection, interestsCollection} from '../../api/firebase';
-import { fillUserState, hasData } from '../usersSlice';
-import { useDispatch , useSelector} from 'react-redux';
+import React, {useState, useRef} from "react";
+import {Text, TextInput, TouchableOpacity, View, Image, Pressable, Alert, ActivityIndicator} from "react-native";
+import firebase, {} from '../../api/firebase';
+import { fillUserState } from '../usersSlice';
+import { useDispatch } from 'react-redux';
 import store from "../store";
 
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
 import styles from "../styling/screens/LoginScreen.styles";
-import colours from "../constants/colours";
 
 const LoginScreen = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPass, isPassVisible] = useState(true);
+    const [loading, isLoading] = useState(false);
 
     const nextInput = useRef();
 
@@ -28,6 +28,7 @@ const LoginScreen = (props) => {
     const handleLogin = async () => {
         if (email && password) {
             try {
+                isLoading(true);
                 const response = await firebase
                     .auth()
                     .signInWithEmailAndPassword(email, password)
@@ -38,11 +39,13 @@ const LoginScreen = (props) => {
                             // Set the user profile into global store
                             dispatch(fillUserState(uid)).then(() => {
                                 if(store.getState().user.user.hasData) {
+                                    isLoading(false);
                                 props.navigation.reset({
                                     index: 0,
                                     routes: [{ name: 'Main' }],
                                 });
                             } else {
+                                    isLoading(false);
                                 props.navigation.reset({
                                     index: 0,
                                     routes: [{ name: 'CreateProfile' }],
@@ -51,10 +54,12 @@ const LoginScreen = (props) => {
                             });
                             console.log('signed in, email verified')
                         } else {
+                            isLoading(false);
                             Alert.alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
                         }
                     })               
             } catch (error) {
+                isLoading(false);
                 if (error.code === "auth/invalid-email") {
                     Alert.alert("Please enter a valid email address");
                 } else if (error.code === "auth/user-not-found") {
@@ -65,103 +70,6 @@ const LoginScreen = (props) => {
             }
         }
     }
-    
-
-    // useEffect(() => {
-    //     interestsCollection.doc('profile').set({
-            
-    //         }
-    //     },{merge:true})
-    // }, [])
-
-    // useEffect(async () => {
-
-    //     const response = await interestsCollection.doc('profile').get();
-    //     const topicArray = response.data().fields;
-
-    //     const TenPctGuru = {};
-    //     const ThirtyPctThinker = {};
-
-    //     for (let i = 0; i < 105; i++) {
-    //         const topic = topicArray[i];
-
-    //         // Get the upvotes scores for users in a map(key = uid, value = upvote count)
-    //         let upvotesArray = [];
-
-    //         // filter all channels related to this topic
-    //         await channelsCollection.where('topics', 'array-contains', topic).get()
-    //         .then(channels => {
-    //             let topicalUpvotes = {};
-    //             channels.forEach( channelDoc => {
-    //                 console.log(channelDoc.id);
-    //                 console.log(channelDoc.data().roomname); // channel name
-    //                  channelsCollection.doc(channelDoc.id).collection('Posts')
-    //                 .get().then(posts => {
-    //                     posts.forEach( postDoc => {
-    //                         console.log(postDoc.id);
-    //                          channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
-    //                         .collection('Comments').get().then(comments => {
-    //                             comments.forEach( commentDoc => {
-    //                                 console.log(commentDoc.id);
-
-    //                                 // take commentDoc.data() and count the likedby
-    //                                 const commentData = commentDoc.data();
-    //                                 if (!topicalUpvotes[commentData.user._id]) {
-    //                                     topicalUpvotes[commentData.user._id] = 0;
-    //                                 }
-    //                                 topicalUpvotes[commentData.user._id] = topicalUpvotes[commentData.user._id] + commentData.likedby.length
-    //                                 console.log('current topicalUpvotes for ' + topic + ': ')
-    //                                 console.log(topicalUpvotes);
-    //                             })
-    //                         }).then(() => {
-    //                              // take postDoc.data() and count the likedby
-    //                              const postData = postDoc.data();
-    //                              if (!topicalUpvotes[postData.user._id]) {
-    //                                  topicalUpvotes[postData.user._id] = 0;
-    //                              }
-    //                              topicalUpvotes[postData.user._id] = topicalUpvotes[postData.user._id] + postData.likedby.length
-    //                              console.log('current topicalUpvotes for '+topic+': ')
-    //                              console.log(topicalUpvotes);
-    //                              return topicalUpvotes
-    //                          }).then((t) => {
-    //                              // Take all values from the map and put into an array
-    //                              console.log("upvotesArray" + topic)
-    //                              upvotesArray = [];
-    //                              for (const uid in t) {
-    //                                  upvotesArray.push(t[uid]);
-    //                                  console.log("pushing: " + topic)
-    //                              }
-    //                              return upvotesArray
-    //                          }).then((x) => {
-    //                              console.log(x);
-
-    //                              // Find 10th pct and 30th pct and retrieve these values as minGuru and minThinker
-    //                              x.sort((a, b) => b - a);
-
-    //                              const length = x.length;
-    //                              console.log(length)
-    //                              const tenth = Math.ceil(length / 10);
-    //                              const thirtieth = Math.ceil(3 * length / 10);
-    //                              const minGuru = x[tenth - 1];
-    //                              const minThinker = x[thirtieth - 1];
-
-    //                              // add minGuru to TenPctGuru(key = topic, value = minGuru)
-    //                              // add minGuru to ThirtyPctThinker(key = topic, value = minThinker)
-    //                              TenPctGuru[topic] = minGuru;
-    //                              ThirtyPctThinker[topic] = minThinker;
-    //                          })
-    //                     })
-    //                 })
-    //             })
-    //         })
-    //     }
-    //     console.log('here')
-    //     await interestsCollection.doc('profile').set({
-    //         TenPctGuru : TenPctGuru,
-    //         ThirtyPctThinker: ThirtyPctThinker
-    //     }, {merge:true})
-
-    // }, [])
 
     return (
         <Screen style = {styles.container}>
@@ -224,6 +132,11 @@ const LoginScreen = (props) => {
 
                 </Text>
             </View>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+            }
 
         </Screen>
     )

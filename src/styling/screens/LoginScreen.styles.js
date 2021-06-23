@@ -2,6 +2,7 @@ import {StyleSheet, Dimensions} from "react-native";
 import colours from "../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
         container: {
@@ -76,8 +77,15 @@ export default StyleSheet.create({
             color: 'white',
             textDecorationLine: 'underline',
             fontWeight: 'bold'
+        },
+        loading : {
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            alignItems: 'center',
+            justifyContent: 'center'
         }
-
-
     }
 )
