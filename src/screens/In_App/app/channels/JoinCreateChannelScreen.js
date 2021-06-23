@@ -4,7 +4,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList, ScrollView
+    FlatList, ScrollView, ActivityIndicator
 } from "react-native";
 
 import firebase, {
@@ -25,6 +25,8 @@ export default (props) => {
     const [selectInterests, setSelectInterests] = useState([]); // Client-side choices
     const [roomname, setRoomName] = useState("");
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
+    const [loading, isLoading] = useState(false);
+
     const dispatch = useDispatch();
 
     const CreateChannel = async () => {
@@ -164,14 +166,24 @@ export default (props) => {
                             alert('Please key in a roomname between 1-20 characters')
                             return;
                         }
+                        isLoading(true)
                         await CreateChannel().then(() => {
-                            props.navigation.navigate("Channel")});
+                            props.navigation.navigate("Channel")
+                            isLoading(false)});
                     }}
                 >
                     <Text style = {styles.buttonText}>Create Channel</Text>
                 </TouchableOpacity>
 
             </ScrollView>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Creating Channel
+                </Text>
+            </View>
+            }
         </Screen>
     )
 }
