@@ -14,6 +14,7 @@ import { findAllBadges } from '../../../calculateBadges';
 
 export default (props) => {
     const [noti, setNoti] = useState([]);
+    const [count, setCount] = useState(0)
     const [loading, isLoading] = useState(false);
     const [loadingText, setLoadingText] = useState('');
 
@@ -21,7 +22,7 @@ export default (props) => {
 
     useEffect(() => {
         
-        findAllBadges()
+        // findAllBadges()
 
         //channels noti
          const allNoti = usersCollection.doc(store.getState().user.user.uid)
@@ -43,6 +44,7 @@ export default (props) => {
                      return data;
                  })
                  setNoti(notis)
+                 setCount(count + 1)
              })
         return () => {
             allNoti()
@@ -253,19 +255,27 @@ export default (props) => {
                 Your Notifications
             </Text>
 
+            <TouchableOpacity onPress = {() => {
+                setCount(count + 1)
+                console.log(noti)}}>
+                <Text>
+                    here
+                </Text>
+            </TouchableOpacity>
 
         <View style = {styles.flatList}>
             <FlatList
                 data={noti}
                 renderItem={renderItem}
-                extraData={noti}
+                extraData={[noti, count]}
+                keyExtractor={item => item._id}
                 contentContainerStyle={{ paddingBottom: 20 }}/>
         </View>
 
             {loading && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />
                 <Text>
-                    Loading
+                    Loading {loadingText}
                 </Text>
             </View>
             }
