@@ -2,9 +2,7 @@ import React, {useEffect, useState} from "react";
 import {ActivityIndicator, FlatList, Text, TouchableOpacity, View} from "react-native";
 import {useDispatch} from "react-redux";
 
-import Search from "../../../constants/Search";
 import Screen from "../../../components/Screen";
-import Logo_Settings from "../../../constants/Logo_Settings";
 
 import styles from '../../../styling/screens/In_App/app/HomeScreen.styles'
 import {usersCollection} from "../../../../api/firebase";
@@ -310,8 +308,6 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
-            <Logo_Settings navigation = {props.navigation}/>
-            <Search navigation = {props.navigation}/>
 
             <Text
                 style = {styles.notificationsText}>

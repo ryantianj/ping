@@ -7,6 +7,8 @@ import HomeScreen from "../screens/In_App/app/HomeScreen"
 import Recommendations from "../screens/In_App/app/RecommendationsScreen";
 import Room from "./RoomNavigation";
 import Screen from "../components/Screen";
+import Logo_Settings from "../constants/Logo_Settings";
+import Search from "../constants/Search";
 
 
 const Tab = createBottomTabNavigator();
@@ -14,6 +16,8 @@ const Tab = createBottomTabNavigator();
 export default (props) => {
     return (
         <Screen style = {styles.container}>
+            <Logo_Settings navigation = {props.navigation}/>
+            <Search navigation = {props.navigation}/>
             <Tab.Navigator
                 initialRouteName = "Home"
                 backBehavior = "history"
