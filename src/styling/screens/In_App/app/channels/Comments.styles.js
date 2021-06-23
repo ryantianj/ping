@@ -31,8 +31,10 @@ export default StyleSheet.create({
         top: 10,
     },
     trash: {
+        position: 'absolute',
         height: 30,
         width: 30,
+        right : 1,
     },
     userTrash: {
         flexDirection: 'row',

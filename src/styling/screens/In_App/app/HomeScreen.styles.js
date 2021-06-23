@@ -90,5 +90,22 @@ export default StyleSheet.create({
     },
     loadingColour: {
         color : colours.logInButton
-    }
+    },
+    iconTrash: {
+        right : 5,
+        top: 10,
+    },
+    iconTrashBlack: {
+        right : 5,
+        top: 10,
+        backgroundColor: colours.group,
+        borderRadius: 10,
+    },
+    trash: {
+        position: 'absolute',
+        height: 30,
+        width: 30,
+        top: -7,
+        right : -10,
+    },
 })

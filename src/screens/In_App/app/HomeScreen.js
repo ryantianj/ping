@@ -2,15 +2,14 @@ import React, {useEffect, useState} from "react";
 import {ActivityIndicator, FlatList, Text, TouchableOpacity, View} from "react-native";
 import {useDispatch} from "react-redux";
 
-import Search from "../../../constants/Search";
 import Screen from "../../../components/Screen";
-import Logo_Settings from "../../../constants/Logo_Settings";
 
 import styles from '../../../styling/screens/In_App/app/HomeScreen.styles'
-import { usersCollection} from "../../../../api/firebase";
+import {usersCollection} from "../../../../api/firebase";
 import store from "../../../store";
 import {fillChannelRoomState, fillChatRoomState, fillGroupRoomState} from "../../../roomsSlice";
 import { findAllBadges } from '../../../calculateBadges';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default (props) => {
     const [noti, setNoti] = useState([]);
@@ -52,6 +51,11 @@ export default (props) => {
 
     }, [])
 
+    const deleteNoti = (item) => {
+        usersCollection.doc(store.getState().user.user.uid)
+            .collection('noti').doc(item._id).delete()
+    }
+
     //NotiTypes: 0: Channel Post 1: Channel Comments 2: New group message 3: New chat message
     // 4: Badges 5: Receive friend request (add user) 6: friend request accepted 7: Someone added you (public)
 
@@ -71,9 +75,17 @@ export default (props) => {
                         }
                     >
                         <View>
-                            <Text style = {styles.postTitle}>
-                                Channel - {item.roomname}
-                            </Text>
+                                <Text style = {styles.postTitle}>
+                                    Channel - {item.roomname}
+                                </Text>
+                                <TouchableOpacity style = {styles.trash}
+                                                  hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                                  onPress = {() => deleteNoti(item)}
+                                >
+                                    <Ionicons style = {styles.iconTrash}
+                                              name={'trash-outline'} size={25}  />
+                                </TouchableOpacity>
+
                             <Text style = {styles.postText}>
                                 {item.user.display} posted:
                             </Text>
@@ -113,6 +125,13 @@ export default (props) => {
                             <Text style = {styles.postTitle}>
                                 Channel - {item.roomname}
                             </Text>
+                            <TouchableOpacity style = {styles.trash}
+                                              hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                              onPress = {() => deleteNoti(item)}
+                            >
+                                <Ionicons style = {styles.iconTrash}
+                                          name={'trash-outline'} size={25}  />
+                            </TouchableOpacity>
                             <Text style = {styles.postText}>
                                 {item.user.display} commented on post {item.title}:
                             </Text>
@@ -140,6 +159,13 @@ export default (props) => {
                             <Text style = {styles.postTitle}>
                                 Group - {item.roomname}
                             </Text>
+                            <TouchableOpacity style = {styles.trash}
+                                              hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                              onPress = {() => deleteNoti(item)}
+                            >
+                                <Ionicons style = {styles.iconTrash}
+                                          name={'trash-outline'} size={25}  />
+                            </TouchableOpacity>
                             <Text style = {styles.postText}>
                                 {item.user.display} said:
                             </Text>
@@ -167,6 +193,13 @@ export default (props) => {
                             <Text style = {styles.chatTitle}>
                                 Chat - {item.roomname}
                             </Text>
+                            <TouchableOpacity style = {styles.trash}
+                                              hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                              onPress = {() => deleteNoti(item)}
+                            >
+                                <Ionicons style = {styles.iconTrashBlack}
+                                          name={'trash-outline'} size={25}  />
+                            </TouchableOpacity>
                             <Text style = {styles.chatText}>
                                 {item.user.display} said:
                             </Text>
@@ -187,6 +220,13 @@ export default (props) => {
                             <Text style = {styles.chatTitle}>
                                 {item.title}
                             </Text>
+                            <TouchableOpacity style = {styles.trash}
+                                              hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                              onPress = {() => deleteNoti(item)}
+                            >
+                                <Ionicons style = {styles.iconTrashBlack}
+                                          name={'trash-outline'} size={25}  />
+                            </TouchableOpacity>
                             <Text style = {styles.chatText}>
                                 {item.text}
                             </Text>
@@ -203,6 +243,13 @@ export default (props) => {
                             <Text style = {styles.requestTitle}>
                                 Friend Request
                             </Text>
+                            <TouchableOpacity style = {styles.trash}
+                                              hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                              onPress = {() => deleteNoti(item)}
+                            >
+                                <Ionicons style = {styles.iconTrash}
+                                          name={'trash-outline'} size={25}  />
+                            </TouchableOpacity>
                             <Text style = {styles.requestText}>
                                 {item.user.display} sent you a Friend Request!
                             </Text>
@@ -219,6 +266,13 @@ export default (props) => {
                             <Text style = {styles.requestTitle}>
                                 Friend Request
                             </Text>
+                            <TouchableOpacity style = {styles.trash}
+                                              hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                              onPress = {() => deleteNoti(item)}
+                            >
+                                <Ionicons style = {styles.iconTrash}
+                                          name={'trash-outline'} size={25}  />
+                            </TouchableOpacity>
                             <Text style = {styles.requestText}>
                                 {item.user.display} accepted your Friend Request!
                             </Text>
@@ -235,6 +289,13 @@ export default (props) => {
                             <Text style = {styles.requestTitle}>
                                 Friend Request
                             </Text>
+                            <TouchableOpacity style = {styles.trash}
+                                              hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                              onPress = {() => deleteNoti(item)}
+                            >
+                                <Ionicons style = {styles.iconTrash}
+                                          name={'trash-outline'} size={25}  />
+                            </TouchableOpacity>
                             <Text style = {styles.requestText}>
                                 {item.user.display} added you as a Friend!
                             </Text>
@@ -247,8 +308,6 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
-            <Logo_Settings navigation = {props.navigation}/>
-            <Search navigation = {props.navigation}/>
 
             <Text
                 style = {styles.notificationsText}>
