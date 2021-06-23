@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase from "../../api/firebase"
 import store from "../store"
@@ -11,6 +11,7 @@ export default (props) => {
     const [user, setUser] = useState([]);
     const [channel, setChannel] = useState([]);
     const [total, setTotal] = useState([]);
+    const [loading, isLoading] = useState(false);
 
     const addUser = (item) => {
         // makes sure u cant add yourself
@@ -24,6 +25,7 @@ export default (props) => {
     }
 
     const submitQueryToDatabase = () => {
+        isLoading(true)
         setUser([]);
         setChannel([]);
         setTotal([]);
@@ -55,6 +57,7 @@ export default (props) => {
             })
         users().then(() => channels())
             .then(() => {
+                isLoading(false)
                 props.navigation.navigate('Search',
                     {   search: search,
                         user: user,
@@ -63,6 +66,7 @@ export default (props) => {
                     })
             })
             .catch((error) => {
+                isLoading(false)
                 alert("Invalid Query")
             })
     }
@@ -84,6 +88,14 @@ export default (props) => {
                 <Ionicons style = {styles.icon}
                           name={'search-outline'} size={27}  />
             </TouchableOpacity>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Searching
+                </Text>
+            </View>
+            }
 
         </View>
     )

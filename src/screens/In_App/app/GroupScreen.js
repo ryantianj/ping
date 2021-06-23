@@ -3,7 +3,7 @@ import {
     Text,
     TouchableOpacity,
     FlatList,
-    View,
+    View, ActivityIndicator,
 } from "react-native";
 import {channelsCollection, roomsCollection, usersCollection} from '../../../../api/firebase';
 import { fillGroupRoomState } from '../../../roomsSlice';
@@ -21,6 +21,7 @@ export default (props) => {
     const isFocused = useIsFocused();
     const [roomsData, setRoomsData] = useState([]);
     const [len, setLen] = useState(0);
+    const [loading, isLoading] = useState(false);
     
     const renderGroupItem = ( room ) => {
         return (
@@ -28,8 +29,10 @@ export default (props) => {
                 style = {styles.groupsList}
                 onPress = {
                     () => {
+                        isLoading(true);
                         dispatch(fillGroupRoomState(room.item.roomid))
-                            .then(() => props.navigation.navigate('GroupRooms',{ screen: 'GroupRoom' }))
+                            .then(() => {props.navigation.navigate('GroupRooms',{ screen: 'GroupRoom' })
+                            isLoading(false)})
                     }
                 }
             >
@@ -88,6 +91,14 @@ export default (props) => {
                 renderItem = {renderGroupItem}
                 extraData={roomsData}
                 contentContainerStyle={{ paddingBottom: 20 }}/>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Loading Group
+                </Text>
+            </View>
+            }
         </Screen>
     )
 }

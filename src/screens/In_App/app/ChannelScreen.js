@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {View, FlatList, Text, TouchableOpacity} from "react-native";
+import {View, FlatList, Text, TouchableOpacity, ActivityIndicator} from "react-native";
 
 import Screen from "../../../components/Screen";
 
@@ -16,6 +16,7 @@ import { useIsFocused } from "@react-navigation/native";
 export default (props) => {
     const isFocused = useIsFocused();
     const [roomsData, setRoomsData] = useState([]);
+    const [loading, isLoading] = useState(false);
 
     const renderChannelItem = ( room ) => {
         return (
@@ -23,8 +24,12 @@ export default (props) => {
                 style = {styles.channelList}
                 onPress = {
                     () => {
+                        isLoading(true)
                         dispatch(fillChannelRoomState(room.item.roomid))
-                            .then(() => props.navigation.navigate('Channels',{ screen: 'ChannelRoom' }))
+                            .then(() => {
+                                props.navigation.navigate('Channels',{ screen: 'ChannelRoom' })
+                                isLoading(false)}
+                            )
 
                     }
                 }
@@ -84,6 +89,13 @@ export default (props) => {
                 extraData={roomsData}
                 contentContainerStyle={{ paddingBottom: 20 }}
             />
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Loading Channel
+                </Text>
+            </View>
+            }
         </Screen>
 
     )

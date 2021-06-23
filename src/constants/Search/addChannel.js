@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
 import { useDispatch } from 'react-redux';
 
 import Screen from "../../components/Screen";
@@ -11,6 +11,7 @@ import {fillUserState} from "../../usersSlice";
 
 export default (props) => {
     const [channel, setChannel] = useState(props.route.params.channel)
+    const [loading, isLoading] = useState(false);
 
     const DATA = [
         channel.roomname,
@@ -22,7 +23,9 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
 
     const addChannel = () => {
+        isLoading(true);
         if (store.getState().user.user.channels.includes(channel.roomid)) {
+            isLoading(false);
             alert("You are already in this Channel!")
         } else {
             firebase.firestore()
@@ -36,6 +39,7 @@ export default (props) => {
                 .update({
                     users: firebase.firestore.FieldValue.arrayUnion(uid)
                 }) ).then(() => dispatch(fillUserState(uid))).then(() => {
+                    isLoading(false);
                     alert("Channel Added!")
                     props.navigation.navigate("Channel")
                 })
@@ -86,6 +90,14 @@ export default (props) => {
                 }}>
                 <Text style ={styles.buttonText}>Add Channel</Text>
             </TouchableOpacity>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                   Adding Channel
+                </Text>
+            </View>
+            }
         </Screen>
     )
 }

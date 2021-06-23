@@ -1,5 +1,5 @@
-import React from "react";
-import {ScrollView, Text, TouchableOpacity} from "react-native";
+import React, {useState} from "react";
+import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import firebase, { usersCollection } from '../../../../api/firebase';
 import { useDispatch } from 'react-redux';
 import { fillUserState } from '../../../usersSlice';
@@ -11,11 +11,14 @@ import styles from '../../../styling/screens/In_App/settings/SettingsScreen.styl
 
 
 export default (props) => {
+    const [loading, isLoading] = useState(false);
+
     const dispatch = useDispatch();
     dispatch(fillUserState(store.getState().user.user.uid));
     // this is done to update badges state
 
     const handleLogout = async () => {
+        isLoading(true);
         const response = await firebase
         .auth()
         .signOut();
@@ -26,6 +29,7 @@ export default (props) => {
             index: 0,
             routes: [{ name: 'Login' }],
         });
+        isLoading(false);
 
     }
 
@@ -66,6 +70,14 @@ export default (props) => {
                 onPress = {handleLogout}>
                 <Text style ={styles.buttonText}>Log Out</Text>
             </TouchableOpacity>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Logging Out
+                </Text>
+            </View>
+            }
         </Screen>
 
     )

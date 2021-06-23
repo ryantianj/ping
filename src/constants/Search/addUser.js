@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
 import { useDispatch } from 'react-redux';
 
 import Screen from "../../components/Screen";
@@ -11,6 +11,7 @@ import {fillUserState} from "../../usersSlice";
 
 export default (props) => {
     const [user, setUser] = useState(props.route.params.user)
+    const [loading, isLoading] = useState(false);
 
     const DATA = [
         user.display,
@@ -23,10 +24,12 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
 
     const addUser = () => {
+        isLoading(true)
         // if private, send request
         if (user.visibility) {
             if (store.getState().user.user.friends.includes(user.uid)) {
                 alert("User is already your friend!")
+                isLoading(false)
             } else {
                 //private, send friend request
                 firebase.firestore()
@@ -34,7 +37,9 @@ export default (props) => {
                     .doc(user.uid)
                     .update({
                         pending: firebase.firestore.FieldValue.arrayUnion(uid)
-                    }).then(() => alert("Friend Request Sent!"))
+                    }).then(() => {
+                        isLoading(false)
+                        alert("Friend Request Sent!")})
                  globalNotiCollection.add({
                     title: "Friend Request",
                     text: store.getState().user.user.display,
@@ -49,9 +54,11 @@ export default (props) => {
                     notiType: 5,
                 })
             }
+
         } else {
             if (store.getState().user.user.friends.includes(user.uid)) {
                 alert("User is already your friend!")
+                isLoading(false)
             } else {
                 //public, add to both users list
                 firebase.firestore()
@@ -64,7 +71,9 @@ export default (props) => {
                     .doc(user.uid)
                     .update({
                         friends: firebase.firestore.FieldValue.arrayUnion(uid)
-                    }) ).then(() => dispatch(fillUserState(uid))).then(() => alert("User Added!"))
+                    }) ).then(() => dispatch(fillUserState(uid))).then(() => {
+                    isLoading(false)
+                    alert("User Added!")})
                 globalNotiCollection.add({
                     title: "Friend Request Public",
                     text: store.getState().user.user.display,
@@ -166,6 +175,14 @@ export default (props) => {
                 }}>
                 <Text style ={styles.buttonText}>Add User</Text>
             </TouchableOpacity>
+
+            {loading && <View style={styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color}/>
+                <Text>
+                    Adding User
+                </Text>
+            </View>
+            }
         </Screen>
     )
 }

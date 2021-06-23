@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
 import firebase, {usersCollection, roomsCollection, channelsCollection} from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillUserState } from '../../../../usersSlice';
@@ -14,6 +14,7 @@ export default (props) => {
     const dispatch = useDispatch();
     const [count, setCount] = useState(0);
     const [displayArray, setDisplayArray] = useState([]);
+    const [loading, isLoading] = useState(false);
 
     const mapUidToUserName = (uidArray) => {
         uidArray.forEach(async uid => {
@@ -55,6 +56,7 @@ export default (props) => {
                 'channels': firebase.firestore.FieldValue.arrayRemove(roomid)
             })
             .then(() => {
+
                 console.log('Removed channel from user db!');
             });
         await channelsCollection
@@ -92,13 +94,24 @@ export default (props) => {
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {async () => {
+                    isLoading(true)
                     await handleLeaveChannel()
-                        .then(() => props.navigation.navigate("Channel"));
+                        .then(() => {
+                            isLoading(false);
+                            props.navigation.navigate("Channel")});
 
                 }
                 }>
                 <Text style ={styles.buttonText}>Leave Channel</Text>
             </TouchableOpacity>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Leaving Channel
+                </Text>
+            </View>
+            }
 
         </Screen>
     )

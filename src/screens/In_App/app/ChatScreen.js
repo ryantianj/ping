@@ -3,7 +3,7 @@ import {
     Text,
     TouchableOpacity,
     FlatList,
-    View,
+    View, ActivityIndicator,
 } from "react-native";
 import {roomsCollection, usersCollection} from '../../../../api/firebase';
 import { fillChatRoomState } from '../../../roomsSlice';
@@ -22,6 +22,7 @@ export default (props) => {
     const isFocused = useIsFocused();
     const [roomsData, setRoomsData] = useState([])
     const [len, setLen] = useState(0);
+    const [loading, isLoading] = useState(false);
 
     const renderChatItem = ( room ) => {
         return (
@@ -29,8 +30,12 @@ export default (props) => {
                 style = {styles.chatsList}
                 onPress = {
                     () => {
+                        isLoading(true)
                         dispatch(fillChatRoomState(room.item.roomid))
-                            .then(() => props.navigation.navigate('ChatRooms',{ screen: 'ChatRoom' }))
+                            .then(() => {
+                                props.navigation.navigate('ChatRooms',{ screen: 'ChatRoom' })
+                                isLoading(false)
+                            })
 
                     }
                 }
@@ -94,6 +99,14 @@ export default (props) => {
                 extraData={roomsData}
                 contentContainerStyle={{ paddingBottom: 20 }}
             />
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Loading Chat
+                </Text>
+            </View>
+            }
 
         </Screen>
     )

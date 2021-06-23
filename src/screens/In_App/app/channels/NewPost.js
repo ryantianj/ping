@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Alert, Text, TextInput, TouchableOpacity} from "react-native";
+import {ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View} from "react-native";
 
 import {channelsCollection, globalNotiCollection} from "../../../../../api/firebase";
 import store from '../../../../store';
@@ -10,6 +10,7 @@ import Screen from "../../../../components/Screen";
 export default (prop) => {
     const [post ,setPost] = useState("")
     const [title, setTitle] = useState("")
+    const [loading, isLoading] = useState(false);
 
     const removeElement = (arr, userID) => {
         return arr.filter(users => users !== userID);
@@ -22,6 +23,7 @@ export default (prop) => {
 
     //Add posts and comments section
     const handlePost = async () => {
+        isLoading(true);
 
         const text = post;
         let notiId;
@@ -56,7 +58,7 @@ export default (prop) => {
              },
              notiType: 0,
              notiId: docRef.id
-         })})
+         })}).then(() => isLoading(false))
 
 
         await channelsCollection.doc(roomid).set({
@@ -102,6 +104,14 @@ export default (prop) => {
             >
                 <Text style = {styles.buttonText}>Create Post</Text>
             </TouchableOpacity>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Creating Post
+                </Text>
+            </View>
+            }
 
         </Screen>
     )

@@ -134,7 +134,10 @@ const LoginScreen = (props) => {
             </View>
 
             {loading && <View style = {styles.loading}>
-                <ActivityIndicator size="large" color="#0000ff" />
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Logging in
+                </Text>
             </View>
             }
 

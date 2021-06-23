@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {Alert, Image, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Alert, Image, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
 import firebase, { usersCollection } from '../../api/firebase';
 import { fillUserState } from '../usersSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ export default (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPass, isPassVisible] = useState(true);
+    const [loading, isLoading] = useState(false);
 
     const nextInput = useRef();
 
@@ -47,6 +48,7 @@ export default (props) => {
 
     const handleRegister = async () => {
         try {
+            isLoading(true);
             await firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
@@ -59,11 +61,12 @@ export default (props) => {
                 })
                 // Set the user profile into global store
                 dispatch(fillUserState(uid));
-
+                isLoading(false);
                 props.navigation.navigate('CreateProfile');
             })
 
         } catch (error) {
+            isLoading(false);
             if (error.code === "auth/invalid-email") {
                 Alert.alert("Please enter a valid email address");
             } else if (error.code === "auth/email-already-in-use") {
@@ -112,6 +115,13 @@ export default (props) => {
                 onPress = {handleRegister}>
                 <Text style = {styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Signing You Up
+                </Text>
+            </View>}
         </Screen>
     )
 }

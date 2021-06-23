@@ -85,7 +85,11 @@ export default StyleSheet.create({
             top: 0,
             bottom: 0,
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            backgroundColor: colours.primary
+        },
+        loadingColour: {
+          color : colours.logInButton
         }
     }
 )

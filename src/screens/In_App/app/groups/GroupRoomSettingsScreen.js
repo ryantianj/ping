@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View, ScrollView } from "react-native";
+import {FlatList, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator} from "react-native";
 import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillGroupRoomState } from "../../../../roomsSlice";
@@ -20,6 +20,7 @@ export default (props) => {
     const [friendsUserArray, setFriendsUserArray] = useState([]);
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
     const [value, setValue] = useState(false);
+    const [loading, isLoading] = useState(false);
     
     const mapUidToUserName = (uidArray) => {
         uidArray.forEach(async uid => {
@@ -245,17 +246,27 @@ export default (props) => {
             <TouchableOpacity
                 style = {styles.buttonred}
                 onPress = {async () => {
-                    await handleLeaveGroup().then(() =>
-                    props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Main' }],
-                    }))
+                    isLoading(true);
+                    await handleLeaveGroup().then(() =>{
+                        props.navigation.navigate("Group")
+                        isLoading(false)
+                    }
+
+                    )
                 }
                 }>
                 <Text style ={styles.buttonText}>Leave Group</Text>
             </TouchableOpacity>
         
         </ScrollView>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Leaving Group
+                </Text>
+            </View>
+            }
         </Screen>
     )
 }

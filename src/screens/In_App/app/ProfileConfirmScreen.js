@@ -2,7 +2,7 @@ import React, {useState } from "react";
 import {
     Text,
     TouchableOpacity,
-    View, ScrollView
+    View, ScrollView, ActivityIndicator
 } from "react-native";
 import  { usersCollection } from '../../../../api/firebase';
 import { fillUserState } from '../../../usersSlice';
@@ -17,8 +17,7 @@ const ProfileConfirmScreen = (props) => {
     const [selectInterests, setSelectInterests] = useState(props.route.params.selectInterests);
     const [visibility, setVisibility] = useState(props.route.params.visibility);
     const [display, setDisplay] = useState(props.route.params.display);
-
-
+    const [loading, isLoading] = useState(false);
 
     const visible = () => {
         if (visibility) {
@@ -34,6 +33,7 @@ const ProfileConfirmScreen = (props) => {
     const dispatch = useDispatch();
 
     const submitProfileToDatabase = () => {
+        isLoading(true);
         usersCollection
         .doc(uid)
         .update({
@@ -83,6 +83,7 @@ const ProfileConfirmScreen = (props) => {
                     await submitProfileToDatabase();
                     dispatch(fillUserState(uid)).then(() =>
                     {
+                        isLoading(false);
                         if (props.route.params.update) {
                             alert("Profile Updated!")
                             props.navigation.reset({
@@ -103,6 +104,21 @@ const ProfileConfirmScreen = (props) => {
                 <Text style = {styles.buttonText}>Confirm</Text>
             </TouchableOpacity>
         </ScrollView>
+            {loading && props.route.params.update && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Updating Your Profile
+                </Text>
+            </View>
+            }
+
+            {loading && !props.route.params.update && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Creating Your Profile
+                </Text>
+            </View>
+            }
         </Screen>
     )
 }

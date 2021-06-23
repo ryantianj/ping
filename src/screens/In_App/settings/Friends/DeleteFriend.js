@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
 import { useDispatch } from 'react-redux';
 
 import Screen from "../../../../components/Screen";
@@ -11,6 +11,7 @@ import {fillUserState} from "../../../../usersSlice";
 
 export default (props) => {
     const [user, setUser] = useState(props.route.params.user)
+    const [loading, isLoading] = useState(false);
 
     const DATA = [
         user.display,
@@ -24,6 +25,7 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
 
     const deleteUser = () => {
+        isLoading(true);
         if (store.getState().user.user.friends.includes(user.uid)) {
             firebase.firestore()
                 .collection('Users')
@@ -37,6 +39,7 @@ export default (props) => {
                     friends: firebase.firestore.FieldValue.arrayRemove(uid)
                 })).then(() => {
                     alert("User Removed!")
+                    isLoading(false);
                     props.navigation.navigate('Settings')})
         }
     }
@@ -102,6 +105,14 @@ export default (props) => {
                 }}>
                 <Text style ={styles.buttonText}>Delete User</Text>
             </TouchableOpacity>
+
+            {loading && <View style={styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color}/>
+                <Text>
+                    Removing User from Friend List
+                </Text>
+            </View>
+            }
         </Screen>
     )
 }
