@@ -1,19 +1,19 @@
-import React, {useState, useRef, useEffect} from "react";
-import {Text, TextInput, TouchableOpacity, View, Image, Pressable, KeyboardAvoidingView, Alert} from "react-native";
-import firebase, {channelsCollection, usersCollection, interestsCollection} from '../../api/firebase';
-import { fillUserState, hasData } from '../usersSlice';
-import { useDispatch , useSelector} from 'react-redux';
+import React, {useState, useRef} from "react";
+import {Text, TextInput, TouchableOpacity, View, Image, Pressable, Alert, ActivityIndicator} from "react-native";
+import firebase, {} from '../../api/firebase';
+import { fillUserState } from '../usersSlice';
+import { useDispatch } from 'react-redux';
 import store from "../store";
 
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
 import styles from "../styling/screens/LoginScreen.styles";
-import colours from "../constants/colours";
 
 const LoginScreen = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPass, isPassVisible] = useState(true);
+    const [loading, isLoading] = useState(false);
 
     const nextInput = useRef();
 
@@ -28,6 +28,7 @@ const LoginScreen = (props) => {
     const handleLogin = async () => {
         if (email && password) {
             try {
+                isLoading(true);
                 const response = await firebase
                     .auth()
                     .signInWithEmailAndPassword(email, password)
@@ -38,11 +39,13 @@ const LoginScreen = (props) => {
                             // Set the user profile into global store
                             dispatch(fillUserState(uid)).then(() => {
                                 if(store.getState().user.user.hasData) {
+                                    isLoading(false);
                                 props.navigation.reset({
                                     index: 0,
                                     routes: [{ name: 'Main' }],
                                 });
                             } else {
+                                    isLoading(false);
                                 props.navigation.reset({
                                     index: 0,
                                     routes: [{ name: 'CreateProfile' }],
@@ -51,10 +54,12 @@ const LoginScreen = (props) => {
                             });
                             console.log('signed in, email verified')
                         } else {
+                            isLoading(false);
                             Alert.alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
                         }
                     })               
             } catch (error) {
+                isLoading(false);
                 if (error.code === "auth/invalid-email") {
                     Alert.alert("Please enter a valid email address");
                 } else if (error.code === "auth/user-not-found") {
@@ -127,6 +132,11 @@ const LoginScreen = (props) => {
 
                 </Text>
             </View>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+            }
 
         </Screen>
     )
