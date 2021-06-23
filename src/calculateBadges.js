@@ -78,9 +78,10 @@ const awardBadge = async (topic, badgecode) => {
 // 4.
 // tallyIndivUpvotes(topic): return integer
 const tallyIndivUpvotes = (topic) => {
+    const uid = store.getState().user.user.uid;
     let topicCount = 0;
     // filter all channels with this user related to this topic
-    return channelsCollection.where('users', 'array-contains', store.getState().user.user.uid)
+    return channelsCollection.where('users', 'array-contains', uid)
     .get().then(async channels => {
 
         for (const channel in channels.docs) {
@@ -103,12 +104,13 @@ const tallyIndivUpvotes = (topic) => {
                         const commentDoc = comments.docs[commentDocs]
                         console.log(commentDoc.id);
                         const commentData = commentDoc.data();
-                        topicCount += commentData.likedby.length
+                        if (commentData.user._id === uid) { topicCount += commentData.likedby.length }
                         console.log(topicCount);
                     }
-                        const postData = postDoc.data();
-                        topicCount += postData.likedby.length
-                        console.log(topicCount);
+                    
+                    const postData = postDoc.data();
+                    if (postData.user._id === uid) { topicCount += postData.likedby.length }
+                    console.log(topicCount);
                 }
             }
         }
