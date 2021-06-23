@@ -254,14 +254,7 @@ export default (props) => {
                 style = {styles.notificationsText}>
                 Your Notifications
             </Text>
-
-            <TouchableOpacity onPress = {() => {
-                setCount(count + 1)
-                console.log(noti)}}>
-                <Text>
-                    here
-                </Text>
-            </TouchableOpacity>
+            
 
         <View style = {styles.flatList}>
             <FlatList
