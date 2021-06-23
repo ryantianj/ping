@@ -8,7 +8,6 @@ import Chats from "../navigation/ChatsNavigation"
 import Groups from "../navigation/GroupsNavigation"
 import Channels from "./ChannelsNavi";
 import SearchNavi from "./SearchNavi";
-import LoadingScreen from "../constants/LoadingScreen";
 
 import styles from "../styling/navigation/HomeNavigation.styles"
 import Screen from "../components/Screen";
@@ -25,9 +24,6 @@ export default (props) => {
                 <Stack.Screen
                     name = "Main"
                     component = {NaviBar}/>
-                <Stack.Screen
-                    name = "Loading"
-                    component = {LoadingScreen}/>
                 <Stack.Screen
                     name = "Settings"
                     component = {Settings}/>
