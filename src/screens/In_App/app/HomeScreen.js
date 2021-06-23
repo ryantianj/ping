@@ -156,13 +156,12 @@ export default (props) => {
                 )
             } else if (item.notiType === 4) {
                 return (
-                    <TouchableOpacity style = {styles.chat}>
+                    <TouchableOpacity
+                        style = {styles.chat}
+                        onPress = {() => props.navigation.navigate('Settings', {screen : 'Profile'})}>
                         <View>
                             <Text style = {styles.chatTitle}>
-                                Chat - {item.roomname}
-                            </Text>
-                            <Text style = {styles.chatText}>
-                                {item.user.display} said:
+                                {item.title}
                             </Text>
                             <Text style = {styles.chatText}>
                                 {item.text}

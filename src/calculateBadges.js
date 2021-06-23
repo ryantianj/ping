@@ -1,5 +1,10 @@
 import { fillUserState } from '../src/usersSlice';
-import firebase, { interestsCollection, usersCollection, channelsCollection } from './../api/firebase';
+import firebase, {
+    interestsCollection,
+    usersCollection,
+    channelsCollection,
+    globalNotiCollection
+} from './../api/firebase';
 import store from "../src/store";
 
 // this module is for determining all the badge tiers for a user. 
@@ -125,7 +130,20 @@ const tallyIndivUpvotes = (topic) => {
 // timestamp and message and type.
 // So just push a notif object to this array
 const createNotif = (topic, badgecode) => {
-
+    globalNotiCollection.add({
+        users : [store.getState().user.user.uid],
+        notiType: 4,
+        notiId: '',
+        title: "New Badge Awarded!",
+        text: topic,
+        createdAt: new Date().getTime(),
+        user: {
+            _id: store.getState().user.user.uid,
+            display: store.getState().user.user.display
+        },
+        roomname: '',
+        roomid: '',
+    })
 }
 
 // 6. 
