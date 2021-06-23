@@ -19,34 +19,41 @@ export default StyleSheet.create({
         width: 2 * windowWidth / 3
     },
     postTitle: {
-        fontSize: 25,
+        fontSize: 22,
         fontWeight: 'bold',
         borderColor:'black',
         borderBottomWidth:1,
     },
-    postText: {
+    postTitle2: {
+        marginTop: 8,
         fontSize: 20,
+        fontWeight: 'bold',
+        borderColor:'black',
+        // borderBottomWidth:1,
+    },
+    postText: {
+        fontSize: 18,
     },
     chatTitle: {
-        fontSize: 25,
+        fontSize: 22,
         fontWeight: 'bold',
         color: 'white',
         borderColor:'white',
         borderBottomWidth:1,
     },
     chatText: {
-        fontSize: 20,
+        fontSize: 18,
         color: 'white',
     },
     requestTitle: {
-        fontSize: 25,
+        fontSize: 22,
         fontWeight: 'bold',
         color: 'black',
         borderColor:'black',
         borderBottomWidth:1,
     },
     requestText: {
-        fontSize: 20,
+        fontSize: 18,
         color: 'black',
     },
     post: {
@@ -54,24 +61,28 @@ export default StyleSheet.create({
         paddingLeft: 10,
         borderRadius: 10,
         backgroundColor: colours.channel,
+        paddingRight: 10
     },
     group: {
         marginTop: 20,
         paddingLeft: 10,
         borderRadius: 10,
         backgroundColor: colours.group,
+        paddingRight: 10
     },
     chat: {
         marginTop: 20,
         paddingLeft: 10,
         borderRadius: 10,
         backgroundColor: colours.chat,
+        paddingRight: 10
     },
     request: {
         marginTop: 20,
         paddingLeft: 10,
         borderRadius: 10,
         backgroundColor: colours.request,
+        paddingRight: 10
     },
     flatList : {
         flex: 1,

@@ -89,7 +89,7 @@ export default (props) => {
                             <Text style = {styles.postText}>
                                 {item.user.display} posted:
                             </Text>
-                            <Text style = {styles.postTitle}>
+                            <Text style = {styles.postTitle2}>
                                 {item.title}
                             </Text>
                             <Text style = {styles.postText}>
@@ -301,7 +301,6 @@ export default (props) => {
                             </Text>
                         </View>
                     </TouchableOpacity>
-
                 )
             }
     }
