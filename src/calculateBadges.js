@@ -1,10 +1,6 @@
 import { fillUserState } from '../src/usersSlice';
-// import { useDispatch } from 'react-redux';
 import firebase, { interestsCollection, usersCollection, channelsCollection } from './../api/firebase';
 import store from "../src/store";
-
-// const uid = store.getState().user.user.uid;
-// const dispatch = useDispatch();
 
 // this module is for determining all the badge tiers for a user. 
 // run findAllBadges() everytime login / profile screen is rendered
@@ -30,41 +26,28 @@ const hasBadge = (topic, badgecode) => {
 
 // 2.
 // checkIfBadge(topic, badgecode 0S/1G/2T):
-// to be used when ??? rendering notif screen (return void)?????
 // return boolean
 // HOW: 
 // run hasBadge() with the same 2 params. if true, return true. 
 // ELSE if hasBadge() returns false check the criteria.
-// const upvotesCount = tallyIndivUpvotes(topic)
-// if badgecode === 1/2
-    // let minCount = 0
-    // minCount = 15/5 (ARBITRARY: 15 5)
-    // return upvotesCount >= minCount && upvotesCount >= 10pctGuru/30pctThinker
 // else (badgecode 0 so sage) return false
 const checkIfBadge = async (topic, badgecode) => {
     if (hasBadge(topic, badgecode)) {
         console.log('already has badge ' + topic + badgecode)
         return true;
     } else if (badgecode >= 1) {
-        // const upvotesCount = await tallyIndivUpvotes(topic);
-        // console.log('upvotesCount: ' + upvotesCount)
-        // const response = await interestsCollection.doc('profile').get();
-        // const topicalTenPctGuru = response.data().TenPctGuru[topic]
-        // console.log('topicalTenPctGuru score: ' + topicalTenPctGuru)
-        // const topicalThirtyPctThinker = response.data().ThirtyPctThinker[topic]
-        // console.log('topicalThirtyPctThinker score: ' + topicalThirtyPctThinker)
-        // if (badgecode === 1) {
-        //     return upvotesCount >= /*15*/ 1 && upvotesCount >= topicalTenPctGuru;
-        // } else if (badgecode === 2) {
-        //     return upvotesCount >= /*5*/ 1 && upvotesCount >= topicalThirtyPctThinker;
-        // }
-
-
-        tallyIndivUpvotes(topic).then((upvotesCount) => {
-            console.log('upvotesCount: ' + upvotesCount)
-            }
-        )
-
+        const upvotesCount = await tallyIndivUpvotes(topic);
+        console.log('upvotesCount: ' + upvotesCount)
+        const response = await interestsCollection.doc('profile').get();
+        const topicalTenPctGuru = response.data().TenPctGuru[topic]
+        console.log('topicalTenPctGuru score: ' + topicalTenPctGuru)
+        const topicalThirtyPctThinker = response.data().ThirtyPctThinker[topic]
+        console.log('topicalThirtyPctThinker score: ' + topicalThirtyPctThinker)
+        if (badgecode === 1) {
+            return upvotesCount >= 15 && upvotesCount >= topicalTenPctGuru;
+        } else if (badgecode === 2) {
+            return upvotesCount >= 5 && upvotesCount >= topicalThirtyPctThinker;
+        }
     } else {
         console.log('returning false for checkIf')
         return false;
@@ -74,12 +57,13 @@ const checkIfBadge = async (topic, badgecode) => {
 // 3.
 // awardBadge(topic, badgecode 0S/1G/2T):
 // update user.badges['topic'] with new badgecode AND createNotif() with same 2 params.
-// dispatch(fillUserState(uid))
+// dispatch(fillUserState(uid)) done in Settings Screen
 const awardBadge = async (topic, badgecode) => {
-    usersCollection.doc(store.getState().user.user.uid).set({
-        'badges': {
-            topic: badgecode
-        }
+    const uid = store.getState().user.user.uid;
+    const badges = {};
+    badges[topic] = badgecode;
+    usersCollection.doc(uid).set({
+        badges
     }, {merge:true})
     .then(() => {
         const originalTier = store.getState().user.user.badges[topic];
@@ -87,8 +71,7 @@ const awardBadge = async (topic, badgecode) => {
         if (originalTier != badgecode) {
             createNotif(topic, badgecode);
         }
-        console.log('awarded badge! ' + topic + badgecode)
-        // dispatch(fillUserState(store.getState().user.user.uid));
+        console.log('awarded badge! ' + topic + ' ' + badgecode)
     })
 }
 
@@ -98,7 +81,6 @@ const tallyIndivUpvotes = (topic) => {
     let topicCount = 0;
     // filter all channels with this user related to this topic
     return channelsCollection.where('users', 'array-contains', store.getState().user.user.uid)
-    // .where('topics', 'array-contains', topic)
     .get().then(async channels => {
 
         for (const channel in channels.docs) {
@@ -106,16 +88,16 @@ const tallyIndivUpvotes = (topic) => {
             const channelTopicsArray = channelDoc.data().topics;
             if (channelTopicsArray[0] === topic || channelTopicsArray[1] === topic) {
                 console.log(channelDoc.id);
-
+                console.log(channelDoc.data().roomname); // channel name
                 const posts =  await channelsCollection.doc(channelDoc.id).collection('Posts')
                     .get()
 
                 for (const postDocs in posts.docs) {
                     const postDoc = posts.docs[postDocs]
                     console.log(postDoc.id);
-                   const comments = await channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
+                
+                    const comments = await channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
                         .collection('Comments').get()
-
 
                     for (const commentDocs in comments.docs) {
                         const commentDoc = comments.docs[commentDocs]
@@ -123,56 +105,16 @@ const tallyIndivUpvotes = (topic) => {
                         const commentData = commentDoc.data();
                         topicCount += commentData.likedby.length
                         console.log(topicCount);
-
+                    }
                         const postData = postDoc.data();
                         topicCount += postData.likedby.length
                         console.log(topicCount);
-                        console.log('topicCount from tally fn of ' + topic + ': ' + topicCount)
-                    }
                 }
-
-
-                // console.log(channelDoc.data().roomname); // channel name
             }
         }
-            console.log('topicCount from tally fn: ' + topic + topicCount)
+        console.log('topicCount from tally fn: ' + topic + ' ' + topicCount)
         return topicCount;
-        // channels.forEach( channelDoc => {
-        //     // look into channels
-        //     const channelTopicsArray = channelDoc.data().topics;
-        //     if (channelTopicsArray[0] === topic || channelTopicsArray[1] === topic) {
-        //         console.log(channelDoc.id);
-        //          channelsCollection.doc(channelDoc.id).collection('Posts')
-        //         .get().then(posts => {
-        //             posts.forEach( postDoc => {
-        //                 console.log(postDoc.id);
-        //                  channelsCollection.doc(channelDoc.id).collection('Posts').doc(postDoc.id)
-        //                 .collection('Comments').get().then(comments => {
-        //                     comments.forEach(commentDoc => {
-        //                         console.log(commentDoc.id);
-        //                         // take commentDoc.data() and count the likedby
-        //                         const commentData = commentDoc.data();
-        //                         topicCount += commentData.likedby.length
-        //                         console.log(topicCount);
-        //                     })
-        //                 }).then(() => {
-        //                     // take postDoc.data() and count the likedby
-        //                     const postData = postDoc.data();
-        //                     topicCount += postData.likedby.length
-        //                     console.log(topicCount);
-        //                     console.log('topicCount from tally fn of ' + topic + ': ' + topicCount)
-        //                     return topicCount;
-        //                 })
-        //             })
-        //              return topicCount;
-        //         })
-        //         // console.log(channelDoc.data().roomname); // channel name
-        //     }
-        // })
     })
-    // .then(() => {
-        
-    // })
 }
 
 // 5.
@@ -204,7 +146,6 @@ export const findAllBadges = async () => {
     const data = response.data();
     for (let i = 0; i < 105; i++) {
         const topic = data.fields[i];
-        // works fine
         handleTopicBadge(topic);
     }
 }

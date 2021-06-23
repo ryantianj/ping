@@ -13,6 +13,7 @@ import styles from '../../../styling/screens/In_App/settings/SettingsScreen.styl
 export default (props) => {
     const dispatch = useDispatch();
     dispatch(fillUserState(store.getState().user.user.uid));
+    // this is done to update badges state
 
     const handleLogout = async () => {
         const response = await firebase
