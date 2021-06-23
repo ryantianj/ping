@@ -63,6 +63,13 @@ export default (props) => {
                     <Text style = {styles.ButtonText}>Pending Requests ({store.getState().user.user.pending.length})</Text>
                 </TouchableOpacity>
 
+                <TouchableOpacity
+                    style = {styles.Button}
+                    onPress = {() => props.navigation.navigate('Help')}
+                >
+                    <Text style = {styles.ButtonText}>Help</Text>
+                </TouchableOpacity>
+
 
             </ScrollView>
             <TouchableOpacity

@@ -4,7 +4,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList, ScrollView, Alert
+    FlatList, ScrollView, Alert, ActivityIndicator
 } from "react-native";
 
 import firebase, { usersCollection, roomsCollection, interestsCollection } from "../../../../../api/firebase";
@@ -25,6 +25,8 @@ export default (props) => {
     const [selectedFriends, setSelectedFriends] = useState([]); // user object of selected
     const [friendsUserArray, setFriendsUserArray] = useState([]);
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
+    const [loading, isLoading] = useState(false);
+
     const dispatch = useDispatch();
   
     function useForceUpdate() {
@@ -242,8 +244,10 @@ export default (props) => {
                         Alert.alert('Please key in a roomname between 1-20 characters')
                         return;
                     }
+                    isLoading(true)
                     await CreateGroupRoom().then(() => {
-                        props.navigation.navigate("Group")});
+                        props.navigation.navigate("Group")
+                        isLoading(false)});
 
                 }}
             >
@@ -279,6 +283,14 @@ export default (props) => {
             </View>
 
         </ScrollView>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Creating Group
+                </Text>
+            </View>
+            }
         </Screen>
     )
 }

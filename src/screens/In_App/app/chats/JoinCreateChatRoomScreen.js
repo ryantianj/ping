@@ -4,7 +4,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList, ScrollView, Alert
+    FlatList, ScrollView, Alert, ActivityIndicator
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -26,6 +26,8 @@ export default (props) => {
     const [value, setValue] = useState(false);
     const [friendsUserArray, setFriendsUserArray] = useState([]);
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
+    const [loading, isLoading] = useState(false);
+
     const dispatch = useDispatch();
   
     function useForceUpdate() {
@@ -218,7 +220,11 @@ export default (props) => {
                         Alert.alert('Please key in a roomname between 1-20 characters')
                         return;
                     }
-                    await CreateChatRoom().then(() => props.navigation.navigate('Chat'))
+                    isLoading(true)
+                    await CreateChatRoom().then(() => {
+                        props.navigation.navigate('Chat')
+                        isLoading(false)
+                    })
                 }}
             >
                 <Text style = {styles.buttonText}>Create Chat Room</Text>
@@ -253,6 +259,14 @@ export default (props) => {
             </View>
 
         </ScrollView>
+
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Creating Chat
+                </Text>
+            </View>
+            }
         </Screen>
     )
 }

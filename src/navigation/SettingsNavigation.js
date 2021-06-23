@@ -14,6 +14,9 @@ import Friendlist from "../screens/In_App/settings/Friends/Friendlist";
 import Pending from "../screens/In_App/settings/Pending/Pending";
 import AcceptRequest from "../screens/In_App/settings/Pending/AcceptRequest";
 import DeleteFriend from "../screens/In_App/settings/Friends/DeleteFriend";
+import HelpMain from "../screens/In_App/settings/Help/HelpMain";
+import FriendHelp from "../screens/In_App/settings/Help/FriendHelp";
+import RoomHelp from "../screens/In_App/settings/Help/RoomHelp";
 
 import styles from "../styling/navigation/SettingsNavigation.styles"
 import colours from "../constants/colours";
@@ -112,6 +115,33 @@ export default (props) => {
                     component = {DeleteFriend}
                     options={{
                         title: "Friend",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+
+                <Stack.Screen
+                    name = "Help"
+                    component = {HelpMain}
+                    options={{
+                        title: "Help",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+
+                <Stack.Screen
+                    name = "Rooms"
+                    component = {RoomHelp}
+                    options={{
+                        title: "Rooms",
+                        headerStyle: {
+                            backgroundColor: colours.primary
+                        }}}/>
+
+                <Stack.Screen
+                    name = "Friends"
+                    component = {FriendHelp}
+                    options={{
+                        title: "Friends",
                         headerStyle: {
                             backgroundColor: colours.primary
                         }}}/>

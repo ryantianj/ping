@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {FlatList, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, FlatList, Text, TouchableOpacity, View} from "react-native";
 import {useDispatch} from "react-redux";
 
 import Search from "../../../constants/Search";
@@ -14,12 +14,15 @@ import { findAllBadges } from '../../../calculateBadges';
 
 export default (props) => {
     const [noti, setNoti] = useState([]);
+    const [count, setCount] = useState(0)
+    const [loading, isLoading] = useState(false);
+    const [loadingText, setLoadingText] = useState('');
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         
-        findAllBadges()
+        // findAllBadges()
 
         //channels noti
          const allNoti = usersCollection.doc(store.getState().user.user.uid)
@@ -41,6 +44,7 @@ export default (props) => {
                      return data;
                  })
                  setNoti(notis)
+                 setCount(count + 1)
              })
         return () => {
             allNoti()
@@ -57,8 +61,12 @@ export default (props) => {
                     <TouchableOpacity
                         style = {styles.post}
                         onPress ={() => {
+                            setLoadingText("Channel")
+                            isLoading(true)
                                 dispatch(fillChannelRoomState(item.roomid))
-                                    .then(() => props.navigation.navigate('Channels',{ screen: 'ChannelRoom' }))
+                                    .then(() => {
+                                        isLoading(false)
+                                        props.navigation.navigate('Channels',{ screen: 'ChannelRoom' })})
                             }
                         }
                     >
@@ -84,15 +92,20 @@ export default (props) => {
                     <TouchableOpacity
                         style = {styles.post}
                           onPress ={() => {
+                              setLoadingText("Channel")
+                              isLoading(true)
                               dispatch(fillChannelRoomState(item.roomid))
                                   .then(() => props.navigation.navigate('Channels', { screen: 'ChannelRoom' }))
-                                  .then(() => props.navigation.navigate('Channels', {screen: 'Comments', params : {item :{
+                                  .then(() => {props.navigation.navigate('Channels', {screen: 'Comments', params : {item :{
                                               _id: item.id,
                                               comments: item.comments,
                                               title: item.title,
                                               roomname: item.roomname
                                           }
-                                      }}))
+                                      }})
+                                      isLoading(false)
+                                  })
+
                           }
                           }>
 
@@ -115,8 +128,13 @@ export default (props) => {
                     <TouchableOpacity
                         style = {styles.group}
                           onPress ={() => {
+                              setLoadingText("Group")
+                              isLoading(true)
                               dispatch(fillGroupRoomState(item.roomid))
-                                  .then(() => props.navigation.navigate('GroupRooms', {screen : 'GroupRoom'}))
+                                  .then(() => {
+                                      props.navigation.navigate('GroupRooms', {screen : 'GroupRoom'})
+                                      isLoading(false)
+                                  })
                           }}>
                         <View>
                             <Text style = {styles.postTitle}>
@@ -137,8 +155,13 @@ export default (props) => {
                     <TouchableOpacity
                         style = {styles.chat}
                         onPress ={() => {
+                            setLoadingText("Chat")
+                            isLoading(true)
                             dispatch(fillChatRoomState(item.roomid))
-                                .then(() => props.navigation.navigate('ChatRooms', {screen : 'ChatRoom'}))
+                                .then(() => {
+                                    props.navigation.navigate('ChatRooms', {screen : 'ChatRoom'})
+                                    isLoading(false)
+                                })
                         }}>
                         <View>
                             <Text style = {styles.chatTitle}>
@@ -152,6 +175,7 @@ export default (props) => {
                             </Text>
                         </View>
                     </TouchableOpacity>
+
 
                 )
             } else if (item.notiType === 4) {
@@ -231,20 +255,22 @@ export default (props) => {
                 Your Notifications
             </Text>
 
-
         <View style = {styles.flatList}>
             <FlatList
                 data={noti}
                 renderItem={renderItem}
-                extraData={noti}
+                extraData={[noti, count]}
+                keyExtractor={item => item._id}
                 contentContainerStyle={{ paddingBottom: 20 }}/>
         </View>
 
-        <TouchableOpacity onPress = {() => console.log(noti)}>
-                        <Text>
-                            here
-                        </Text>
-                    </TouchableOpacity>
+            {loading && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Loading {loadingText}
+                </Text>
+            </View>
+            }
 
         </Screen>
 

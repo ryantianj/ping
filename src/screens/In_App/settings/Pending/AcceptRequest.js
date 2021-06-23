@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
 import { useDispatch } from 'react-redux';
 
 import Screen from "../../../../components/Screen";
@@ -11,7 +11,8 @@ import {fillUserState} from "../../../../usersSlice";
 
 export default (props) => {
     const [user, setUser] = useState(props.route.params.user)
-    const [count, setCount] = useState(props.route.params.count)
+    const [loading, isLoading] = useState(false);
+    const [accept, isAccept] = useState(true);
 
     const DATA = [
         user.display,
@@ -25,6 +26,8 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
 
     const acceptUser = () => {
+        isAccept(true);
+        isLoading(true)
         firebase.firestore()
             .collection('Users')
             .doc(uid)
@@ -47,6 +50,7 @@ export default (props) => {
                     index: 0,
                     routes: [{ name: 'Settings' }],
                 })
+                isLoading(false)
             })
 
         globalNotiCollection.add({
@@ -65,6 +69,8 @@ export default (props) => {
     }
 
     const rejectUser = () => {
+        isAccept(false);
+        isLoading(true);
         firebase.firestore()
             .collection('Users')
             .doc(uid)
@@ -76,7 +82,8 @@ export default (props) => {
                 props.navigation.reset({
                     index: 0,
                     routes: [{ name: 'Settings' }],
-                })})
+                })
+                isLoading(false)})
     }
 
     const renderItem = ( {item}) => {
@@ -148,6 +155,22 @@ export default (props) => {
                     <Text style ={styles.buttonText}>Reject</Text>
                 </TouchableOpacity>
             </View>
+
+            {loading && accept && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Adding User
+                </Text>
+            </View>
+            }
+
+            {loading && !accept && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Rejecting Request
+                </Text>
+            </View>
+            }
 
         </Screen>
     )
