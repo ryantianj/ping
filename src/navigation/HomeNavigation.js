@@ -8,9 +8,11 @@ import Chats from "../navigation/ChatsNavigation"
 import Groups from "../navigation/GroupsNavigation"
 import Channels from "./ChannelsNavi";
 import SearchNavi from "./SearchNavi";
+import ViewProfile from "../screens/In_App/app/ViewProfile";
 
 import styles from "../styling/navigation/HomeNavigation.styles"
 import Screen from "../components/Screen";
+import colours from "../constants/colours";
 
 
 const Stack = createStackNavigator();
@@ -39,6 +41,15 @@ export default (props) => {
                 <Stack.Screen
                     name = "Channels"
                     component = {Channels}/>
+                <Stack.Screen
+                    name = "ViewProfileChannel"
+                    component = {ViewProfile}
+                    options={{
+                        headerShown: true,
+                        title: "User Profile",
+                        headerStyle: {
+                            backgroundColor: colours.primary,
+                        }}}/>
             </Stack.Navigator>
         </Screen>
 

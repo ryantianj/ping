@@ -224,8 +224,8 @@ export default (props) => {
                                               hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
                                               onPress = {() => deleteNoti(item)}
                             >
-                                <Ionicons style = {styles.iconTrashBlack}
-                                          name={'trash-outline'} size={25}  />
+                                <Ionicons style = {styles.iconTrashChatBlack}
+                                          name={'trash-outline'} color={'white'} size={25}  />
                             </TouchableOpacity>
                             <Text style = {styles.chatText}>
                                 {item.text}

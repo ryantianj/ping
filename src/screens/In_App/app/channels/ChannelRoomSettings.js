@@ -11,10 +11,11 @@ import store from "../../../../store"
 import styles from '../../../../styling/screens/In_App/app/channels/ChannelRoomSettings.styles';
 
 export default (props) => {
-    const dispatch = useDispatch();
     const [count, setCount] = useState(0);
     const [displayArray, setDisplayArray] = useState([]);
     const [loading, isLoading] = useState(false);
+
+    const dispatch = useDispatch();
 
     const mapUidToUserName = (uidArray) => {
         uidArray.forEach(async uid => {
@@ -43,6 +44,7 @@ export default (props) => {
         return (
             <TouchableOpacity
                 style = {styles.textInputBio}
+                onPress = {() => props.navigation.navigate("ViewProfileChannel", {user : item})}
             >
                 <Text style = {styles.selectedText2}>{item.display}</Text>
             </TouchableOpacity>

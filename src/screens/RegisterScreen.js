@@ -1,11 +1,12 @@
 import React, {useRef, useState} from "react";
 import {ActivityIndicator, Alert, Image, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
-import firebase, { usersCollection } from '../../api/firebase';
+import firebase, {globalNotiCollection, usersCollection} from '../../api/firebase';
 import { fillUserState } from '../usersSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Screen from "../components/Screen";
 import styles from "../styling/screens/RegisterScreen.styles"
+import store from "../store";
 
 export default (props) => {
     const [email, setEmail] = useState("");
@@ -39,11 +40,14 @@ export default (props) => {
                 pending: [],
                 display: "",
                 search: "",
+                channels: []
             }).then(() => {
                 console.log(data)
             }).catch(e => {
                 console.log(e);
             })
+
+
     }
 
     const handleRegister = async () => {

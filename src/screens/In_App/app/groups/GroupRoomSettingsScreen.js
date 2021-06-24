@@ -66,6 +66,7 @@ export default (props) => {
         return (
             <TouchableOpacity
                 style = {styles.textInputBio}
+                onPress = {() => props.navigation.navigate("ViewProfileChannel", {user : item})}
             >
                 <Text style = {styles.selectedText}>{item.display}</Text>
             </TouchableOpacity>

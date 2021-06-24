@@ -9,10 +9,8 @@ import NewPost from "../screens/In_App/app/channels/NewPost";
 import ChannelRoomSettings from "../screens/In_App/app/channels/ChannelRoomSettings";
 import Comments from "../screens/In_App/app/channels/Comments";
 
-
 import Screen from "../components/Screen";
 import colours from "../constants/colours";
-
 
 const Stack = createStackNavigator();
 export default (props) =>  {
@@ -67,7 +65,6 @@ export default (props) =>  {
                         headerStyle: {
                             backgroundColor: colours.primary,
                         }}}/>
-
             </Stack.Navigator>
         </Screen>
 
