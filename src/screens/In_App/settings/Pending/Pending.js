@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {FlatList, Text,TouchableOpacity} from "react-native";
-import firebase from "../../../../../api/firebase"
+import firebase, {usersCollection} from "../../../../../api/firebase"
 import { fillUserState } from '../../../../usersSlice';
 import { useDispatch } from 'react-redux';
 
@@ -18,7 +18,7 @@ export default (props) => {
     const DATA = store.getState().user.user.pending;
 
     const fetchPending = () => {
-        firebase.firestore().collection('Users')
+        usersCollection
             .where('uid','in',DATA)
             .get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {

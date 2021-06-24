@@ -44,7 +44,7 @@ export default (props) => {
                 style = {styles.button}
                 onPress = {handleResetPassword}
                 >
-                <Text style = {styles.buttonText}>Next</Text>
+                <Text style = {styles.buttonText}>Send Password Reset Link</Text>
             </TouchableOpacity>
         </Screen>
     )

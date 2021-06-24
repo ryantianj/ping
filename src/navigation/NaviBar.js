@@ -59,8 +59,6 @@ export default (props) => {
                 <Tab.Screen
                     name = "Recommendations"
                     component = {Recommendations}/>
-
-
             </Tab.Navigator>
         </Screen>
 
