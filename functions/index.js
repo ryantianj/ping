@@ -56,8 +56,8 @@ exports.updatePostNoti = functions.firestore
 const interestsCollection = admin.firestore().collection('Interests');
 const channelsCollection = admin.firestore().collection('Channel');
 
-exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 5 minutes").onRun(async context => {
-    console.log('This will be run every 5 minutes. Updating Upvotes');
+exports.scheduledUpdateUpvotes = functions.pubsub.schedule("every 30 minutes").onRun(async context => {
+    console.log('This will be run every 30 minutes. Updating Upvotes');
 
     // let userCount = 0;
     // await usersCollection.get().then(snapshot => {

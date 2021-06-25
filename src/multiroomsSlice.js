@@ -20,7 +20,6 @@ const multiRoomsSlice = createSlice({
             console.log("Room id: " + action.payload.roomid)
             const roomData = action.payload.room.data();
 
-
             return {
                 ...state,
                 room: {
