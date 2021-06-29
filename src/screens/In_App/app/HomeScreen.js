@@ -21,9 +21,9 @@ export default (props) => {
 
     useEffect(() => {
         
-        // findAllBadges()
+        findAllBadges()
 
-        //channels noti
+        // channels noti
          const allNoti = usersCollection.doc(store.getState().user.user.uid)
              .collection('noti').orderBy('createdAt', 'desc')
              .onSnapshot(snapshot => {

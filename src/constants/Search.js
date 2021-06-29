@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {ActivityIndicator, Text, TextInput, TouchableOpacity, View} from "react-native";
+import React, {useState, useEffect} from "react";
+import {Alert, ActivityIndicator, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase from "../../api/firebase"
 import store from "../store"
@@ -13,6 +13,10 @@ export default (props) => {
     const [total, setTotal] = useState([]);
     const [loading, isLoading] = useState(false);
 
+    // useEffect(() => {
+    //     setSearch("")
+    // }, [])
+
     const addUser = (item) => {
         // makes sure u cant add yourself
         if (item.email !== store.getState().user.user.email) {
@@ -25,6 +29,10 @@ export default (props) => {
     }
 
     const submitQueryToDatabase = () => {
+        if (search === "") {
+            Alert.alert("Empty search is not allowed");
+            return;
+        }
         isLoading(true)
         setUser([]);
         setChannel([]);
@@ -38,7 +46,7 @@ export default (props) => {
                 querySnapshot.forEach((doc) => {
                     addUser(doc.data())
                 });
-            }) .then(() => {
+            }).then(() => {
                 total.push({user: user.length,
                     type : 0})
             })
