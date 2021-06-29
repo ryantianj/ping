@@ -15,14 +15,15 @@ export default (prop) => {
     const [posts, setPosts] = useState([])
     const [owner, setOwner] = useState(store.getState().room.room.owner)
 
+    const user = store.getState().user.user.uid
     const upVote = (item) => {
-        if (item.upVotes.includes(store.getState().user.user.uid)) {
+        if (item.upVotes.includes(user)) {
             firebase.firestore()
                 .collection('Channel')
                 .doc(store.getState().room.room.roomid)
                 .collection("Posts")
                 .doc(item._id).update({
-                likedby: firebase.firestore.FieldValue.arrayRemove(store.getState().user.user.uid)
+                likedby: firebase.firestore.FieldValue.arrayRemove(user)
             })
         } else {
             firebase.firestore()
@@ -30,7 +31,7 @@ export default (prop) => {
                 .doc(store.getState().room.room.roomid)
                 .collection("Posts")
                 .doc(item._id).update({
-                likedby: firebase.firestore.FieldValue.arrayUnion(store.getState().user.user.uid)
+                likedby: firebase.firestore.FieldValue.arrayUnion(user)
             })
         }
     }
@@ -114,6 +115,25 @@ export default (prop) => {
         }
     }
 
+    const editPost = (item) => {
+        const editPost = () => {
+            prop.navigation.navigate("EditPost", {item: item})
+
+        }
+        Alert.alert("Edit Post", "Are you sure you want to edit this post?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        editPost()},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
+    }
+
     useEffect(() => {
         const postListener = channelsCollection.doc(store.getState().room.room.roomid)
             .collection("Posts").orderBy('createdAt', 'desc')
@@ -132,6 +152,7 @@ export default (prop) => {
                         notiId: firebase.notiId,
                         createdAt: firebase.createdAt,
                         createdAtBackUp: firebase.createdAtBackUp,
+                        edited: firebase.edited
                     }
                     return data;
                 })
@@ -146,7 +167,7 @@ export default (prop) => {
 
     const renderItem = ({item}) => {
         let trash;
-        if (item.user._id === store.getState().user.user.uid) {
+        if (item.user._id === user) {
             trash = <TouchableOpacity style = {styles.trash}
                                       hitSlop={{top: 100, bottom: 100, left: 15, right: 15}}
                                       onPress = {()=> deletePostButton(item)}>
@@ -154,8 +175,18 @@ export default (prop) => {
                           name={'trash-outline'} size={25}  />
             </TouchableOpacity>
         }
+        let edit;
+        if (item.user._id === user) {
+            edit = <TouchableOpacity style = {styles.edit}
+                                      hitSlop={{top: 100, bottom: 100, left: 15, right: 15}}
+                                      onPress = {()=> editPost(item)}
+                                      >
+                <Ionicons style = {styles.iconTrash}
+                          name={'pencil-outline'} size={25}  />
+            </TouchableOpacity>
+        }
         let pin;
-        if (owner === store.getState().user.user.uid) {
+        if (owner === user) {
             pin = <TouchableOpacity style = {styles.pin}
                                       hitSlop={{top: 100, bottom: 100, left: 15, right: 15}}
                                       onPress = {()=> pinPost(item)}
@@ -164,14 +195,17 @@ export default (prop) => {
                           name={'pin-outline'} size={25}  />
             </TouchableOpacity>
         }
+
         const upVoteToggle = item.upVotes.includes(store.getState().user.user.uid);
         return (
             <View style = {styles.post}>
                 <View style = {styles.userTrash}>
                     <Text style = {styles.user}>
-                        {item.user.display} posted{item.createdAt === Number.MAX_VALUE ? ' (pinned)' : ''}:
+                        {item.user.display} posted{item.createdAt === Number.MAX_VALUE ? ' (pinned)' : ''}
+                        {item.edited ? ' (edited)' : ''}:
                     </Text>
                     {trash}
+                    {edit}
                     {pin}
                     </View>
                 <Text style = {styles.postTitle}>
