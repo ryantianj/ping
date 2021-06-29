@@ -8,6 +8,7 @@ import ChannelRoomScreen from "../screens/In_App/app/channels/ChannelRoomScreen"
 import NewPost from "../screens/In_App/app/channels/NewPost";
 import ChannelRoomSettings from "../screens/In_App/app/channels/ChannelRoomSettings";
 import Comments from "../screens/In_App/app/channels/Comments";
+import EditPost from "../screens/In_App/app/channels/EditPost";
 
 import Screen from "../components/Screen";
 import colours from "../constants/colours";
@@ -62,6 +63,15 @@ export default (props) =>  {
                     options={{
                         headerShown: true,
                         title: "Comments",
+                        headerStyle: {
+                            backgroundColor: colours.primary,
+                        }}}/>
+                <Stack.Screen
+                    name = "EditPost"
+                    component = {EditPost}
+                    options={{
+                        headerShown: true,
+                        title: "Edit Post",
                         headerStyle: {
                             backgroundColor: colours.primary,
                         }}}/>

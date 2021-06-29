@@ -36,6 +36,22 @@ export default StyleSheet.create({
         width: 30,
         right : 1,
     },
+    pin: {
+        position: 'absolute',
+        height: 30,
+        width: 30,
+        right : 80,
+    },
+    iconPin: {
+        right : 5,
+        top: 10,
+    },
+    edit: {
+        position: 'absolute',
+        height: 30,
+        width: 30,
+        right : 40,
+    },
     userTrash: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -65,6 +81,7 @@ export default StyleSheet.create({
     },
     user: {
         fontSize: 20,
+        width: (19 * windowWidth / 20) - 80,
     },
     postTitle: {
         fontSize: 30,
