@@ -61,6 +61,7 @@ const roomsSlice = createSlice({
                     type: 2,
                     users: roomData.users,
                     topics: roomData.topics,
+                    owner: roomData.owner,
                 }
             }
         }

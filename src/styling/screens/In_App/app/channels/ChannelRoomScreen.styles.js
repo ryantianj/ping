@@ -36,6 +36,16 @@ export default StyleSheet.create({
         width: 30,
         right : 1,
     },
+    pin: {
+        position: 'absolute',
+        height: 30,
+        width: 30,
+        right : 40,
+    },
+    iconPin: {
+        right : 5,
+        top: 10,
+    },
     userTrash: {
         flexDirection: 'row',
         justifyContent: 'space-between',
