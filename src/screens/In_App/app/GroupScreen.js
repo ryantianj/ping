@@ -22,6 +22,7 @@ export default (props) => {
     const [roomsData, setRoomsData] = useState([]);
     const [len, setLen] = useState(0);
     const [loading, isLoading] = useState(false);
+    const [loading1, isLoading1] = useState(false);
     
     const renderGroupItem = ( room ) => {
         return (
@@ -44,6 +45,7 @@ export default (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        isLoading1(true)
         const groupListener = usersCollection.doc(store.getState().user.user.uid)
             .onSnapshot(snapshot => {
                 const isGroup = (roomDataObject) => { return roomDataObject.type === 1 }
@@ -61,6 +63,7 @@ export default (props) => {
                     }
                 )
                 setRoomsData(groupObjectArray)
+                isLoading1(false)
             })
         return () => {
             groupListener()
@@ -91,6 +94,14 @@ export default (props) => {
                 renderItem = {renderGroupItem}
                 extraData={roomsData}
                 contentContainerStyle={{ paddingBottom: 20 }}/>
+
+            {loading1 && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Loading Groups
+                </Text>
+            </View>
+            }
 
             {loading && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />

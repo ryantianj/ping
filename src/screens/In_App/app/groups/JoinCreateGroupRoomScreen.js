@@ -26,23 +26,25 @@ export default (props) => {
     const [friendsUserArray, setFriendsUserArray] = useState([]);
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
     const [loading, isLoading] = useState(false);
+    const [loading1, isLoading1] = useState(false);
 
     const dispatch = useDispatch();
+    const friends = store.getState().user.user.friends
+    const uid = store.getState().user.user.uid
   
     function useForceUpdate() {
-        console.log("force updated")
         setValue(!value); // update the state to force render
     }
 
     const addUser = (item) => {
         friendsUserArray.push(item)
-        console.log("added")
-        console.log(friendsUserArray)
         setValue(!value);
+        friends.length === friendsUserArray.length ? isLoading1(false) : isLoading1(true);
     }
 
     if (count === 0) {
-        store.getState().user.user.friends.forEach( uid => {
+        isLoading1(true);
+        friends.forEach( uid => {
             usersCollection.doc(uid).get()
                 .then((user) => addUser(user.data())).then(()=> {
                 useForceUpdate()
@@ -53,7 +55,7 @@ export default (props) => {
 
     const CreateGroupRoom = async () => {
 
-        const uid = store.getState().user.user.uid;
+        const uid = uid;
         let roomid = "";
         // create room on firebase
         const roomUsersUidArray = [];
@@ -264,8 +266,15 @@ export default (props) => {
                     data={friendsUserArray}
                     extraData={selectedId}
                     renderItem={renderFriendItem}
-                    keyExtractor={item => item}
+                    keyExtractor={item => item.uid}
                     style = {styles.flatList}/>
+                {loading1 && <View style = {styles.loading}>
+                    <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                    <Text>
+                        Loading Friends
+                    </Text>
+                </View>
+                }
             </View>
 
             <Text style = {styles.headerText1}>

@@ -23,6 +23,7 @@ export default (props) => {
     const [roomsData, setRoomsData] = useState([])
     const [len, setLen] = useState(0);
     const [loading, isLoading] = useState(false);
+    const [loading1, isLoading1] = useState(false);
 
     const renderChatItem = ( room ) => {
         return (
@@ -51,6 +52,7 @@ export default (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        isLoading1(true)
         const chatListener = usersCollection.doc(store.getState().user.user.uid)
             .onSnapshot(snapshot => {
                 const isChat = (roomDataObject) => { return roomDataObject.type === 0 }
@@ -68,6 +70,7 @@ export default (props) => {
                     }
                 )
                 setRoomsData(chatObjectArray)
+                isLoading1(false);
             })
         return () => {
             chatListener()
@@ -99,6 +102,13 @@ export default (props) => {
                 extraData={roomsData}
                 contentContainerStyle={{ paddingBottom: 20 }}
             />
+            {loading1 && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Loading Chats
+                </Text>
+            </View>
+            }
 
             {loading && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />

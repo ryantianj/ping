@@ -177,10 +177,9 @@ export default (props) => {
             .then(() => {
                 console.log('Removed user from room db!');
             });
-        
-        Alert.alert("Leave Group", "You have left the group.")
 
         dispatch(fillUserState(uid)).then(() => {
+            Alert.alert("Leave Group", "You have left the group.")
             props.navigation.navigate("Group")
             isLoading(false);
         })

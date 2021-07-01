@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
-import firebase from "../../../../../api/firebase"
+import firebase, {channelsCollection, usersCollection} from "../../../../../api/firebase"
 
 import Screen from "../../../../components/Screen";
 import store from "../../../../store"
@@ -9,27 +9,24 @@ import styles from "../../../../styling/screens/In_App/settings/Friends/FriendLi
 
 export default (props) => {
     const [user, setUser] = useState([]);
-    const [count, setCount] = useState(0);
 
     const DATA = store.getState().user.user.friends;
 
-    const fetchFriends = () => {
-        firebase.firestore().collection('Users')
-        .where('uid','in',DATA)
-        .get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            addUser(doc.data())
-        });
-        })
-    }
-    if (user.length === 0 && DATA.length > 0) {
-        fetchFriends()
-    }
 
-    const addUser = (item) => {
-        user.push(item)
-        setCount(count + 1)
-    }
+    useEffect(() => {
+        const fetchFriends = usersCollection.where('uid','in',DATA)
+            .onSnapshot(snapshot => {
+           const friends = snapshot.docs.map(doc => {
+               const firebase = doc.data()
+               return firebase;
+           })
+            setUser(friends)
+
+        })
+        return () => {
+            fetchFriends()
+        }
+    }, [])
 
     const renderItem = ({item}) => {
         return (
@@ -53,7 +50,9 @@ export default (props) => {
             <FlatList
                 data={user}
                 renderItem={renderItem}
-                style = {styles.flatList}/>
+                style = {styles.flatList}
+                keyExtractor={item => item.uid}
+                extraData={user}/>
 
         </Screen>
     )

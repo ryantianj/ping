@@ -30,7 +30,7 @@ export default (props) => {
 
     const submitQueryToDatabase = () => {
         if (search === "") {
-            Alert.alert("Empty search is not allowed");
+            Alert.alert("Search", "Empty search is not allowed");
             return;
         }
         isLoading(true)

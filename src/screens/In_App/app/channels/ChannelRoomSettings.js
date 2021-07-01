@@ -17,27 +17,26 @@ export default (props) => {
 
     const dispatch = useDispatch();
 
+    const uid = store.getState().user.user.uid;
+    const roomid = store.getState().room.room.roomid;
+    const roomname = store.getState().room.room.roomname;
+    const topics = store.getState().room.room.topics.join(", ");
+    const users = store.getState().room.room.users;
+
     const mapUidToUserName = (uidArray) => {
         uidArray.forEach(async uid => {
             const user = await usersCollection.doc(uid).get();
             addUser(user.data());
         })
     }
-
-    const uid = store.getState().user.user.uid;
-    const roomid = store.getState().room.room.roomid;
-    const roomname = store.getState().room.room.roomname;
-    const topics = store.getState().room.room.topics.join(", ");
-
-
-    if (displayArray.length === 0) {
-        mapUidToUserName(store.getState().room.room.users)
+    if (count === 0) {
+        mapUidToUserName(users)
     }
 
 
     const addUser = (item) => {
         displayArray.push(item)
-        setCount(count + 1)
+        setCount( count + 1)
     }
 
     const renderUserItem = ({item}) => {
@@ -70,10 +69,8 @@ export default (props) => {
             .then(() => {
                 console.log('Removed user from room db!');
             });
-        
-        Alert.alert("Leave Channel", "You have left the channel.")
-
         dispatch(fillUserState(uid)).then(() => {
+            Alert.alert("Leave Channel", "You have left the channel.")
             props.navigation.navigate("Channel")
             isLoading(false);
         })
@@ -112,9 +109,9 @@ export default (props) => {
                 <FlatList
                     data={displayArray}
                     renderItem={renderUserItem}
-                    style = {styles.flatList}/>
+                    style = {styles.flatList}
+                    keyExtractor={item => item.uid}/>
             </View>
-
 
             <TouchableOpacity
                 style = {styles.button}

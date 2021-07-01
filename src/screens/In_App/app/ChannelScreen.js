@@ -17,6 +17,7 @@ export default (props) => {
     const isFocused = useIsFocused();
     const [roomsData, setRoomsData] = useState([]);
     const [loading, isLoading] = useState(false);
+    const [loading1, isLoading1] = useState(false);
 
     const renderChannelItem = ( room ) => {
         return (
@@ -43,6 +44,7 @@ export default (props) => {
 
 
     useEffect(() => {
+        isLoading1(true);
         const channelListener = usersCollection.doc(store.getState().user.user.uid)
             .onSnapshot(snapshot => {
                 const firebase = snapshot.data()
@@ -58,6 +60,7 @@ export default (props) => {
                     }
                 )
                 setRoomsData(channelObjectArray)
+                isLoading1(false);
             })
         return () => {
             channelListener()
@@ -89,6 +92,13 @@ export default (props) => {
                 extraData={roomsData}
                 contentContainerStyle={{ paddingBottom: 20 }}
             />
+            {loading1 && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Loading Channels
+                </Text>
+            </View>
+            }
             {loading && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />
                 <Text>

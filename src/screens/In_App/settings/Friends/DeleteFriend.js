@@ -38,9 +38,13 @@ export default (props) => {
                 .update({
                     friends: firebase.firestore.FieldValue.arrayRemove(uid)
                 })).then(() => {
+                    dispatch(fillUserState(uid))
+                    })
+                .then(() => {
                     alert("User Removed!")
                     isLoading(false);
-                    props.navigation.navigate('Settings')})
+                    props.navigation.navigate('Settings')
+                })
         }
     }
 
@@ -116,7 +120,6 @@ export default (props) => {
                 style = {styles.button}
                 onPress = {async () => {
                     await handleRemoveFriend()
-                    dispatch(fillUserState(uid))
                 }}>
                 <Text style ={styles.buttonText}>Remove Friend</Text>
             </TouchableOpacity>

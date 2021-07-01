@@ -68,10 +68,9 @@ export default (props) => {
             .then(() => {
                 console.log('Removed user from room db!');
             });
-        
-        Alert.alert("Leave Chat", "You have left the chat.")
 
         dispatch(fillUserState(uid)).then(() => {
+            Alert.alert("Leave Chat", "You have left the chat.")
             props.navigation.navigate("Chat")
             isLoading(false);
         })
