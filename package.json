@@ -8,9 +8,6 @@
     "eject": "expo eject",
     "test": "jest"
   },
-  "jest": {
-    "preset": "react-native"
-  },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.0",
     "@react-native-community/masked-view": "0.1.10",
@@ -47,8 +44,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
-    "detox": "^18.18.1",
-    "jest": "^27.0.6"
+    "jest": "^27.0.6",
+    "jest-expo": "^41.0.0"
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "private": true,
   "name": "ping",
