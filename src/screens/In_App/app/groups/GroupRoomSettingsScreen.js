@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Alert, FlatList, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator} from "react-native";
-import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
+import firebase, {usersCollection, roomsCollection, channelsCollection} from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillGroupRoomState } from "../../../../roomsSlice";
 import { useDispatch } from 'react-redux';
@@ -19,25 +19,36 @@ export default (props) => {
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
     const [value, setValue] = useState(false);
     const [loading, isLoading] = useState(false);
+    const [loading1, isLoading1] = useState(false);
+    const [loading2, isLoading2] = useState(false);
 
-    const DATA = store.getState().room.room.users;
 
     useEffect(() => {
-        const fetchFriends = usersCollection.where('uid','in',DATA)
+        isLoading1(true)
+        const fetchFriends = roomsCollection.doc(roomid)
             .onSnapshot(snapshot => {
-                const friends = snapshot.docs.map(doc => {
-                    const firebase = doc.data()
-                    return firebase;
-                })
-                setDisplayArray(friends)
-
+                const firebase = snapshot.data()
+                const users = firebase.users
+                fetchUserData(users)
             })
+
+        const fetchUserData = async (userArray) => {
+            const temp = [];
+
+            for (const user in userArray) {
+                const data = await usersCollection.doc(userArray[user]).get()
+                const userData = data.data()
+                temp.push(userData)
+
+            }
+            setDisplayArray(temp)
+            isLoading1(false)
+        }
         return () => {
             fetchFriends()
         }
     }, [])
 
-    const uidArray =  store.getState().room.room.users;
     const friendsArray = store.getState().user.user.friends;
 
     const filterFriends = (uidArray, friendsArray) => {
@@ -51,19 +62,32 @@ export default (props) => {
     }
 
     useEffect(() => {
-        const fetchFriends = usersCollection.where('uid','in',filterFriends(uidArray,friendsArray))
+        isLoading2(true)
+        const fetchFriends = roomsCollection.doc(roomid)
             .onSnapshot(snapshot => {
-                const friends = snapshot.docs.map(doc => {
-                    const firebase = doc.data()
-                    return firebase;
-                })
-                setFriendsUserArray(friends)
-
+                const firebase = snapshot.data()
+                const users = firebase.users
+                const filtered = filterFriends(users, friendsArray)
+                fetchUserData(filtered)
             })
+        const fetchUserData = async (userArray) => {
+            const temp = [];
+
+            for (const user in userArray) {
+                const data = await usersCollection.doc(userArray[user]).get()
+                const userData = data.data()
+                temp.push(userData)
+
+            }
+            setFriendsUserArray(temp)
+            isLoading2(false)
+        }
+
         return () => {
             fetchFriends()
         }
     }, [])
+
 
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
@@ -142,37 +166,42 @@ export default (props) => {
     const handleAddMembers = async () => {
         let roomid = store.getState().room.room.roomid;
 
-        // add selectedFriends to room data
-        selectedFriends.forEach(async friend => {
-            await roomsCollection.doc(roomid).update({
-                'users': firebase.firestore.FieldValue.arrayUnion(friend.item.uid)
-            }).then(() => {
-                console.log("Room doc updated!");
-            });
-        })
+        if (selectedFriends.length === 0) {
+            Alert.alert("Add User", "Please Select a User to Add")
+        } else {
+            // add selectedFriends to room data
+            props.navigation.goBack()
+            selectedFriends.forEach(async friend => {
+                await roomsCollection.doc(roomid).update({
+                    'users': firebase.firestore.FieldValue.arrayUnion(friend.item.uid)
+                }).then(() => {
 
-        // add room to selectedFriends' data
-        selectedFriends.forEach(async newRoomUser => {
-            await usersCollection
-            .doc(newRoomUser.item.uid)
-            .update({
-                'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
+                });
             })
-            .then(() => {
-                console.log('Added room to users\' db!');
-            });
 
-            // await roomsCollection.doc(roomid).collection('Messages').doc().set({
-            //     text: newRoomUser.item.display + ' joined the room',
-            //     createdAt: new Date().getTime(),
-            //     system: true
-            // }).then(() => {
-            //     console.log("Update Room with system messages!");
-            // });
-        })
+            // add room to selectedFriends' data
+            selectedFriends.forEach(async newRoomUser => {
+                await usersCollection
+                    .doc(newRoomUser.item.uid)
+                    .update({
+                        'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
+                    })
+                    .then(() => {
+                        console.log('Added room to users\' db!');
+                    });
 
-        // update global state with new room
-        dispatch(fillGroupRoomState(roomid));
+                // await roomsCollection.doc(roomid).collection('Messages').doc().set({
+                //     text: newRoomUser.item.display + ' joined the room',
+                //     createdAt: new Date().getTime(),
+                //     system: true
+                // }).then(() => {
+                //     console.log("Update Room with system messages!");
+                // });
+            })
+
+            // update global state with new room
+            dispatch(fillGroupRoomState(roomid))
+        }
     }
 
     const leaveGroup = async () => {
@@ -239,7 +268,15 @@ export default (props) => {
                     nestedScrollEnabled
                     data={displayArray}
                     renderItem={renderUserItem}
+                    keyExtractor={item => item.uid}
                     style = {styles.flatList}/>
+                {loading1 && <View style = {styles.loading}>
+                    <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                    <Text>
+                        Loading Users
+                    </Text>
+                </View>
+                }
             </View>
 
             <Text style = {styles.roomNameText}>
@@ -251,22 +288,28 @@ export default (props) => {
                     nestedScrollEnabled
                     data={friendsUserArray}
                     renderItem={renderFriendItem}
-                    keyExtractor={item => item}
+                    keyExtractor={item => item.uid}
                     style = {styles.flatList}/>
+                {loading2 && <View style = {styles.loading}>
+                    <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                    <Text>
+                        Loading Friends
+                    </Text>
+                </View>
+                }
+
             </View>
 
             <TouchableOpacity
                 style = {styles.buttonblack}
                 onPress = {async () => {
                     await handleAddMembers();
-                    props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'GroupRoom' }],
-                    });
                 }
                 }>
                 <Text style ={styles.buttonText}>Add Members</Text>
             </TouchableOpacity>
+
+
             
             <TouchableOpacity
                 style = {styles.buttonred}
@@ -276,7 +319,6 @@ export default (props) => {
             </TouchableOpacity>
         
         </ScrollView>
-
             {loading && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />
                 <Text>

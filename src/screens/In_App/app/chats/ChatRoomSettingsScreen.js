@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {Alert, FlatList, Text, TouchableOpacity, View, ActivityIndicator} from "react-native";
-import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
+import firebase, {usersCollection, roomsCollection} from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillUserState } from '../../../../usersSlice';
 import { useDispatch } from 'react-redux';
@@ -14,24 +14,34 @@ export default (props) => {
     const dispatch = useDispatch();
     const [displayArray, setDisplayArray] = useState([]);
     const [loading, isLoading] = useState(false);
+    const [loading1, isLoading1] = useState(false);
     
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
     const topics = store.getState().room.room.topics.join(", ");
 
-    const DATA = store.getState().room.room.users
-
     useEffect(() => {
-        const fetchFriends = usersCollection.where('uid','in',DATA)
+        isLoading1(true)
+        const fetchFriends = roomsCollection.doc(roomid)
             .onSnapshot(snapshot => {
-                const friends = snapshot.docs.map(doc => {
-                    const firebase = doc.data()
-                    return firebase;
-                })
-                setDisplayArray(friends)
-
+                const firebase = snapshot.data()
+                const users = firebase.users
+                fetchUserData(users)
             })
+
+        const fetchUserData = async (userArray) => {
+            const temp = [];
+
+            for (const user in userArray) {
+                const data = await usersCollection.doc(userArray[user]).get()
+                const userData = data.data()
+                temp.push(userData)
+
+            }
+            setDisplayArray(temp)
+            isLoading1(false)
+        }
         return () => {
             fetchFriends()
         }
@@ -108,6 +118,13 @@ export default (props) => {
                     data={displayArray}
                     renderItem={renderUserItem}
                     style = {styles.flatList}/>
+                {loading1 && <View style = {styles.loading}>
+                    <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                    <Text>
+                        Loading Users
+                    </Text>
+                </View>
+                }
             </View>
 
 

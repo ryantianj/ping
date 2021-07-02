@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {Alert, ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
-import firebase, {usersCollection, roomsCollection, channelsCollection} from "../../../../../api/firebase";
+import {Alert, ActivityIndicator, FlatList, Text, TouchableOpacity, View} from "react-native";
+import firebase, {usersCollection, channelsCollection} from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillUserState } from '../../../../usersSlice';
 import { useDispatch } from 'react-redux';
@@ -11,9 +11,9 @@ import store from "../../../../store"
 import styles from '../../../../styling/screens/In_App/app/channels/ChannelRoomSettings.styles';
 
 export default (props) => {
-    const [count, setCount] = useState(0);
     const [displayArray, setDisplayArray] = useState([]);
     const [loading, isLoading] = useState(false);
+    const [loading1, isLoading1] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -23,21 +23,32 @@ export default (props) => {
     const topics = store.getState().room.room.topics.join(", ");
     const users = store.getState().room.room.users;
 
-    const mapUidToUserName = (uidArray) => {
-        uidArray.forEach(async uid => {
-            const user = await usersCollection.doc(uid).get();
-            addUser(user.data());
-        })
-    }
-    if (count === 0) {
-        mapUidToUserName(users)
-    }
+    //Listens to users in room document
+    useEffect(() => {
+        isLoading1(true)
+        const fetchFriends = channelsCollection.doc(roomid)
+            .onSnapshot(snapshot => {
+                const firebase = snapshot.data()
+                const users = firebase.users
+                fetchUserData(users)
+            })
 
+        const fetchUserData = async (userArray) => {
+            const temp = [];
 
-    const addUser = (item) => {
-        displayArray.push(item)
-        setCount( count + 1)
-    }
+            for (const user in userArray) {
+                const data = await usersCollection.doc(userArray[user]).get()
+                const userData = data.data()
+                temp.push(userData)
+
+            }
+            setDisplayArray(temp)
+            isLoading1(false)
+        }
+        return () => {
+            fetchFriends()
+        }
+    }, [])
 
     const renderUserItem = ({item}) => {
         return (
@@ -110,7 +121,15 @@ export default (props) => {
                     data={displayArray}
                     renderItem={renderUserItem}
                     style = {styles.flatList}
-                    keyExtractor={item => item.uid}/>
+                    keyExtractor={item => item.uid}
+                    extraData={displayArray}/>
+                {loading1 && <View style = {styles.loading}>
+                    <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                    <Text>
+                        Loading Users
+                    </Text>
+                </View>
+                }
             </View>
 
             <TouchableOpacity
