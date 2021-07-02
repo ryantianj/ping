@@ -62,7 +62,8 @@ export default StyleSheet.create({
     flatList: {
         marginTop: 0,
         width: 9 * windowWidth / 10,
-        borderRadius: 10
+        borderRadius: 10,
+        marginBottom: 20,
     },
 
     button : {
