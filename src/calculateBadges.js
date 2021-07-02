@@ -82,7 +82,7 @@ const awardBadge = async (topic, badgecode) => {
 
 // 4.
 // tallyIndivUpvotes(topic): return integer
-const tallyIndivUpvotes = (topic) => {
+const tallyIndivUpvotes = async (topic) => {
     const uid = store.getState().user.user.uid;
     let topicCount = 0;
     // filter all channels with this user related to this topic
@@ -164,8 +164,11 @@ const handleTopicBadge = async (topic) => {
 export const findAllBadges = async () => {
     const response = await interestsCollection.doc('profile').get()
     const data = response.data();
+    let j = 0;
     for (let i = 0; i < 105; i++) {
         const topic = data.fields[i];
         handleTopicBadge(topic);
+        j++;
     }
+    return j;
 }
