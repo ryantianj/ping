@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Alert, FlatList, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator} from "react-native";
+import {Alert, FlatList, Text, TouchableOpacity, View, ActivityIndicator} from "react-native";
 import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillUserState } from '../../../../usersSlice';
@@ -12,33 +12,31 @@ import styles from '../../../../styling/screens/In_App/app/chats/ChatRoomSetting
 
 export default (props) => {
     const dispatch = useDispatch();
-    const [count, setCount] = useState(0);
     const [displayArray, setDisplayArray] = useState([]);
     const [loading, isLoading] = useState(false);
-    
-    const mapUidToUserName = (uidArray) => {
-        uidArray.forEach(async uid => {
-            const user = await usersCollection.doc(uid).get();
-            addUser(user.data());
-        })
-    }
     
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
     const topics = store.getState().room.room.topics.join(", ");
 
+    const DATA = store.getState().room.room.users
 
-    if (displayArray.length === 0) {
-        mapUidToUserName(store.getState().room.room.users)
-    }
+    useEffect(() => {
+        const fetchFriends = usersCollection.where('uid','in',DATA)
+            .onSnapshot(snapshot => {
+                const friends = snapshot.docs.map(doc => {
+                    const firebase = doc.data()
+                    return firebase;
+                })
+                setDisplayArray(friends)
 
+            })
+        return () => {
+            fetchFriends()
+        }
+    }, [])
 
-    const addUser = (item) => {
-        displayArray.push(item)
-        setCount(count + 1)
-    }
-    
     const renderUserItem = ({item}) => {
         return (
             <TouchableOpacity

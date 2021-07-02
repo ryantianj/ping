@@ -72,6 +72,7 @@ export default (props) => {
                         channel: channel,
                         total: total
                     })
+                setSearch('')
             })
             .catch((error) => {
                 isLoading(false)

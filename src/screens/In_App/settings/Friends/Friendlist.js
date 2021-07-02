@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
-import firebase, {channelsCollection, usersCollection} from "../../../../../api/firebase"
+import {FlatList, Text, TouchableOpacity, View} from "react-native";
+import { usersCollection} from "../../../../../api/firebase"
 
 import Screen from "../../../../components/Screen";
 import store from "../../../../store"

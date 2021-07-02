@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {Alert, FlatList, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator} from "react-native";
 import firebase, { usersCollection, roomsCollection } from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
@@ -13,55 +13,63 @@ import styles from '../../../../styling/screens/In_App/app/groups/GroupRoomSetti
 
 export default (props) => {
     const dispatch = useDispatch();
-    const [count, setCount] = useState(0);
-    const [count2, setCount2] = useState(0);
     const [displayArray, setDisplayArray] = useState([]);
     const [selectedFriends, setSelectedFriends] = useState([]); // user object of selected
     const [friendsUserArray, setFriendsUserArray] = useState([]);
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
     const [value, setValue] = useState(false);
     const [loading, isLoading] = useState(false);
-    
-    const mapUidToUserName = (uidArray) => {
-        uidArray.forEach(async uid => {
-            const user = await usersCollection.doc(uid).get();
-            addUser1(user.data());
-        })
-    }
 
-    const mapUidToUserName2 = (uidArray, friendsArray) => {
-        friendsArray.forEach(async uid => {
+    const DATA = store.getState().room.room.users;
+
+    useEffect(() => {
+        const fetchFriends = usersCollection.where('uid','in',DATA)
+            .onSnapshot(snapshot => {
+                const friends = snapshot.docs.map(doc => {
+                    const firebase = doc.data()
+                    return firebase;
+                })
+                setDisplayArray(friends)
+
+            })
+        return () => {
+            fetchFriends()
+        }
+    }, [])
+
+    const uidArray =  store.getState().room.room.users;
+    const friendsArray = store.getState().user.user.friends;
+
+    const filterFriends = (uidArray, friendsArray) => {
+        const temp = [];
+        friendsArray.forEach(uid => {
             if (!uidArray.includes(uid)) {
-                const user = await usersCollection.doc(uid).get();
-                addUser2(user.data());
+                temp.push(uid)
             }
         })
+        return temp;
     }
-    
+
+    useEffect(() => {
+        const fetchFriends = usersCollection.where('uid','in',filterFriends(uidArray,friendsArray))
+            .onSnapshot(snapshot => {
+                const friends = snapshot.docs.map(doc => {
+                    const firebase = doc.data()
+                    return firebase;
+                })
+                setFriendsUserArray(friends)
+
+            })
+        return () => {
+            fetchFriends()
+        }
+    }, [])
+
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
     const topics = store.getState().room.room.topics.join(", ");
 
-    if (displayArray.length === 0) {
-        mapUidToUserName(store.getState().room.room.users)
-    }
-
-    if (friendsUserArray.length === 0 && count === 0) {
-        mapUidToUserName2(store.getState().room.room.users, store.getState().user.user.friends)
-    }
-
-
-    const addUser1 = (item) => {
-        displayArray.push(item)
-        setCount(count + 1)
-    }
-    
-    const addUser2 = (item) => {
-        friendsUserArray.push(item)
-        setCount2(count2 + 1)
-    }
-    
     const renderUserItem = ({item}) => {
         return (
             <TouchableOpacity

@@ -79,6 +79,29 @@ export default StyleSheet.create({
     },
     loadingColour: {
         color : colours.logInButton
+    },
+    image : {
+        width: 2 * windowWidth / 20,
+        height: 2 * windowWidth / 20,
+    },
+    table: {
+        width: 9 * windowWidth / 10,
+    },
+    iconCell: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        flex: 2
+    },
+    titleCell: {
+        flex: 9,
+        paddingLeft: 2,
+        paddingRight: 5
+    },
+    topicCell: {
+        flex: 4
+    },
+    row: {
+        marginTop: 10
     }
 
 
