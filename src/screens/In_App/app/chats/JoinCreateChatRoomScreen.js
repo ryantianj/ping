@@ -81,13 +81,17 @@ export default (props) => {
             .update({
                 'rooms': firebase.firestore.FieldValue.arrayUnion(roomid)
             })
-
+        await roomsCollection
+            .doc(roomid).collection('Messages').doc()
+            .set({
+                text: store.getState().user.user.display + ' has created the room',
+                createdAt: new Date().getTime(),
+                system: true
+            })
 
         // update global state with new room
         dispatch(fillChatRoomState(roomid));
-        await dispatch(fillUserState(uid));
-        
-        // check if work? if doesn't render changes then useIsFocused
+        dispatch(fillUserState(uid));
     }
 
     const renderTopicItem = ( {item} ) => {

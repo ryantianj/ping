@@ -180,6 +180,7 @@ export default (props) => {
             })
 
             // add room to selectedFriends' data
+            // add system message for each new user
             selectedFriends.forEach(async newRoomUser => {
                 await usersCollection
                     .doc(newRoomUser.item.uid)
@@ -190,13 +191,13 @@ export default (props) => {
                         console.log('Added room to users\' db!');
                     });
 
-                // await roomsCollection.doc(roomid).collection('Messages').doc().set({
-                //     text: newRoomUser.item.display + ' joined the room',
-                //     createdAt: new Date().getTime(),
-                //     system: true
-                // }).then(() => {
-                //     console.log("Update Room with system messages!");
-                // });
+                await roomsCollection.doc(roomid).collection('Messages').doc().set({
+                    text: newRoomUser.item.display + ' joined the room',
+                    createdAt: new Date().getTime(),
+                    system: true
+                }).then(() => {
+                    console.log("Update Room with system messages!");
+                });
             })
 
             // update global state with new room
@@ -222,7 +223,15 @@ export default (props) => {
             .then(() => {
                 console.log('Removed user from room db!');
             });
-
+        await roomsCollection
+            .doc(roomid).collection('Messages').doc()
+            .set({
+                text: store.getState().user.user.display + ' left the room',
+                createdAt: new Date().getTime(),
+                system: true
+            }).then(() => {
+                console.log("Update Room with system message!");
+            });
         dispatch(fillUserState(uid)).then(() => {
             Alert.alert("Leave Group", "You have left the group.")
             props.navigation.navigate("Group")

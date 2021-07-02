@@ -84,9 +84,17 @@ export default (props) => {
             });
         })
 
+        await roomsCollection
+            .doc(roomid).collection('Messages').doc()
+            .set({
+                text: store.getState().user.user.display + ' has created the room',
+                createdAt: new Date().getTime(),
+                system: true
+            })
+
         // update global state with new room
         dispatch(fillGroupRoomState(roomid));
-        await dispatch(fillUserState(uid));
+        dispatch(fillUserState(uid));
     }
 
     const renderTopicItem = ( {item} ) => {

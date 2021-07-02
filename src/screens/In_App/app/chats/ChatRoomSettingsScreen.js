@@ -76,7 +76,15 @@ export default (props) => {
             .then(() => {
                 console.log('Removed user from room db!');
             });
-
+        await roomsCollection
+            .doc(roomid).collection('Messages').doc()
+            .set({
+                text: store.getState().user.user.display + ' left the room',
+                createdAt: new Date().getTime(),
+                system: true
+            }).then(() => {
+                console.log("Update Room with system message!");
+            });
         dispatch(fillUserState(uid)).then(() => {
             Alert.alert("Leave Chat", "You have left the chat.")
             props.navigation.navigate("Chat")
