@@ -56,7 +56,6 @@ export default (props) => {
 
     const CreateChatRoom = async () => {
 
-        const uid = uid;
         let roomid = "";
         // create room on firebase
         await roomsCollection.add({

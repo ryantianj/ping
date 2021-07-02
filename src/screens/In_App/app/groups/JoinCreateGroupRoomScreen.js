@@ -55,7 +55,6 @@ export default (props) => {
 
     const CreateGroupRoom = async () => {
 
-        const uid = uid;
         let roomid = "";
         // create room on firebase
         const roomUsersUidArray = [];

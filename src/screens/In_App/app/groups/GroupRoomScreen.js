@@ -46,6 +46,8 @@ export default (props) => {
     
     const handleSend = async (messages) => {
 
+        const currTime = new Date().getTime();
+
         const text = messages[0].text;
         console.log(text);
 
@@ -55,7 +57,7 @@ export default (props) => {
             likedby: [],
             star: false,
             text,
-            createdAt: new Date().getTime(),
+            createdAt: currTime,
             user: {
                 _id: uid,
                 email: email
@@ -66,7 +68,7 @@ export default (props) => {
         await roomsCollection.doc(roomid).set({
             latestMessage: {
                 text: text,
-                createdAt: new Date().getTime()
+                createdAt: currTime
             }
         },
         { merge: true }
@@ -78,7 +80,7 @@ export default (props) => {
                 _id: uid,
                 display: display
             },
-            createdAt: new Date().getTime(),
+            createdAt: currTime,
             //Users to send to
             users: removeElement(users, uid),
             roomname: roomname,
