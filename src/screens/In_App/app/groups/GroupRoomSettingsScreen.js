@@ -162,13 +162,13 @@ export default (props) => {
                 console.log('Added room to users\' db!');
             });
 
-            await roomsCollection.doc(roomid).collection('Messages').doc().set({
-                text: newRoomUser.item.display + ' joined the room',
-                createdAt: new Date().getTime(),
-                system: true
-            }).then(() => {
-                console.log("Update Room with system messages!");
-            });
+            // await roomsCollection.doc(roomid).collection('Messages').doc().set({
+            //     text: newRoomUser.item.display + ' joined the room',
+            //     createdAt: new Date().getTime(),
+            //     system: true
+            // }).then(() => {
+            //     console.log("Update Room with system messages!");
+            // });
         })
 
         // update global state with new room
