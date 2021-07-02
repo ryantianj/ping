@@ -5,7 +5,7 @@ import {
     FlatList,
     View, ActivityIndicator,
 } from "react-native";
-import {channelsCollection, roomsCollection, usersCollection} from '../../../../api/firebase';
+import {roomsCollection, usersCollection} from '../../../../api/firebase';
 import { fillGroupRoomState } from '../../../roomsSlice';
 import { useDispatch } from 'react-redux';
 import store from '../../../store';

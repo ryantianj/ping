@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react";
-import {Alert, FlatList, Text, TouchableOpacity, View} from "react-native";
+import {Alert, FlatList, Text, TouchableOpacity, View, Image} from "react-native";
 
 import firebase, {
     channelsCollection, globalNotiCollection,
@@ -246,7 +246,6 @@ export default (prop) => {
                               name={'settings-outline'} size={35}  />
                 </TouchableOpacity>
 
-
                 <TouchableOpacity
                     style = {styles.touchable}
                     onPress = {() => prop.navigation.navigate("NewPost")}
@@ -260,7 +259,6 @@ export default (prop) => {
                 style = {styles.chatsText}>
                 {store.getState().room.room.roomname}
             </Text>
-
 
             <View style = {styles.flatList}>
                 <FlatList

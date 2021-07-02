@@ -21,7 +21,7 @@ export default (props) => {
 
     useEffect(() => {
         
-        findAllBadges()
+        // findAllBadges()
 
         // channels noti
          const allNoti = usersCollection.doc(store.getState().user.user.uid)

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Alert, FlatList, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator} from "react-native";
-import firebase, {usersCollection, roomsCollection, channelsCollection} from "../../../../../api/firebase";
+import firebase, {usersCollection, roomsCollection} from "../../../../../api/firebase";
 import 'react-native-gesture-handler';
 import { fillGroupRoomState } from "../../../../roomsSlice";
 import { useDispatch } from 'react-redux';

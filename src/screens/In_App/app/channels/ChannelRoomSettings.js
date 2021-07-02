@@ -21,7 +21,6 @@ export default (props) => {
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
     const topics = store.getState().room.room.topics.join(", ");
-    const users = store.getState().room.room.users;
 
     //Listens to users in room document
     useEffect(() => {
