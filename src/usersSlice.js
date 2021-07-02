@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { usersCollection } from '../api/firebase';
+import {useEffect} from "react";
 
 const initialState = [
     { 
@@ -20,6 +21,26 @@ const initialState = [
         display: '',
     }
 ]
+
+// const fireBaseListener = (uid) => {
+//     useEffect(() => {
+//         const fetchData = usersCollection.doc(uid)
+//             .onSnapshot(snapshot => {
+//                 console.log("slice listener")
+//                 const firebase = snapshot.data()
+//                 updateUserState(
+//                     {
+//                         user: firebase,
+//                         uid: uid
+//                     }
+//                 )
+//
+//             })
+//         return () => {
+//             fetchData()
+//         }
+//     }, [])
+// }
 
 const usersSlice = createSlice({
     name: 'user',
@@ -71,6 +92,7 @@ export const fillUserState = uid => {
                     }
                 )
             )
+            // fireBaseListener(uid)
         } catch (error) {
             // If something went wrong, handle it here
             console.log(error);
