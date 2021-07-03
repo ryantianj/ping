@@ -1,24 +1,19 @@
 import React, {useState} from "react";
-import {ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View, Image, Platform} from "react-native";
+import {ActivityIndicator, Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 
-import {channelsCollection, globalNotiCollection} from "../../../../../api/firebase";
+import firebase, {channelsCollection, globalNotiCollection} from "../../../../../api/firebase";
 import store from '../../../../store';
-import firebase from "../../../../../api/firebase"
 
 import styles from "../../../../styling/screens/In_App/app/channels/NewPost.styles"
 import Screen from "../../../../components/Screen";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import {v4 as uuid} from 'uuid';
 
 export default (prop) => {
     const [post ,setPost] = useState("")
     const [title, setTitle] = useState("")
     const [loading, isLoading] = useState(false);
-
     const [image, setImage] = useState(null)
-    const [uploading, setUploading] = useState(false)
-    const [transferred, setTransferred] = useState(0)
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -32,6 +27,10 @@ export default (prop) => {
             setImage(result.uri);
         }
     };
+
+    const deleteImage = () => {
+        setImage(null)
+    }
     const upLoadImage = async () => {
         const uri = image + ''
         const blob = await new Promise((resolve, reject) => {
@@ -57,35 +56,6 @@ export default (prop) => {
         return await snapshot.ref.getDownloadURL();
     }
 
-
-
-    // const upLoadImage = async () => {
-    //     const filename = image.substring(image.lastIndexOf('/') + 1);
-    //     const uploadUri = Platform.OS === 'ios' ? image.replace('file://', '') : image;
-    //     setUploading(true);
-    //     setTransferred(0);
-    //     const task = firebase.storage()
-    //         .ref(filename)
-    //         .child(uploadUri)
-    //         .putFile(uploadUri);
-    //     // set progress state
-    //     task.on('state_changed', snapshot => {
-    //         setTransferred(
-    //             Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
-    //         );
-    //     });
-    //     try {
-    //         await task;
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    //     setUploading(false);
-    //     Alert.alert(
-    //         'Photo uploaded!',
-    //         'Your photo has been uploaded to Firebase Cloud Storage!'
-    //     );
-    //     setImage(null);
-    // }
 
     const removeElement = (arr, userID) => {
         return arr.filter(users => users !== userID);
@@ -117,7 +87,13 @@ export default (prop) => {
             roomid: roomid,
              notiId: ''
         }).then((docRef) => {
-            notiId = docRef.id
+             notiId = docRef.id
+             if (image !== null) {
+                 return upLoadImage()
+             } else {
+                 return '';
+             }
+         }).then((link) => {
             channelsCollection.doc(roomid).collection('Posts').add({
              roomid: roomid,
              roomname: roomname,
@@ -132,7 +108,8 @@ export default (prop) => {
                  display: display
              },
              notiType: 0,
-             notiId: docRef.id
+             notiId: notiId,
+             mediaLink: link,
          })}).then(() => isLoading(false))
 
 
@@ -148,62 +125,77 @@ export default (prop) => {
 
     return (
         <Screen style = {styles.container}>
-            <TextInput
-                multiline
-                style = {styles.textInputTitle}
-                placeholder = "Post Title"
-                value = {title}
-                onChangeText = {setTitle}
-                returnKeyType = "go"
-                maxLength = {100}
-            />
-            <TouchableOpacity
-                style = {styles.touchable}
-                onPress = {() => pickImage()}
+            <ScrollView
+                style = {styles.scroll}
+                contentContainerStyle = {styles.scrollContainer}
             >
-                <Ionicons style = {styles.icon}
-                          name={'attach-outline'} size={35}  />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style = {styles.touchable}
-                onPress = {async () => {const test = await upLoadImage(image)
-                console.log(test)}}
-            >
-                <Ionicons style = {styles.icon}
-                          name={'attach-outline'} size={35}  />
-            </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-            <TextInput
-                multiline
-                style = {styles.textInputBio}
-                placeholder = "Post Content"
-                value = {post}
-                onChangeText = {setPost}
-                returnKeyType = "go"
-                maxLength = {500}
+                <TextInput
+                    multiline
+                    style = {styles.textInputTitle}
+                    placeholder = "Post Title"
+                    value = {title}
+                    onChangeText = {setTitle}
+                    returnKeyType = "go"
+                    maxLength = {100}
                 />
-            <TouchableOpacity
-                style = {styles.button}
-                onPress={ () => {
-                    if (post === '') {
-                        Alert.alert("Post", "Please key in some text for the post")
-                    } else if (title === '') {
-                        Alert.alert("Title", "Please key in some text for the title")
-                    } else {
-                        handlePost().then(() => prop.navigation.goBack())
-                    }}}
-            >
-                <Text style = {styles.buttonText}>Create Post</Text>
-            </TouchableOpacity>
+                {image === null && <View style = {styles.attach}>
+                    <Text>
+                        Attach an Image:
+                    </Text>
+                    <TouchableOpacity
+                        style = {styles.touchable}
+                        onPress = {pickImage}
+                    >
+                        <Ionicons style = {styles.icon}
+                                  name={'attach-outline'} size={35}  />
+                    </TouchableOpacity>
+                </View>}
+                {image !== null && <View style = {styles.delete}>
+                    <TouchableOpacity
+                        style = {styles.touchable}
+                        onPress = {deleteImage}>
+                        <Ionicons style = {styles.icon}
+                                  name={'trash-outline'} size={35}  />
+                    </TouchableOpacity>
 
-            {loading && <View style = {styles.loading}>
-                <ActivityIndicator size="large" color={styles.loadingColour.color} />
-                <Text>
-                    Creating Post
-                </Text>
-            </View>
-            }
+                    <Text>
+                        Delete Image
+                    </Text>
+                </View>
+                }
+                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                <TextInput
+                    multiline
+                    style = {styles.textInputBio}
+                    placeholder = "Post Content"
+                    value = {post}
+                    onChangeText = {setPost}
+                    returnKeyType = "go"
+                    maxLength = {500}
+                />
+                <TouchableOpacity
+                    style = {styles.button}
+                    onPress={ () => {
+                        if (post === '') {
+                            Alert.alert("Post", "Please key in some text for the post")
+                        } else if (title === '') {
+                            Alert.alert("Title", "Please key in some text for the title")
+                        } else {
+                            handlePost().then(() => prop.navigation.goBack())
+                        }}}
+                >
+                    <Text style = {styles.buttonText}>Create Post</Text>
+                </TouchableOpacity>
+
+                {loading && <View style = {styles.loading}>
+                    <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                    <Text>
+                        Creating Post
+                    </Text>
+                </View>
+                }
+
+            </ScrollView>
 
         </Screen>
     )

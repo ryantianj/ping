@@ -36,6 +36,7 @@ export default (prop) => {
         }
     }
 
+
     const deletePostButton = (item) => {
         const deletePost = () => {
             //Delete comments collection ??
@@ -46,6 +47,13 @@ export default (prop) => {
                 .doc(store.getState().room.room.roomid)
                 .collection("Posts")
                 .doc(item._id).delete().then(() => Alert.alert("Delete Post", "Post Deleted")))
+            //Delete Media
+            if (item.mediaLink !== '') {
+                const org = item.mediaLink.substring(item.mediaLink.lastIndexOf('/') + 1)
+                const org1 = org.substring(0, org.lastIndexOf('?'))
+                const deleteRef = firebase.storage().ref().child(org1);
+                const deleteOrg = deleteRef.delete()
+            }
 
         }
         Alert.alert("Delete Post", "Are you sure you want to delete this post?",
@@ -152,7 +160,8 @@ export default (prop) => {
                         notiId: firebase.notiId,
                         createdAt: firebase.createdAt,
                         createdAtBackUp: firebase.createdAtBackUp,
-                        edited: firebase.edited
+                        edited: firebase.edited,
+                        mediaLink: firebase.mediaLink
                     }
                     return data;
                 })
@@ -195,7 +204,7 @@ export default (prop) => {
                           name={'pin-outline'} size={25}  />
             </TouchableOpacity>
         }
-
+        let imageUrl = {uri: item.mediaLink + ''}
         const upVoteToggle = item.upVotes.includes(store.getState().user.user.uid);
         return (
             <View style = {styles.post}>
@@ -211,6 +220,9 @@ export default (prop) => {
                 <Text style = {styles.postTitle}>
                     {item.title}
                 </Text>
+
+                {((item.mediaLink !== '')) &&
+                <Image style = {styles.image} source = {imageUrl}/>}
                 <Text style = {styles.postText}>
                     {item.text}
                 </Text>

@@ -129,5 +129,10 @@ export default StyleSheet.create({
         alignItems:'center',
         width: windowWidth,
         height:50
+    },
+    image: {
+        // 4, 3 aspect ratio
+        width: 18 * windowWidth / 20,
+        height : 27 * windowWidth / 40,
     }
 })
