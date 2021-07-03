@@ -2,6 +2,7 @@ import {StyleSheet, Dimensions } from "react-native";
 import colours from "../../../../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 
 export default StyleSheet.create({
@@ -23,6 +24,7 @@ export default StyleSheet.create({
         fontSize: 20,
         backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
+        height: windowHeight / 10,
         borderRadius: 10,
         textAlignVertical: 'top',
     },
@@ -39,9 +41,10 @@ export default StyleSheet.create({
         fontSize: 20,
         backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
+        height:3 * windowHeight / 5,
         borderRadius: 10,
         textAlignVertical: 'top',
-    },button : {
+    }, button : {
         marginBottom: 10,
         paddingTop: 13,
         fontSize: 50,
@@ -66,6 +69,28 @@ export default StyleSheet.create({
     },
     loadingColour: {
         color : colours.logInButton
+    },
+    delete : {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        height: windowHeight / 10
+    },
+    attach: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        height: windowHeight / 10
+    },
+    scroll : {
+        backgroundColor: colours.primary,
+        flex: 1,
+        marginBottom: 30,
+    },
+    scrollContainer : {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     }
 
 })
