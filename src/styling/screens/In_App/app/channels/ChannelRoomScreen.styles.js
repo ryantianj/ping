@@ -132,8 +132,13 @@ export default StyleSheet.create({
         height:50
     },
     image: {
+        marginTop: 8,
+        marginBottom: 8,
+        marginLeft: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
         // 4, 3 aspect ratio
-        width: 18 * windowWidth / 20,
-        height : 27 * windowWidth / 40,
+        width: 0.88 * windowWidth,
+        height : 0.66 * windowWidth,
     }
 })

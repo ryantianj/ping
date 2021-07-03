@@ -231,7 +231,7 @@ export default (prop) => {
                     {trash}
                     {edit}
                     
-                    </View>
+                </View>
                 <Text style = {styles.postTitle}>
                     {item.title}
                 </Text>
@@ -257,7 +257,6 @@ export default (prop) => {
                     </TouchableOpacity>
                 </View>
             </View>
-
         )
     }
 
