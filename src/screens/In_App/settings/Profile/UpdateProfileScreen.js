@@ -115,11 +115,11 @@ const UpdateProfileScreen = (props) => {
             <View style = {styles.textInputDisplayContainer}>
                 <TextInput
                     style = {styles.textInputBio}
-                    placeholder = "Display Name"
+                    placeholder = "Display Name (max. 15 char)"
                     value = {display}
                     onChangeText = {setDisplay}
                     returnKeyType = "submit"
-                    maxLength = {50}
+                    maxLength = {15}
                 />
 
             </View>

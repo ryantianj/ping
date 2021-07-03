@@ -30,13 +30,13 @@ export default StyleSheet.create({
         right : 5,
         top: 10,
     },
-    trash: {
+    pin: {
         position: 'absolute',
         height: 30,
         width: 30,
         right : 1,
     },
-    pin: {
+    trash: {
         position: 'absolute',
         height: 30,
         width: 30,
@@ -80,11 +80,12 @@ export default StyleSheet.create({
         backgroundColor: colours.channel,
     },
     user: {
+        marginTop: 8,
         fontSize: 20,
         width: (19 * windowWidth / 20) - 80,
     },
     postTitle: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: 'bold'
     },
     postText: {

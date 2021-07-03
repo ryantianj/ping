@@ -31,7 +31,6 @@ export default (props) => {
                                 props.navigation.navigate('Channels',{ screen: 'ChannelRoom' })
                                 isLoading(false)}
                             )
-
                     }
                 }
             >

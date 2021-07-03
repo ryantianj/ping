@@ -7,6 +7,7 @@ import firebase, {
 import store from '../../../../store';
 
 import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from "../../../../styling/screens/In_App/app/channels/ChannelRoomScreen.styles"
 import Screen from "../../../../components/Screen";
@@ -181,19 +182,29 @@ export default (prop) => {
                                       hitSlop={{top: 100, bottom: 100, left: 15, right: 15}}
                                       onPress = {()=> editPost(item)}
                                       >
-                <Ionicons style = {styles.iconTrash}
-                          name={'pencil-outline'} size={25}  />
+                <MaterialCommunityIcons style = {styles.iconTrash}
+                          name={'pencil'} size={25}  />
             </TouchableOpacity>
         }
         let pin;
         if (owner === user) {
-            pin = <TouchableOpacity style = {styles.pin}
-                                      hitSlop={{top: 100, bottom: 100, left: 15, right: 15}}
-                                      onPress = {()=> pinPost(item)}
-                                      >
-                <Ionicons style = {styles.iconPin}
-                          name={'pin-outline'} size={25}  />
-            </TouchableOpacity>
+            if (item.createdAt === Number.MAX_VALUE) { // pinned
+                pin = <TouchableOpacity style = {styles.pin}
+                                        hitSlop={{top: 100, bottom: 100, left: 15, right: 15}}
+                                        onPress = {()=> pinPost(item)}
+                                        >
+                    <MaterialCommunityIcons style = {styles.iconPin}
+                            name={'pin'} color = {'black'} size={25}  />
+                </TouchableOpacity>
+            } else { // not pinned
+                pin = <TouchableOpacity style = {styles.pin}
+                                        hitSlop={{top: 100, bottom: 100, left: 15, right: 15}}
+                                        onPress = {()=> pinPost(item)}
+                                        >
+                    <MaterialCommunityIcons style = {styles.iconPin}
+                            name={'pin-outline'} color = {'black'} size={25}  />
+                </TouchableOpacity>
+            }
         }
 
         const upVoteToggle = item.upVotes.includes(store.getState().user.user.uid);
@@ -201,12 +212,18 @@ export default (prop) => {
             <View style = {styles.post}>
                 <View style = {styles.userTrash}>
                     <Text style = {styles.user}>
-                        {item.user.display} posted{item.createdAt === Number.MAX_VALUE ? ' (pinned)' : ''}
-                        {item.edited ? ' (edited)' : ''}:
+                        {item.user.display} posted: 
+                        {item.createdAt === Number.MAX_VALUE || item.edited ? "\n" : ''}
+                        <Text style={{fontStyle: 'italic', fontSize: 17}}>
+                            {item.createdAt === Number.MAX_VALUE && item.edited ? '(pinned and edited) ' : ''}
+                            {item.createdAt === Number.MAX_VALUE && !item.edited ? '(pinned)' : ''}
+                            {item.edited && item.createdAt !== Number.MAX_VALUE ? '(edited)' : ''}
+                        </Text>
                     </Text>
+                    {pin}
                     {trash}
                     {edit}
-                    {pin}
+                    
                     </View>
                 <Text style = {styles.postTitle}>
                     {item.title}

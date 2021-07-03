@@ -181,7 +181,7 @@ export default (prop) => {
                 value = {post}
                 onChangeText = {setPost}
                 returnKeyType = "go"
-                maxLength = {500}
+                maxLength = {800}
                 />
             <TouchableOpacity
                 style = {styles.button}

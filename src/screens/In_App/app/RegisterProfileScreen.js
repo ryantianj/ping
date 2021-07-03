@@ -118,11 +118,11 @@ const RegisterProfileScreen = (props) => {
                     <TextInput
                         ref = {nextInput}
                         style = {styles.textInputBio}
-                        placeholder = "Display Name"
+                        placeholder = "Display Name (max. 15 char)"
                         value = {display}
                         onChangeText = {setDisplay}
                         returnKeyType = "go"
-                        maxLength = {50}
+                        maxLength = {15}
                     />
 
                 </View>
