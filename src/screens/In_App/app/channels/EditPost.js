@@ -32,7 +32,18 @@ export default (prop) => {
     };
 
     const deleteImage = () => {
-        setImage('')
+        Alert.alert("Delete Image", "Are you sure you want to delete this Image?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        setImage('')},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
     }
     const upLoadImage = async () => {
         if (image === orgImage) {

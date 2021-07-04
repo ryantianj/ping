@@ -13,7 +13,7 @@ export default (prop) => {
     const [post, setPost] = useState("")
     const [title, setTitle] = useState("")
     const [loading, isLoading] = useState(false);
-    const [image, setImage] = useState(null)
+    const [image, setImage] = useState('')
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -29,7 +29,18 @@ export default (prop) => {
     };
 
     const deleteImage = () => {
-        setImage(null)
+        Alert.alert("Delete Image", "Are you sure you want to delete this Image?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        setImage('')},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
     }
     const upLoadImage = async () => {
         const uri = image + ''
@@ -88,7 +99,7 @@ export default (prop) => {
              notiId: ''
         }).then((docRef) => {
              notiId = docRef.id
-             if (image !== null) {
+             if (image !== '') {
                  return upLoadImage()
              } else {
                  return '';
@@ -138,7 +149,7 @@ export default (prop) => {
                     returnKeyType = "go"
                     maxLength = {100}
                 />
-                {image === null && <View style = {styles.attach}>
+                {image === '' && <View style = {styles.attach}>
                     <Text>
                         Attach an Image:
                     </Text>
@@ -150,7 +161,7 @@ export default (prop) => {
                                   name={'attach-outline'} size={35}  />
                     </TouchableOpacity>
                 </View>}
-                {image !== null && <View style = {styles.delete}>
+                {image !== '' && <View style = {styles.delete}>
                     <TouchableOpacity
                         style = {styles.touchable}
                         onPress = {deleteImage}>
@@ -163,7 +174,7 @@ export default (prop) => {
                     </Text>
                 </View>
                 }
-                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                {image !== '' && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                 <TextInput
                     multiline
                     style = {styles.textInputBio}
