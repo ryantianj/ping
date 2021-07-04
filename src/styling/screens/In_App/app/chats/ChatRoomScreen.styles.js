@@ -2,6 +2,7 @@ import {StyleSheet, Dimensions} from "react-native";
 import colours from "../../../../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
     container : {
@@ -25,6 +26,8 @@ export default StyleSheet.create({
         justifyContent: 'center'
     },
     sendingContainer: {
+        paddingTop: 50,
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -58,4 +61,53 @@ export default StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
+    touchable: {
+      paddingTop: 12,
+    },
+    send: {
+        paddingTop: 12,
+    },
+    mediaAlert: {
+        height: 4 * windowWidth / 5,
+        width: 8 * windowWidth / 10,
+        left: '10%',
+        top: '25%',
+        borderWidth: 1,
+        borderColor: colours.primary,
+        position: 'absolute',
+        backgroundColor: colours.chat,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        borderRadius: 10,
+    },
+    image: {
+        width: 0.792 * windowWidth,
+        height : 0.594 * windowWidth,
+    },
+    buttons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    buttonReject : {
+        fontSize: 50,
+        borderRadius: 10,
+        width: windowWidth / 4,
+        height: 50,
+        backgroundColor: colours.logOutButton,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonAccept : {
+        fontSize: 50,
+        borderRadius: 10,
+        width: windowWidth / 4,
+        height: 50,
+        backgroundColor: colours.logInButton,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
 })

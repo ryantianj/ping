@@ -46,7 +46,7 @@ export default StyleSheet.create({
         fontSize: 20,
         backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
-        height:3 * windowHeight / 5,
+        height: 3 * windowHeight / 5,
         borderRadius: 10,
         textAlignVertical: 'top',
     },button : {

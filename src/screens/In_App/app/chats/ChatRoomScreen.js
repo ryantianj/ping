@@ -1,14 +1,16 @@
-import React, { Component, useEffect, useState } from "react";
-import { FlatList, Text, TouchableOpacity, View, ActivityIndicator } from "react-native";
+import React, {useEffect, useState } from "react";
+import {FlatList, Text, TouchableOpacity, View, ActivityIndicator, Alert, Image} from "react-native";
 // import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
 import { GiftedChat, Bubble, Send, SystemMessage } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
 
-import {globalNotiCollection, roomsCollection} from '../../../../../api/firebase';
+import firebase, {globalNotiCollection, roomsCollection} from '../../../../../api/firebase';
 import store from '../../../../store';
 
 import Screen from "../../../../components/Screen";
 import styles from '../../../../styling/screens/In_App/app/chats/ChatRoomScreen.styles';
+import * as ImagePicker from "expo-image-picker";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default (props) => {
 
@@ -39,6 +41,75 @@ export default (props) => {
           }
         }
       ]);
+
+    const [image, setImage] = useState('')
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    };
+
+    const deleteImage = () => {
+        Alert.alert("Delete Image", "Are you sure you want to delete this Image?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        setImage('')},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
+    }
+    const upLoadImage = async () => {
+        const currTime = new Date().getTime();
+        const uri = image + ''
+        const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                console.log(e);
+                reject(new TypeError("Network request failed"));
+            };
+            xhr.responseType = "blob";
+            xhr.open("GET", uri, true);
+            xhr.send(null);
+        });
+
+        const ref = firebase.storage().ref().child(image.substring(image.lastIndexOf('/') + 1));
+        const snapshot = await ref.put(blob);
+
+        // We're done with the blob, close and release it
+        blob.close();
+
+        const link = await snapshot.ref.getDownloadURL();
+        setImage('');
+        roomsCollection.doc(roomid).collection('Messages').add({
+            roomid: roomid,
+            content: link,
+            likedby: [],
+            star: false,
+            text: link,
+            createdAt: currTime,
+            user: {
+                _id: uid,
+                email: email
+            },
+            isImage: true,
+        });
+    }
     const removeElement = (arr, userID) => {
         return arr.filter(users => users !== userID);
     }
@@ -60,7 +131,8 @@ export default (props) => {
             user: {
                 _id: uid,
                 email: email
-            }
+            },
+            isImage: false,
         });
 
         await roomsCollection.doc(roomid).set({
@@ -88,21 +160,27 @@ export default (props) => {
     }
     
     function renderBubble(props) {
-        return (
-            <Bubble
-                {...props}
-                wrapperStyle={{
-                    right: {
-                        backgroundColor: '#6646ee'
-                    }
-                }}
-                textStyle={{
-                    right: {
-                        color: '#fff'
-                    }
-                }}
-            />
-        );
+            if (props.currentMessage.isImage) {
+                return (
+                    <Image source={{ uri: props.currentMessage.text}} style={styles.image} />
+                );
+            } else {
+                return (
+                    <Bubble
+                        {...props}
+                        wrapperStyle={{
+                            right: {
+                                backgroundColor: '#6646ee'
+                            }
+                        }}
+                        textStyle={{
+                            right: {
+                                color: '#fff'
+                            }
+                        }}
+                    />
+                );
+        }
     }
     
     function renderLoading() {
@@ -117,7 +195,14 @@ export default (props) => {
         return (
             <Send {...props}>
                 <View style={styles.sendingContainer}>
-                    <IconButton icon='send-circle' size={32} color='#6646ee' />
+                    <TouchableOpacity
+                        style = {styles.touchable}
+                        onPress = {pickImage}
+                    >
+                        <Ionicons style = {styles.icon}
+                                  name={'attach-outline'} size={35}  />
+                    </TouchableOpacity>
+                    <IconButton style = {styles.send} icon='send-circle' size={32} color='#6646ee' />
                 </View>
             </Send>
         );
@@ -153,7 +238,8 @@ export default (props) => {
                         _id: doc.id,
                         text: '',
                         createdAt: new Date().getTime(),
-                        ...firebaseData
+                        ...firebaseData,
+                        isImage: firebaseData.isImage
                     };
                     if (!firebaseData.system) {
                         data.user = {
@@ -181,7 +267,7 @@ export default (props) => {
                 }>
                 <Text style ={styles.buttonText}>Chat Settings</Text>
             </TouchableOpacity>
-            
+
             <View style = {styles.flatList}>
                 <GiftedChat
                     messages={messages}
@@ -197,6 +283,24 @@ export default (props) => {
                     scrollToBottomComponent={scrollToBottomComponent}
                     renderSystemMessage={renderSystemMessage}
                 />
+                {image !== '' && <View style = {styles.mediaAlert}>
+                    <Image source={{ uri: image }} style={styles.image} />
+                    <View style = {styles.buttons}>
+                        <TouchableOpacity
+                            style = {styles.buttonReject}
+                            onPress = {deleteImage}
+                            >
+                            <Text style ={styles.buttonText}>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style = {styles.buttonAccept}
+                            onPress = {upLoadImage}
+                            >
+                            <Text style ={styles.buttonText}>Send</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                </View>}
             </View>
         </Screen>
     )
