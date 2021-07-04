@@ -6,7 +6,7 @@ import Screen from "../../../components/Screen";
 import store from "../../../store"
 
 import styles from "../../../styling/screens/In_App/app/channels/ViewProfile.styles"
-import firebase, {globalNotiCollection} from "../../../../api/firebase";
+import firebase, {usersCollection, globalNotiCollection} from "../../../../api/firebase";
 import {fillUserState} from "../../../usersSlice";
 import badgesage from "../../../../assets/badgesage.png";
 import badgeguru from "../../../../assets/badgeguru.png";
@@ -82,8 +82,7 @@ export default (props) => {
                 isLoading(false)
             } else {
                 //private, send friend request
-                firebase.firestore()
-                    .collection('Users')
+                usersCollection
                     .doc(user.uid)
                     .update({
                         pending: firebase.firestore.FieldValue.arrayUnion(uid)
@@ -116,8 +115,7 @@ export default (props) => {
                     .doc(uid)
                     .update({
                         friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
-                    }).then(() => firebase.firestore()
-                    .collection('Users')
+                    }).then(() => usersCollection
                     .doc(user.uid)
                     .update({
                         friends: firebase.firestore.FieldValue.arrayUnion(uid)

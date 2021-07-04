@@ -6,7 +6,7 @@ import Screen from "../../components/Screen";
 import store from "../../store"
 
 import styles from "../../styling/constants/Search/addChannel.styles"
-import firebase from "../../../api/firebase";
+import firebase, {usersCollection, channelsCollection} from "../../../api/firebase";
 import {fillUserState} from "../../usersSlice";
 
 export default (props) => {
@@ -28,13 +28,11 @@ export default (props) => {
             isLoading(false);
             alert("You are already in this Channel!")
         } else {
-            firebase.firestore()
-                .collection('Users')
+            usersCollection
                 .doc(uid)
                 .update({
                     channels: firebase.firestore.FieldValue.arrayUnion(channel.roomid)
-                }).then(() => firebase.firestore()
-                .collection('Channel')
+                }).then(() => channelsCollection
                 .doc(channel.roomid)
                 .update({
                     users: firebase.firestore.FieldValue.arrayUnion(uid)
@@ -66,11 +64,29 @@ export default (props) => {
                 </View>
             )
         }
-
-
-
     }
 
+    const renderChannelButton = () => {
+        if (store.getState().user.user.channels.includes(channel.roomid)) {
+            return (
+                <View
+                    style = {styles.button}
+                >
+                    <Text style = {styles.buttonText}>You are already in this channel!</Text>
+                </View>
+            )
+        } else {
+            return (
+                <TouchableOpacity
+                    style = {styles.button}
+                    onPress = {() => {
+                        addChannel()
+                    }}>
+                    <Text style ={styles.buttonText}>Add Channel</Text>
+                </TouchableOpacity>
+            )
+        }
+    }
 
     return (
         <Screen style = {styles.container}>
@@ -83,13 +99,7 @@ export default (props) => {
                 renderItem={renderItem}
                 style = {styles.flatList}/>
 
-            <TouchableOpacity
-                style = {styles.button}
-                onPress = {() => {
-                    addChannel()
-                }}>
-                <Text style ={styles.buttonText}>Add Channel</Text>
-            </TouchableOpacity>
+            {renderChannelButton()}
 
             {loading && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />

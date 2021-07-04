@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ActivityIndicator, FlatList, Image, Text, TextInput, TouchableOpacity, View} from "react-native";
 import { useDispatch } from 'react-redux';
 
@@ -6,7 +6,7 @@ import Screen from "../../components/Screen";
 import store from "../../store"
 
 import styles from "../../styling/constants/Search/addUser.styles"
-import firebase, {globalNotiCollection} from "../../../api/firebase";
+import firebase, {usersCollection, globalNotiCollection} from "../../../api/firebase";
 import {fillUserState} from "../../usersSlice";
 import {DataTable} from "react-native-paper";
 import badgesage from "../../../assets/badgesage.png";
@@ -37,8 +37,7 @@ export default (props) => {
                 isLoading(false)
             } else {
                 //private, send friend request
-                firebase.firestore()
-                    .collection('Users')
+                usersCollection
                     .doc(user.uid)
                     .update({
                         pending: firebase.firestore.FieldValue.arrayUnion(uid)
@@ -66,13 +65,11 @@ export default (props) => {
                 isLoading(false)
             } else {
                 //public, add to both users list
-                firebase.firestore()
-                    .collection('Users')
+                usersCollection
                     .doc(uid)
                     .update({
                         friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
-                    }).then(() => firebase.firestore()
-                    .collection('Users')
+                    }).then(() => usersCollection
                     .doc(user.uid)
                     .update({
                         friends: firebase.firestore.FieldValue.arrayUnion(uid)
@@ -97,7 +94,8 @@ export default (props) => {
     }
 
     const renderBadges = () => {
-        const badgesMap = store.getState().user.user.badges; // key:value is topic:0/1/2
+        const badgesMap = user.badges;
+        console.log(badgesMap)
         const badgesArray = [];
         for (const topic in badgesMap) {
             const type = badgesMap[topic]; // number 0 1 2
@@ -126,21 +124,34 @@ export default (props) => {
             }
         });
 
-        return badgesArray
-            ? badgesArray.map(badgeData => (
-                <DataTable.Row style = {styles.row}>
-                    <View style = {styles.iconCell}>
-                        <Image style = {styles.image} source = {badgeData.icon}/>
-                    </View>
-                    <Text style = {styles.titleCell}>{badgeData.title}</Text>
-                    <Text style = {styles.topicCell}>{badgeData.topic}</Text>
-                </DataTable.Row>
-            ))
-            : null;
+        if (badgesArray.length !== 0) {
+            return (
+                <DataTable style = {styles.table}>
+                    <DataTable.Header style = {styles.row}>
+                        <DataTable.Title style = {styles.iconCell}></DataTable.Title>
+                        <DataTable.Title style = {styles.titleCell}>Title</DataTable.Title>
+                        <DataTable.Title style = {styles.topicCell}>Topic</DataTable.Title>
+                    </DataTable.Header>
+                    {badgesArray.map(badgeData => (
+                        <DataTable.Row style = {styles.row}>
+                            <View style = {styles.iconCell}>
+                                <Image style = {styles.image} source = {badgeData.icon}/>
+                            </View>
+                            <Text style = {styles.titleCell}>{badgeData.title}</Text>
+                            <Text style = {styles.topicCell}>{badgeData.topic}</Text>
+                        </DataTable.Row>
+                    ))}
+                </DataTable>
+            )
+        } else {
+            return (
+                <Text style = {styles.noBadgeText}>-No badges-    </Text>
+            )
+        }
     }
 
     const renderItem = ( {item}) => {
-        if (user.visibility) {
+        if (user.visibility && !store.getState().user.user.friends.includes(user.uid)) {
             if (item === DATA[0]) {
                 return (
                     <View
@@ -212,22 +223,34 @@ export default (props) => {
                         style = {styles.textInputBio}
                     >
                         <Text style = {styles.selectedTextHeader}>Badges: </Text>
-                        <DataTable style = {styles.table}>
-                            <DataTable.Header style = {styles.row}>
-                                <DataTable.Title style = {styles.iconCell}></DataTable.Title>
-                                <DataTable.Title style = {styles.titleCell}>Title</DataTable.Title>
-                                <DataTable.Title style = {styles.topicCell}>Topic</DataTable.Title>
-                            </DataTable.Header>
                             {renderBadges()}
-                        </DataTable>
                     </View>
                 )
             }
         }
-
-
     }
 
+    const renderAddUserButton = () => {
+        if (store.getState().user.user.friends.includes(user.uid)) {
+            return (
+                <View style = {styles.button}>
+                    <Text style = {styles.buttonText}>
+                        You are friends with this user!
+                    </Text>
+                </View>
+            )
+        } else {
+            return (
+                <TouchableOpacity
+                    style = {styles.button}
+                    onPress = {() => {
+                        addUser()
+                    }}>
+                    <Text style ={styles.buttonText}>Add User</Text>
+                </TouchableOpacity>
+            )
+        }
+    }
 
     return (
         <Screen style = {styles.container}>
@@ -240,14 +263,7 @@ export default (props) => {
                 renderItem={renderItem}
                 style = {styles.flatList}/>
 
-            <TouchableOpacity
-                style = {styles.button}
-                onPress = {() => {
-                    addUser()
-
-                }}>
-                <Text style ={styles.buttonText}>Add User</Text>
-            </TouchableOpacity>
+            {renderAddUserButton()}
 
             {loading && <View style={styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color}/>

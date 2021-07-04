@@ -19,16 +19,14 @@ export default (prop) => {
     const user = store.getState().user.user.uid
     const upVote = (item) => {
         if (item.upVotes.includes(user)) {
-            firebase.firestore()
-                .collection('Channel')
+            channelsCollection
                 .doc(store.getState().room.room.roomid)
                 .collection("Posts")
                 .doc(item._id).update({
                 likedby: firebase.firestore.FieldValue.arrayRemove(user)
             })
         } else {
-            firebase.firestore()
-                .collection('Channel')
+            channelsCollection
                 .doc(store.getState().room.room.roomid)
                 .collection("Posts")
                 .doc(item._id).update({

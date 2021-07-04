@@ -33,7 +33,6 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-
     },
     selectedTextHeader : {
         fontSize: 25,
@@ -42,6 +41,13 @@ export default StyleSheet.create({
     selectedText : {
         fontSize: 20,
         color: 'black'
+    },
+    noBadgeText : {
+        marginTop: 35,
+        fontSize: 20,
+        color: 'black',
+        textAlign: 'center',
+        fontStyle: 'italic'
     },
     button : {
         bottom: 10,
