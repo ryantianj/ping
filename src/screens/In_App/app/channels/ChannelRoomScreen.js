@@ -1,9 +1,7 @@
 import React, { useEffect, useState} from "react";
 import {Alert, FlatList, Text, TouchableOpacity, View, Image} from "react-native";
-
-import firebase, {
-    channelsCollection, globalNotiCollection,
-} from "../../../../../api/firebase";
+import colours from "../../.././../constants/colours";
+import firebase, { channelsCollection, globalNotiCollection } from "../../../../../api/firebase";
 import store from '../../../../store';
 
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -213,6 +211,23 @@ export default (prop) => {
         }
         let imageUrl = {uri: item.mediaLink + ''}
         const upVoteToggle = item.upVotes.includes(store.getState().user.user.uid);
+
+        const toggleUpvoteIcon = () => {
+            if (upVoteToggle) {
+                return (
+                    <MaterialCommunityIcons style = {styles.iconUpvote}
+                        name={'arrow-up-bold-circle'} color = {colours.logOutButton} size={25}>
+                    </MaterialCommunityIcons> 
+                )
+            } else {
+                return (
+                    <MaterialCommunityIcons style = {styles.iconUpvote}
+                        name={'arrow-up-bold-circle-outline'} color = {'black'} size={25}>
+                    </MaterialCommunityIcons>  
+                )
+            }
+        }
+
         return (
             <View style = {styles.post}>
                 <View style = {styles.userTrash}>
@@ -246,18 +261,19 @@ export default (prop) => {
                             {item.comments} comment{item.comments !== 1 ? 's' : ''}
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style = {styles.postUpVotes}
-                    onPress={() => upVote(item)}
-                    >
+                    <View style = {styles.empty}></View>
+                    <View style = {styles.numberUpVote}>
                         <Text style = {upVoteToggle ? styles.postUpVotesText1 : styles.postUpVotesText}>
                             {item.upVotes.length} upvote{item.upVotes.length !== 1 ? 's' : ''}
                         </Text>
-                    </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity style = {styles.postUpVotes} onPress={() => upVote(item)}>
+                        {toggleUpvoteIcon()}
+                    </TouchableOpacity> 
                 </View>
             </View>
         )
     }
-
 
     return (
         <Screen style = {styles.container}>

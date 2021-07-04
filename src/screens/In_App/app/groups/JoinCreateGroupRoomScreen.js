@@ -255,7 +255,8 @@ export default (props) => {
                     }
                     isLoading(true)
                     await CreateGroupRoom().then(() => {
-                        props.navigation.navigate("Group")
+                        // dispatch(fillGroupRoomState(room.item.roomid))
+                        props.navigation.navigate("GroupRoom")
                         isLoading(false)});
 
                 }}

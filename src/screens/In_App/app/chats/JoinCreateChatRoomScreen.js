@@ -53,10 +53,9 @@ export default (props) => {
         })
         setCount(count + 1)
     }
-
+    let roomid = "";
     const CreateChatRoom = async () => {
 
-        let roomid = "";
         // create room on firebase
         await roomsCollection.add({
             roomname: roomname,
@@ -220,8 +219,14 @@ export default (props) => {
                         return;
                     }
                     isLoading(true)
-                    await CreateChatRoom().then(() => {
-                        props.navigation.navigate('Chat')
+                    CreateChatRoom()
+                    .then(async () => {
+                        dispatch(fillChatRoomState(roomid))
+                    }).then(() => {
+                        props.navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'ChatRoom' }],
+                        });
                         isLoading(false)
                     })
                 }}

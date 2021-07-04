@@ -19,7 +19,7 @@ export default StyleSheet.create({
         width: 2 * windowWidth / 3
     },
     postTitle: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 'bold',
         borderColor:'black',
         borderBottomWidth:1,
@@ -37,7 +37,7 @@ export default StyleSheet.create({
         fontSize: 18,
     },
     chatTitle: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 'bold',
         color: 'white',
         borderColor:'white',
@@ -49,7 +49,7 @@ export default StyleSheet.create({
         color: 'white',
     },
     requestTitle: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 'bold',
         color: 'black',
         borderColor:'black',

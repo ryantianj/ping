@@ -46,6 +46,10 @@ export default StyleSheet.create({
         right : 5,
         top: 10,
     },
+    iconUpvote: {
+        right : 0,
+        top: 0,
+    },
     edit: {
         position: 'absolute',
         height: 30,
@@ -93,26 +97,40 @@ export default StyleSheet.create({
     },
     postUpVotes: {
         height: 30,
+        flex: 1.2,
+        marginLeft: 4
     },
     postUpVotesText: {
         fontWeight: 'bold',
         fontSize: 13,
         textAlign:'right',
-        color: 'black'
+        color: 'black',
+        marginTop: 3
     },
     postUpVotesText1: {
         fontWeight: 'bold',
         fontSize: 13,
         textAlign:'right',
-        color: colours.logOutButton
+        color: colours.logOutButton,
+        marginTop: 3
+    },
+    numberUpvote: {
+        height: 30,
+        flex: 6,
+    },
+    empty: {
+        height: 30,
+        flex: 6,
     },
     postComments: {
         height: 30,
+        flex: 4,
+        marginTop: 2
     },
     postCommentsText: {
         fontWeight: 'bold',
         fontSize: 13,
-        textAlign:'left'
+        textAlign:'left',
     },
     commentUpVote: {
         marginTop: 10,
@@ -120,7 +138,7 @@ export default StyleSheet.create({
         borderTopWidth:1,
         flexDirection: 'row',
         justifyContent:'space-between',
-        alignItems:'center',
+        alignItems:'flex-start',
         width: 18 * windowWidth / 20,
     },
     toolBar : {
