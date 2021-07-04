@@ -289,6 +289,7 @@ export default (prop) => {
                     data={posts}
                     renderItem={renderItem}
                     extraData={posts}
+                    keyExtractor={item => item.notiId}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     />
             </View>

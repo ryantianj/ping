@@ -32,7 +32,7 @@ export default (prop) => {
     };
 
     const deleteImage = () => {
-        setImage(null)
+        setImage('')
     }
     const upLoadImage = async () => {
         if (image === orgImage) {
@@ -52,11 +52,8 @@ export default (prop) => {
                 xhr.open("GET", uri, true);
                 xhr.send(null);
             });
-            const org = orgImage.substring(orgImage.lastIndexOf('/') + 1)
-            const org1 = org.substring(0, org.lastIndexOf('?'))
+
             const ref = firebase.storage().ref().child(image.substring(image.lastIndexOf('/') + 1));
-            const deleteRef = firebase.storage().ref().child(org1);
-            const deleteOrg = await deleteRef.delete()
             const snapshot = await ref.put(blob);
 
             // We're done with the blob, close and release it
@@ -70,6 +67,12 @@ export default (prop) => {
     const handlePost = async () => {
         isLoading(true);
         const mediaLink = image !== '' ? await upLoadImage() : ''
+        if (orgImage !== '') {
+            const org = orgImage.substring(orgImage.lastIndexOf('/') + 1)
+            const org1 = org.substring(0, org.lastIndexOf('?'))
+            const deleteRef = firebase.storage().ref().child(org1);
+            const deleteOrg = await deleteRef.delete()
+        }
         
         channelsCollection.doc(roomid).collection('Posts')
             .doc(prop.route.params.item._id)
@@ -144,7 +147,7 @@ export default (prop) => {
                             || prop.route.params.item.mediaLink !== image) {
                             handlePost().then(() => prop.navigation.goBack())
                         } else {
-                            Alert.alert("Post not edited")
+                            Alert.alert("Post", "Post not edited")
                             prop.navigation.goBack()
                         }
                     }}
