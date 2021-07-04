@@ -322,6 +322,13 @@ export default (props) => {
                 contentContainerStyle={{ paddingBottom: 20 }}/>
         </View>
 
+            {noti.length === 0 && <View style = {styles.container}>
+                <Text>
+                    You Have No Notifications!
+                </Text>
+            </View>
+            }
+
             {loading && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />
                 <Text>
