@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from "react";
-import {FlatList, Text, TouchableOpacity, View, ActivityIndicator, Alert, Image} from "react-native";
+import {Text, TouchableOpacity, View, ActivityIndicator, Alert, Image} from "react-native";
 // import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
 import { GiftedChat, Bubble, Send, SystemMessage } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
@@ -109,6 +109,14 @@ export default (props) => {
             },
             isImage: true,
         });
+        await roomsCollection.doc(roomid).set({
+                latestMessage: {
+                    text: 'Photo',
+                    createdAt: currTime
+                }
+            },
+            { merge: true }
+        )
     }
     const removeElement = (arr, userID) => {
         return arr.filter(users => users !== userID);

@@ -126,7 +126,7 @@ export default (prop) => {
 
         await channelsCollection.doc(roomid).set({
                 latestPost: {
-                    text: text,
+                    text: title,
                     createdAt: new Date().getTime()
                 }
             },
