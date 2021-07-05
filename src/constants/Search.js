@@ -186,7 +186,6 @@ export default (props) => {
                     <Ionicons style = {styles.iconTrash}
                               name={'trash-outline'} size={25}  />
                 </TouchableOpacity>
-
             </View>
         )
     }
@@ -243,7 +242,7 @@ export default (props) => {
                     data={history}
                     inverted
                     renderItem={renderHistory}
-                    style = {styles.flatList}
+                    style = {styles.flatList2}
                     extraData={history}/>
             </View>}
         </View>

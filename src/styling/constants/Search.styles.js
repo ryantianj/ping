@@ -102,10 +102,10 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     searchHistPress: {
-        marginTop: 5,
-        marginBottom: 5,
+        marginTop: 0,
+        marginBottom: 0,
         height: 50,
-        backgroundColor:colours.settingsButton,
+        // backgroundColor:colours.settingsButton,
         borderRadius: 10,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -120,12 +120,21 @@ export default StyleSheet.create({
         height: windowHeight / 2
     },
     historyContainer: {
-        padding: 5,
+        marginBottom: 5,
         borderRadius: 10,
         backgroundColor: colours.naviBar,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
+    },
+    flatList2 : {
+        backgroundColor: colours.primary,
+        marginTop: 10,
+        padding: 10,
+        marginBottom: 10,
+        borderRadius: 10,
+        fontSize: 17,
+        width: 10 * windowWidth / 10,
     },
     iconArrow: {
         left : 5,
