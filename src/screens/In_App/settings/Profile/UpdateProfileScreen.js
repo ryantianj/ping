@@ -64,11 +64,28 @@ const UpdateProfileScreen = (props) => {
             return styles.public
         }
     }
+
+    const publicTextSelected = () => {
+        if (!visibility) {
+            return styles.publicTextSelected
+        } else {
+            return styles.publicText
+        }
+    }
+
     const privateSelected = () => {
         if (visibility) {
             return styles.privateSelect
         } else {
             return styles.private
+        }
+    }
+
+    const privateTextSelected = () => {
+        if (visibility) {
+            return styles.privateTextSelected
+        } else {
+            return styles.privateText
         }
     }
 
@@ -121,9 +138,7 @@ const UpdateProfileScreen = (props) => {
                     returnKeyType = "submit"
                     maxLength = {15}
                 />
-
             </View>
-
 
             <Text style = {styles.headerText1}>
                 Update Visibility
@@ -133,12 +148,12 @@ const UpdateProfileScreen = (props) => {
                 <TouchableOpacity
                     style = {publicSelected()}
                     onPress = {() => setVisibility(false)}>
-                    <Text style = {styles.publicText}> Public</Text>
+                    <Text style = {publicTextSelected()}>Public</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style = {privateSelected()}
                     onPress = {() => setVisibility(true)}>
-                    <Text style = {styles.privateText}> Private</Text>
+                    <Text style = {privateTextSelected()}>Private</Text>
                 </TouchableOpacity>
             </View>
 

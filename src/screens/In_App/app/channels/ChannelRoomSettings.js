@@ -20,7 +20,8 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
-    const topics = store.getState().room.room.topics.join(", ");
+    const topics = store.getState().room.room.topics.join(", ") === '' 
+        ? 'none' : store.getState().room.room.topics.join(", ");
 
     //Listens to users in room document
     useEffect(() => {
@@ -52,7 +53,7 @@ export default (props) => {
     const renderUserItem = ({item}) => {
         return (
             <TouchableOpacity
-                style = {styles.textInputBio}
+                style = {styles.textInputBio1}
                 onPress = {() => props.navigation.navigate("ViewProfileChannel", {user : item})}
             >
                 <Text style = {styles.selectedText2}>{item.display}</Text>

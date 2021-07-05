@@ -65,26 +65,40 @@ export default StyleSheet.create({
     },
     user: {
         fontSize: 20,
+        marginTop: 8,
     },
 
     postText: {
-        fontSize: 20,
+        fontSize: 16,
     },
     postUpVotes: {
         height: 30,
+        // marginLeft: 240,
+        flex: 1,
     },
     postUpVotesText: {
         fontWeight: 'bold',
         fontSize: 13,
         textAlign:'right',
-        color: 'black'
+        color: 'black',
+        marginTop: 3
     },
     postUpVotesText1: {
         fontWeight: 'bold',
         fontSize: 13,
         textAlign:'right',
-        color: colours.logOutButton
+        color: colours.logOutButton,
+        marginTop: 3
     },
+    numberUpVote: {
+        height: 30,
+        flex: 12,
+        // marginLeft: 24
+    },
+    empty: {
+        height: 30,
+        flex: 1,
+    },    
     postComments: {
         height: 30,
     },
@@ -99,7 +113,7 @@ export default StyleSheet.create({
         borderTopWidth:1,
         flexDirection: 'row',
         justifyContent:'space-between',
-        alignItems:'center',
+        alignItems:'flex-start',
         width: 18 * windowWidth / 20,
     },
     commentsBox: {

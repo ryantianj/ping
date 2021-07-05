@@ -69,7 +69,7 @@ export default StyleSheet.create({
         borderRadius: 10,
         backgroundColor: colours.channel,
         width: 19 * windowWidth / 20,
-        fontSize: 30,
+        fontSize: 28,
         color: 'black',
         textAlign: 'left',
         marginBottom: 10,
@@ -93,7 +93,7 @@ export default StyleSheet.create({
         fontWeight: 'bold'
     },
     postText: {
-        fontSize: 20,
+        fontSize: 16,
     },
     postUpVotes: {
         height: 30,

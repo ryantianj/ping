@@ -21,7 +21,7 @@ export default (props) => {
     const [interests, setInterests] = useState([]); // Server-side choice list
     const [selectInterests, setSelectInterests] = useState([]); // Client-side choices
     const [roomname, setRoomName] = useState("");
-    const [selectedFriend, setSelectedFriend] = useState({item:{display: "______"}}); // user object of selected
+    const [selectedFriend, setSelectedFriend] = useState({item:{display: ""}}); // user object of selected
     const [count, setCount] = useState(0)
     const [value, setValue] = useState(false);
     const [friendsUserArray, setFriendsUserArray] = useState([]);
@@ -176,7 +176,7 @@ export default (props) => {
 
     const selectFriendItem = (userObject) => {
         if (selectedFriend.item.display === userObject.item.display) {
-            setSelectedFriend({item: {display: "______"}}); // deselect
+            setSelectedFriend({item: {display: ""}}); // deselect
         } else {
             setSelectedFriend(userObject); // select
         }
@@ -193,7 +193,7 @@ export default (props) => {
                 <TextInput
                     multiline
                     style = {styles.textInputChatName}
-                    placeholder = "Chat Name (1-20 characters)"
+                    placeholder = "Chat Name (1-20 chars)"
                     value = {roomname}
                     onChangeText = {setRoomName}
                     returnKeyType = "next"
@@ -210,7 +210,7 @@ export default (props) => {
             <TouchableOpacity
                 style = {styles.button}
                 onPress = {async () => {
-                    if (selectedFriend.item.display === "______") {
+                    if (selectedFriend.item.display === "") {
                         Alert.alert('Choose exactly one friend to proceed')
                         return;
                     }
@@ -267,6 +267,8 @@ export default (props) => {
                         keyExtractor={item => item}
                         style = {styles.flatList}/>
             </View>
+
+            <Text style = {styles.headerText2}></Text>
 
         </ScrollView>
 

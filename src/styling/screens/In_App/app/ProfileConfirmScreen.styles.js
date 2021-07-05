@@ -22,14 +22,14 @@ export default StyleSheet.create({
     },
     headerText : {
         paddingTop: 10 + statusBar,
-        fontSize: 30,
+        fontSize: 28,
         color: 'black',
         textAlign: 'center',
         width: 2 * windowWidth / 3
     },
     headerText1 : {
         paddingTop: 10,
-        fontSize: 30,
+        fontSize: 28,
         color: 'black',
         textAlign: 'center',
         width: 2 * windowWidth / 3

@@ -53,24 +53,24 @@ const ProfileConfirmScreen = (props) => {
             >
                 <View style = {styles.textView}>
                     <Text style = {styles.headerText}>
-                        Your Bio
+                        Your Bio:
                     </Text>
                     <Text style = {styles.textInputBio}>{bio}</Text>
 
                     <Text style = {styles.headerText1}>
-                        Display Name
+                        Display Name:
                     </Text>
                     <Text style = {styles.textInputBio}>{display}</Text>
 
                     <Text style = {styles.headerText1}>
-                        Account Visibility
+                        Account Visibility:
                     </Text>
                     <Text  style = {styles.textVisible}>
                         {visible()}
                     </Text>
 
                     <Text style = {styles.headerText1}>
-                        Selected Interests
+                        Selected Interests:
                     </Text>
                     <Text style = {styles.textInputBio}>
                         {selectInterests.join(", ")}

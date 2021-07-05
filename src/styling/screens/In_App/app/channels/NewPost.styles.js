@@ -20,6 +20,7 @@ export default StyleSheet.create({
     },
     textInputTitle : {
         flex: 1,
+        marginTop: 15,
         paddingLeft: 15,
         paddingRight: 15,
         paddingTop: 15,
@@ -29,7 +30,7 @@ export default StyleSheet.create({
         fontSize: 20,
         backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
-        height: windowHeight / 10,
+        height: windowHeight / 9,
         borderRadius: 10,
         textAlignVertical: 'top',
     },

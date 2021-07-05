@@ -29,7 +29,7 @@ export default StyleSheet.create({
     },
     headerText1 : {
         paddingTop: 10,
-        fontSize: 30,
+        fontSize: 25,
         color: 'black',
         textAlign: 'center',
         width: windowWidth
@@ -40,9 +40,10 @@ export default StyleSheet.create({
         width: 9 * windowWidth / 10,
         height: 100,
         borderRadius: 10,
-    },textInputDisplayContainer :{
+    },
+    textInputDisplayContainer :{
         fontSize: 20,
-        marginTop: 20,
+        marginTop: 15,
         width: 9 * windowWidth / 10,
         height: 53,
         borderRadius: 10,
@@ -97,15 +98,16 @@ export default StyleSheet.create({
     },
     flatList : {
         backgroundColor: colours.naviBar,
-        marginTop: 20,
+        marginTop: 10,
         padding: 10,
         marginBottom: 5,
         borderRadius: 10,
         fontSize: 17,
-        width: 9 * windowWidth / 10,
+        width: 8 * windowWidth / 10,
+        flex: 1
     },
     flatListView: {
-        width: 9 * windowWidth / 10,
+        width: 8 * windowWidth / 10,
         height: windowHeight / 2,
     },
     button : {
@@ -121,11 +123,11 @@ export default StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
-
     visible : {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginTop: 10
     },
     public : {
         flexDirection: 'column',
@@ -134,11 +136,16 @@ export default StyleSheet.create({
         backgroundColor: colours.naviBar,
         borderRadius: 10,
         width: windowWidth / 3,
-        height: 30,
-        flex : 1,
+        height: 45,
+        marginRight: 10
     },
     publicText : {
         textAlign: 'center',
+    },
+    publicTextSelected : {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 16,
     },
     private : {
         flexDirection: 'column',
@@ -147,11 +154,16 @@ export default StyleSheet.create({
         backgroundColor: colours.naviBar,
         borderRadius: 10,
         width: windowWidth / 3,
-        height: 30,
-        flex : 1,
+        height: 45,
+        marginLeft: 10
     },
     privateText : {
         textAlign: 'center',
+    },
+    privateTextSelected : {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 16,
     },
     publicSelect: {
         flexDirection: 'column',
@@ -160,8 +172,8 @@ export default StyleSheet.create({
         backgroundColor: 'orange',
         borderRadius: 10,
         width: windowWidth / 3,
-        height: 30,
-        flex : 1,
+        height: 45,
+        marginRight: 10
     },
     privateSelect: {
         flexDirection: 'column',
@@ -170,7 +182,7 @@ export default StyleSheet.create({
         backgroundColor: 'orange',
         borderRadius: 10,
         width: windowWidth / 3,
-        height: 30,
-        flex : 1,
+        height: 45,
+        marginLeft: 10
     }
 })

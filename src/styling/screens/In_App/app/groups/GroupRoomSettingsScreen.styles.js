@@ -6,7 +6,7 @@ const windowWidth = Dimensions.get('window').width;
 export default StyleSheet.create({
     container : {
         backgroundColor: colours.primary,
-        flex: 1,
+        flex: 15,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -16,16 +16,27 @@ export default StyleSheet.create({
         fontSize: 22,
         color: 'black',
         textAlign: 'center',
-        marginBottom: 10
+        marginBottom: 10,
+        flex: 0.5,
+    },
+    roomNameText1 : {
+        paddingTop: 0,
+        fontSize: 22,
+        color: 'black',
+        textAlign: 'center',
+        marginTop: 15,
+        marginBottom: 15,
+        flex: 0.5,
     },
     textInputBio : {
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 10,
-        paddingBottom: 10,
-        fontSize: 20,
         backgroundColor: colours.textBox,
         width: 9 * windowWidth / 10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        flex: 1.5,
     },
     item: {
         backgroundColor: '#f9c2ff',
@@ -35,17 +46,19 @@ export default StyleSheet.create({
     },
     renderItem : {
         height: 50,
-        flex: 1,
+        // flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor:'orange'
+        backgroundColor:'orange',
+        borderRadius: 10
     },
     unRenderItem : {
         height: 50,
-        flex: 1,
+        // flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: colours.textBox
+        backgroundColor: colours.textBox,
+        borderRadius: 10
     },
     unselectedText : {
         fontSize: 20,
@@ -58,21 +71,29 @@ export default StyleSheet.create({
         marginTop: 10
     },
     selectedTextHeader : {
-        fontSize: 25,
+        fontSize: 22,
         color: 'black'
     },
     title: {
-        fontSize: 32,
+        fontSize: 22,
     },
     flatListView : {
         width: 9 * windowWidth / 10,
-        flex: 1,
+        backgroundColor: colours.textBox,
+        flex: 4,
+        borderRadius: 10
     },
     flatList: {
-        marginTop: 0,
         width: 9 * windowWidth / 10,
-        marginBottom: 15,
-        borderRadius: 10,
+    },
+    flatListElem : {
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 10,
+        backgroundColor: colours.textBox,
+        width: 9 * windowWidth / 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
     },
     buttonblack : {
         bottom: 20,

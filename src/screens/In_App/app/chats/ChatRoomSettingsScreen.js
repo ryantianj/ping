@@ -19,7 +19,8 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
-    const topics = store.getState().room.room.topics.join(", ");
+    const topics = store.getState().room.room.topics.join(", ") === '' 
+        ? 'none' : store.getState().room.room.topics.join(", ");
 
     useEffect(() => {
         isLoading1(true)
@@ -50,7 +51,7 @@ export default (props) => {
     const renderUserItem = ({item}) => {
         return (
             <TouchableOpacity
-                style = {styles.textInputBio}
+                style = {styles.flatListElem}
                 onPress = {() => props.navigation.navigate("ViewProfileChannel", {user : item})}
             >
                 <Text style = {styles.userText}>{item.display}</Text>
@@ -119,6 +120,7 @@ export default (props) => {
                 <Text style = {styles.selectedTextHeader}>Topics: </Text>
                 <Text style = {styles.selectedText}>{topics}</Text>
                 <Text style = {styles.selectedTextHeader}>Users: </Text>
+
             </View>
 
             <View style = {styles.flatListView}>
@@ -134,7 +136,6 @@ export default (props) => {
                 </View>
                 }
             </View>
-
 
             <TouchableOpacity
                 style = {styles.button}

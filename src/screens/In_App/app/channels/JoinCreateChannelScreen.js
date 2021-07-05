@@ -59,8 +59,6 @@ export default (props) => {
         // update global state with new room
         await dispatch(fillChannelRoomState(roomid));
         await dispatch(fillUserState(uid));
-
-        // check if work? if doesn't render changes then useIsFocused
     }
 
 
@@ -137,7 +135,7 @@ export default (props) => {
                     <TextInput
                         multiline
                         style = {styles.textInputChatName}
-                        placeholder = "Channel Name (1-20 characters)"
+                        placeholder = "Channel Name (1-20 chars)"
                         value = {roomname}
                         onChangeText = {setRoomName}
                         returnKeyType = "next"

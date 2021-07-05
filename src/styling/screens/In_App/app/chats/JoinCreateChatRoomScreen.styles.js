@@ -21,14 +21,21 @@ export default StyleSheet.create({
     },
     headerText : {
         paddingTop: 10 + statusBar,
-        fontSize: 30,
+        fontSize: 28,
         color: 'black',
         textAlign: 'center',
         width: windowWidth
     },
     headerText1 : {
         paddingTop: 10,
-        fontSize: 30,
+        fontSize: 25,
+        color: 'black',
+        textAlign: 'center',
+        width: windowWidth
+    },
+    headerText2 : {
+        paddingTop: 10,
+        fontSize: 15,
         color: 'black',
         textAlign: 'center',
         width: windowWidth
@@ -52,7 +59,7 @@ export default StyleSheet.create({
     textInputChatNameContainer :{
         fontSize: 20,
         marginTop: 20,
-        width: 9 * windowWidth / 10,
+        width: 8 * windowWidth / 10,
         height: 60,
         borderRadius: 10,
     },
@@ -65,7 +72,7 @@ export default StyleSheet.create({
         borderColor: 'black',
         fontSize: 20,
         backgroundColor: colours.textBox,
-        width: 9 * windowWidth / 10,
+        width: 8 * windowWidth / 10,
         height: 40,
         borderRadius: 10,
         textAlignVertical: 'top',
@@ -90,10 +97,10 @@ export default StyleSheet.create({
         marginBottom: 5,
         borderRadius: 10,
         fontSize: 17,
-        width: 9 * windowWidth / 10,
+        width: 8 * windowWidth / 10,
     },
     flatListView: {
-        width: 9 * windowWidth / 10,
+        width: 8 * windowWidth / 10,
         height: windowHeight / 2,
     },
     button : {

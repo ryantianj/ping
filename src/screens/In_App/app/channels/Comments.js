@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from "react";
 import {Alert, FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
-
+import colours from "../../.././../constants/colours";
 import firebase, {
     channelsCollection, globalNotiCollection,
 } from "../../../../../api/firebase";
@@ -8,6 +8,7 @@ import firebase, {
 import store from '../../../../store';
 
 import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from "../../../../styling/screens/In_App/app/channels/Comments.styles"
 import Screen from "../../../../components/Screen";
@@ -22,7 +23,7 @@ export default (prop) => {
     const postid = prop.route.params.item._id;
     const roomname = store.getState().room.room.roomname;
     const users = store.getState().room.room.users;
-
+    
     const renderItem = ({item}) => {
         let trash;
         if (item.user._id === store.getState().user.user.uid) {
@@ -34,6 +35,21 @@ export default (prop) => {
             </TouchableOpacity>
         }
         const upVoteToggle = item.upVotes.includes(store.getState().user.user.uid);
+        const toggleUpvoteIcon = () => {
+            if (upVoteToggle) {
+                return (
+                    <MaterialCommunityIcons style = {styles.iconUpvote}
+                        name={'arrow-up-bold-circle'} color = {colours.logOutButton} size={25}>
+                    </MaterialCommunityIcons> 
+                )
+            } else {
+                return (
+                    <MaterialCommunityIcons style = {styles.iconUpvote}
+                        name={'arrow-up-bold-circle-outline'} color = {'black'} size={25}>
+                    </MaterialCommunityIcons>  
+                )
+            }
+        }
         return (
             <View style = {styles.post}>
                 <View style = {styles.userTrash}>
@@ -46,12 +62,14 @@ export default (prop) => {
                     {item.text}
                 </Text>
                 <View style = {styles.commentUpVote}>
-                    <TouchableOpacity style = {styles.postUpVotes}
-                                      onPress={() => upVote(item)}
-                    >
+                <View style = {styles.empty}></View>
+                    <View style = {styles.numberUpVote}>
                         <Text style = {upVoteToggle ? styles.postUpVotesText1 : styles.postUpVotesText}>
-                            {item.upVotes.length} upvote{item.upVotes.length !== 1 ? 's' : ''}
+                            {item.upVotes.length} upvote{item.upVotes.length !== 1 ? 's ' : ' '}
                         </Text>
+                    </View>
+                    <TouchableOpacity style = {styles.postUpVotes} onPress={() => upVote(item)}>
+                        {toggleUpvoteIcon()}
                     </TouchableOpacity>
                 </View>
             </View>
@@ -164,11 +182,7 @@ export default (prop) => {
                          .update({
                              comments: com + 1
                          }))
-
              })
-
-
-
     }
 
     useEffect(() => {

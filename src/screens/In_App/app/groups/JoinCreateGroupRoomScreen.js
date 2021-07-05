@@ -227,7 +227,7 @@ export default (props) => {
                 <TextInput
                     multiline
                     style = {styles.textInputGroupName}
-                    placeholder = "Group Name (1-20 characters)"
+                    placeholder = "Group Name (1-20 chars)"
                     value = {roomname}
                     onChangeText = {setRoomName}
                     returnKeyType = "next"
@@ -301,6 +301,8 @@ export default (props) => {
                         keyExtractor={item => item}
                         style = {styles.flatList}/>
             </View>
+
+            <Text style = {styles.headerText2}></Text>
 
         </ScrollView>
 
