@@ -10,5 +10,13 @@ export default StyleSheet.create({
         backgroundColor: colours.naviBar,
         height: 70
     },
+    search: {
+        flex: 1,
+        backgroundColor: colours.primary
+    },
+    dummyView: {
+        backgroundColor: colours.primary,
+        height: 80,
+    }
 
 })

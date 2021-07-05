@@ -5,6 +5,7 @@ const windowWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
     container : {
+        position: 'absolute',
         backgroundColor: colours.primary,
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -43,6 +44,40 @@ export default StyleSheet.create({
     },
     loadingColour: {
         color : colours.logInButton
+    },
+    live: {
+        position: 'absolute',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        top: 55,
+    },
+    flatList : {
+        backgroundColor: colours.primary,
+        marginTop: 20,
+        padding: 10,
+        marginBottom: 20,
+        borderRadius: 10,
+        fontSize: 17,
+        width: 9 * windowWidth / 10,
+    },
+    searchText : {
+        marginTop: 10,
+        fontSize: 20,
+        textAlign: 'left',
+        left: 5,
+        width: 9 * windowWidth / 10,
+    },
+    searchPress: {
+        marginTop: 5,
+        height: 50,
+        backgroundColor:colours.settingsButton,
+        borderRadius: 10,
+    },
+    liveContainer:{
+        backgroundColor: colours.primary,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
     }
 
 })
