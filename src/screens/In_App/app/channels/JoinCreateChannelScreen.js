@@ -57,7 +57,7 @@ export default (props) => {
                 'channels': firebase.firestore.FieldValue.arrayUnion(roomid)
             })
         // update global state with new room
-        dispatch(fillChannelRoomState(roomid));
+        await dispatch(fillChannelRoomState(roomid));
         await dispatch(fillUserState(uid));
 
         // check if work? if doesn't render changes then useIsFocused
@@ -168,9 +168,13 @@ export default (props) => {
                             return;
                         }
                         isLoading(true)
-                        await CreateChannel().then(() => {
-                            props.navigation.navigate("Channel")
-                            isLoading(false)});
+                        CreateChannel().then(() => {
+                            props.navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'ChannelRoom' }],
+                            });
+                            isLoading(false)
+                        })
                     }}
                 >
                     <Text style = {styles.buttonText}>Create Channel</Text>

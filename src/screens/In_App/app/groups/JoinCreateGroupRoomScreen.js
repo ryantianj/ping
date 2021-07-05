@@ -93,8 +93,8 @@ export default (props) => {
             })
 
         // update global state with new room
-        dispatch(fillGroupRoomState(roomid));
-        dispatch(fillUserState(uid));
+        await dispatch(fillGroupRoomState(roomid));
+        await dispatch(fillUserState(uid));
     }
 
     const renderTopicItem = ( {item} ) => {
@@ -254,10 +254,13 @@ export default (props) => {
                         return;
                     }
                     isLoading(true)
-                    await CreateGroupRoom().then(() => {
-                        // dispatch(fillGroupRoomState(room.item.roomid))
-                        props.navigation.navigate("GroupRoom")
-                        isLoading(false)});
+                    CreateGroupRoom().then(() => {
+                        props.navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'GroupRoom' }],
+                        });
+                        isLoading(false)
+                    })
 
                 }}
             >

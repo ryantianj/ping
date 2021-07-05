@@ -89,8 +89,8 @@ export default (props) => {
             })
 
         // update global state with new room
-        dispatch(fillChatRoomState(roomid));
-        dispatch(fillUserState(uid));
+        await dispatch(fillChatRoomState(roomid));
+        await dispatch(fillUserState(uid));
     }
 
     const renderTopicItem = ( {item} ) => {
@@ -220,9 +220,7 @@ export default (props) => {
                     }
                     isLoading(true)
                     CreateChatRoom()
-                    .then(async () => {
-                        dispatch(fillChatRoomState(roomid))
-                    }).then(() => {
+                    .then(() => {
                         props.navigation.reset({
                             index: 0,
                             routes: [{ name: 'ChatRoom' }],
