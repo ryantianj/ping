@@ -2,7 +2,7 @@ import React, {useState } from "react";
 import {
     Text,
     TouchableOpacity,
-    View, ScrollView, ActivityIndicator
+    View, ScrollView, ActivityIndicator, Alert
 } from "react-native";
 import  { usersCollection } from '../../../../api/firebase';
 import { fillUserState } from '../../../usersSlice';
@@ -85,7 +85,7 @@ const ProfileConfirmScreen = (props) => {
                     {
                         isLoading(false);
                         if (props.route.params.update) {
-                            alert("Profile Updated!")
+                            Alert.alert("Profile", "Profile Updated")
                             props.navigation.reset({
                                 index: 0,
                                 routes: [{ name: 'Settings' }],

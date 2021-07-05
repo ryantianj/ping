@@ -175,7 +175,8 @@ const RegisterProfileScreen = (props) => {
                         style = {styles.flatList}/>
                 </View>
 
-
+            </ScrollView>
+            <View style = {styles.confirmProfile}>
                 <TouchableOpacity
                     style = {styles.button}
                     onPress = {() => props.navigation.navigate("ConfirmProfile",
@@ -187,8 +188,7 @@ const RegisterProfileScreen = (props) => {
                 >
                     <Text style = {styles.buttonText}>Create Profile</Text>
                 </TouchableOpacity>
-            </ScrollView>
-
+            </View>
         </Screen>
     )
 }

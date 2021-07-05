@@ -2,11 +2,8 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
 import styles from "../styling/navigation/CreateProfileNavi.styles"
 import Screen from "../components/Screen";
-import colours from "../constants/colours";
-
 
 import RegisterProfileScreen from "../screens/In_App/app/RegisterProfileScreen";
 import ProfileConfirmScreen from "../screens/In_App/app/ProfileConfirmScreen";
