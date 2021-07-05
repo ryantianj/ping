@@ -155,19 +155,21 @@ const UpdateProfileScreen = (props) => {
                 keyExtractor={item => item}
                 style = {styles.flatList}/>
                 </View>
-            <TouchableOpacity
-                style = {styles.button}
-                onPress = {() => props.navigation.navigate("ConfirmProfile",
-                    {bios: bio,
-                        selectInterests: selectInterests.sort(),
-                        visibility: visibility,
-                        display: display,
-                    update : true})
-                }
-            >
-                <Text style = {styles.buttonText}>Update Profile</Text>
-            </TouchableOpacity>
             </ScrollView>
+            <View style = {styles.updateProfile}>
+                <TouchableOpacity
+                    style = {styles.button}
+                    onPress = {() => props.navigation.navigate("ConfirmProfile",
+                        {bios: bio,
+                            selectInterests: selectInterests.sort(),
+                            visibility: visibility,
+                            display: display,
+                            update : true})
+                    }
+                >
+                    <Text style = {styles.buttonText}>Update Profile</Text>
+                </TouchableOpacity>
+            </View>
         </Screen>
     )
 }

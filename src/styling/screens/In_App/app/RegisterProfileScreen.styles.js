@@ -108,15 +108,6 @@ export default StyleSheet.create({
         width: 9 * windowWidth / 10,
         height: windowHeight / 2,
     },
-    button : {
-        marginBottom: 10,
-        paddingTop: 13,
-        fontSize: 50,
-        borderRadius: 10,
-        width: 2 * windowWidth / 3,
-        height: 50,
-        backgroundColor: colours.logInButton
-    },
     buttonText: {
         color: 'white',
         textAlign: 'center',
@@ -172,5 +163,23 @@ export default StyleSheet.create({
         width: windowWidth / 3,
         height: 30,
         flex : 1,
+    },
+    button : {
+        paddingTop: 13,
+        fontSize: 50,
+        borderRadius: 10,
+        width: 2 * windowWidth / 3,
+        height: 50,
+        backgroundColor: colours.logInButton
+    },
+    confirmProfile: {
+        position:'absolute',
+        bottom: 0,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colours.primary,
+        width: windowWidth,
+        height: 60,
     }
 })
