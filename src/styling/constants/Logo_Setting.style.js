@@ -15,6 +15,19 @@ export default StyleSheet.create({
         left: 10,
         width: 100,
         height: 80,
+        // flex: 0
+    },
+    helpPress : {
+        top: 10,
+        left: 70,
+        width: 55,
+        height: 55,
+    },
+    help : {
+        width: 40,
+        height: 35,
+        marginTop: 1,
+        resizeMode: 'stretch'
     },
     settingsPress : {
         top: 10,
@@ -24,6 +37,6 @@ export default StyleSheet.create({
     },
     settings : {
         width: 40,
-        height:40,
+        height: 40,
     }
 })
