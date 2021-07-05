@@ -306,6 +306,11 @@ export default (props) => {
 
             </View>
 
+            
+        
+        </ScrollView>
+
+        <View style = {styles.base}>
             <TouchableOpacity
                 style = {styles.buttonblack}
                 onPress = {async () => {
@@ -315,16 +320,14 @@ export default (props) => {
                 <Text style ={styles.buttonText}>Add Members</Text>
             </TouchableOpacity>
 
-
-            
             <TouchableOpacity
                 style = {styles.buttonred}
                 onPress = {async () => { await handleLeaveGroup() }}
             >
                 <Text style ={styles.buttonText}>Leave Group</Text>
             </TouchableOpacity>
-        
-        </ScrollView>
+        </View>
+
             {loading && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />
                 <Text>

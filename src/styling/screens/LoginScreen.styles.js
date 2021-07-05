@@ -45,7 +45,7 @@ export default StyleSheet.create({
             paddingTop: 13,
             fontSize: 50,
             borderRadius: 10,
-            width: 2 * windowWidth / 3,
+            width: 2 * windowWidth / 4,
             height: 50,
             backgroundColor: colours.logInButton
         },

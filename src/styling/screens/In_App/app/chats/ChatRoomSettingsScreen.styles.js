@@ -86,7 +86,7 @@ export default StyleSheet.create({
         // flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 9 * windowWidth / 10,
+        width: 8 * windowWidth / 10,
         flex: 0.5
     },
     buttonText: {

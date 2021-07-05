@@ -193,6 +193,5 @@ export default StyleSheet.create({
         backgroundColor: colours.primary,
         width: windowWidth,
         height: 65,
-
     }
 })

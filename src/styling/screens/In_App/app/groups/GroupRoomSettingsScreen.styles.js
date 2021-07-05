@@ -96,7 +96,7 @@ export default StyleSheet.create({
         borderBottomRightRadius: 10,
     },
     buttonblack : {
-        bottom: 20,
+        bottom: 5,
         fontSize: 50,
         borderRadius: 10,
         height: 50,
@@ -105,8 +105,8 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 25,
-        marginTop: 45,
-        width: 9 * windowWidth / 10
+        marginTop: 25,
+        width: 8 * windowWidth / 10
     },
     buttonred : {
         bottom: 20,
@@ -117,7 +117,7 @@ export default StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 9 * windowWidth / 10
+        width: 8 * windowWidth / 10
     },
     buttonText: {
         color: 'white',
@@ -141,5 +141,15 @@ export default StyleSheet.create({
     },
     loadingColour: {
         color : colours.logInButton
+    },
+    base: {
+        position:'absolute',
+        bottom: 0,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colours.primary,
+        width: windowWidth,
+        height: 140,
     }
 })
