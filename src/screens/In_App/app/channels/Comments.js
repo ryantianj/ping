@@ -137,9 +137,10 @@ export default (prop) => {
     const submitComment = async () => {
         let notiId;
         // Upload comment in comments collection
-         globalNotiCollection.add({
+        let commentsTrimmed = comments.trim();
+        globalNotiCollection.add({
             title: prop.route.params.item.title,
-            text: comments,
+            text: commentsTrimmed,
             user: {
                 _id: uid,
                 display: display
@@ -161,7 +162,7 @@ export default (prop) => {
              .collection('Comments').add({
                  roomid: roomid,
                  postid: postid,
-                 content: comments,
+                 content: commentsTrimmed,
                  likedby: [],
                  star: false,
                  createdAt: new Date().getTime(),
@@ -170,7 +171,7 @@ export default (prop) => {
                      display: display
                  },
                  notiId: docRef.id
-             })})  //Update comments count on post doc
+             })})  // Update comments count on post doc
              .then(() => {
                  channelsCollection.doc(roomid)
                      .collection('Posts').doc(postid)

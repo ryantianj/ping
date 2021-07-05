@@ -80,12 +80,13 @@ export default (prop) => {
     //Add posts and comments section
     const handlePost = async () => {
         isLoading(true);
+        let textTrimmed = post.trim();
+        let titleTrimmed = title.trim();
 
-        const text = post;
         let notiId;
          globalNotiCollection.add({
-            title: title,
-            text: text,
+            title: titleTrimmed,
+            text: textTrimmed,
             user: {
                 _id: uid,
                 display: display
@@ -96,7 +97,7 @@ export default (prop) => {
             roomname: roomname,
             notiType: 0,
             roomid: roomid,
-             notiId: ''
+            notiId: ''
         }).then((docRef) => {
              notiId = docRef.id
              if (image !== '') {
@@ -108,8 +109,8 @@ export default (prop) => {
             channelsCollection.doc(roomid).collection('Posts').add({
              roomid: roomid,
              roomname: roomname,
-             content: text,
-             title: title,
+             content: textTrimmed,
+             title: titleTrimmed,
              likedby: [],
              comments: 0,
              star: false,
@@ -126,7 +127,7 @@ export default (prop) => {
 
         await channelsCollection.doc(roomid).set({
                 latestPost: {
-                    text: title,
+                    text: titleTrimmed,
                     createdAt: new Date().getTime()
                 }
             },

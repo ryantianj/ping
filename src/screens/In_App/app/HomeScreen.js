@@ -92,7 +92,7 @@ export default (props) => {
                             <Text style = {styles.postTitle2}>
                                 {item.title}
                             </Text>
-                            <Text style = {styles.postText}>
+                            <Text style = {styles.postText2}>
                                 {item.text}
                             </Text>
                         </View>
@@ -135,7 +135,7 @@ export default (props) => {
                             <Text style = {styles.postText}>
                                 {item.user.display} commented on post {item.title}:
                             </Text>
-                            <Text style = {styles.postText}>
+                            <Text style = {styles.postText2}>
                                 {item.text}
                             </Text>
                         </View>
@@ -169,7 +169,7 @@ export default (props) => {
                             <Text style = {styles.postText}>
                                 {item.user.display} said:
                             </Text>
-                            <Text style = {styles.postText}>
+                            <Text style = {styles.postText2}>
                                 {item.text}
                             </Text>
                         </View>
@@ -203,7 +203,7 @@ export default (props) => {
                             <Text style = {styles.chatText}>
                                 {item.user.display} said:
                             </Text>
-                            <Text style = {styles.chatText}>
+                            <Text style = {styles.chatText2}>
                                 {item.text}
                             </Text>
                         </View>
@@ -227,7 +227,7 @@ export default (props) => {
                                 <Ionicons style = {styles.iconTrashChatBlack}
                                           name={'trash-outline'} color={'white'} size={25}  />
                             </TouchableOpacity>
-                            <Text style = {styles.chatText}>
+                            <Text style = {styles.chatText2}>
                                 {item.text}
                             </Text>
                         </View>

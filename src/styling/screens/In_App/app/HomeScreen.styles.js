@@ -13,12 +13,14 @@ export default StyleSheet.create({
     },
     notificationsText : {
         paddingTop: 20,
+        marginBottom: 5,
         fontSize: 17,
         color: 'red',
         textAlign: 'center',
         width: 2 * windowWidth / 3
     },
     postTitle: {
+        marginTop: 5,
         fontSize: 20,
         fontWeight: 'bold',
         borderColor:'black',
@@ -36,7 +38,12 @@ export default StyleSheet.create({
     postText: {
         fontSize: 18,
     },
+    postText2: {
+        fontSize: 18,
+        marginBottom: 4
+    },
     chatTitle: {
+        marginTop: 5,
         fontSize: 20,
         fontWeight: 'bold',
         color: 'white',
@@ -48,7 +55,13 @@ export default StyleSheet.create({
         fontSize: 18,
         color: 'white',
     },
+    chatText2: {
+        fontSize: 18,
+        color: 'white',
+        marginBottom: 4
+    },
     requestTitle: {
+        marginTop: 5,
         fontSize: 20,
         fontWeight: 'bold',
         color: 'black',
@@ -59,6 +72,7 @@ export default StyleSheet.create({
     requestText: {
         fontSize: 18,
         color: 'black',
+        marginBottom: 4
     },
     post: {
         marginTop: 20,
