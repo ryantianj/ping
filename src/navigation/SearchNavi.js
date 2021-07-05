@@ -2,7 +2,6 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import SearchResults from "../constants/Search/SearchResults";
 import addUser from "../constants/Search/addUser";
 import addChannel from "../constants/Search/addChannel";
 import SearchResultsUser from "../constants/Search/SearchResultsUser";
@@ -21,18 +20,6 @@ export default (props) => {
             <Stack.Navigator
                 screenOptions={{headerShown: false}}
             >
-
-                <Stack.Screen
-                    name = "SearchResults"
-                    options={{
-                        headerShown: true,
-                        title: "Search",
-                        headerStyle: {
-                            backgroundColor: colours.primary
-                        }}}>
-
-                    {(prop) => <SearchResults {...prop} searchData={props.route.params}/>}
-                </ Stack.Screen>
                 <Stack.Screen
                     name = "addUser"
                     component = {addUser}

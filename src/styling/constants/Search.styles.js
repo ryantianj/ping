@@ -2,6 +2,7 @@ import {StyleSheet, Dimensions} from "react-native";
 import colours from "../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
     container : {
@@ -24,6 +25,24 @@ export default StyleSheet.create({
         height: 60,
         borderRadius: 10
     },
+    searchBarTextFoc: {
+        paddingLeft: 15,
+        marginTop: 15,
+        textAlign: 'left',
+        borderWidth: 1,
+        borderColor: 'black',
+        fontSize: 20,
+        backgroundColor: colours.textBox,
+        width: 8 * windowWidth / 10,
+        height: 60,
+        borderRadius: 10
+    },
+    searchBar: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: 9 * windowWidth / 10,
+    },
     icon : {
 
     },
@@ -34,13 +53,10 @@ export default StyleSheet.create({
     },
     loading : {
         position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
+        top: 28,
+        right: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: colours.primary
     },
     loadingColour: {
         color : colours.logInButton
@@ -51,6 +67,7 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         top: 55,
+
     },
     flatList : {
         backgroundColor: colours.primary,
@@ -59,25 +76,76 @@ export default StyleSheet.create({
         marginBottom: 20,
         borderRadius: 10,
         fontSize: 17,
-        width: 9 * windowWidth / 10,
+        width: 10 * windowWidth / 10,
     },
     searchText : {
-        marginTop: 10,
         fontSize: 20,
         textAlign: 'left',
         left: 5,
+        paddingLeft: 5,
+    },
+    searchHistText : {
+        fontSize: 20,
+        textAlign: 'left',
+        left: 5,
+        paddingLeft: 25,
         width: 9 * windowWidth / 10,
     },
     searchPress: {
         marginTop: 5,
+        marginBottom: 5,
         height: 50,
         backgroundColor:colours.settingsButton,
         borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    searchHistPress: {
+        marginTop: 5,
+        marginBottom: 5,
+        height: 50,
+        backgroundColor:colours.settingsButton,
+        borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 8 * windowWidth / 10,
     },
     liveContainer:{
-        backgroundColor: colours.primary,
+        padding: 5,
+        borderRadius: 10,
+        backgroundColor: colours.naviBar,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        height: windowHeight / 2
+    },
+    historyContainer: {
+        padding: 5,
+        borderRadius: 10,
+        backgroundColor: colours.naviBar,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+    iconArrow: {
+        left : 5,
+        top: 5,
+    },
+    arrow : {
+        position: 'absolute',
+        left: 0,
+    },
+    trash: {
+        height: 30,
+        width: 30,
+    },
+    iconTrash: {
+
+    },
+    hist: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     }
 
 })

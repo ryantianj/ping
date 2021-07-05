@@ -2,14 +2,12 @@ import React, {useEffect, useState} from "react";
 import {
     Text,
     FlatList,
-    View, TouchableOpacity,
+     TouchableOpacity,
 } from "react-native";
 import Screen from "../../components/Screen";
 
 
 import styles from "../../styling/constants/Search/SearchResults.styles"
-import Search from "../Search";
-
 
 export default (props) => {
     const [search, setSearch] = useState('');
@@ -49,7 +47,8 @@ export default (props) => {
                 data={user}
                 renderItem={renderItem}
                 style = {styles.flatList}
-                extraData={user}/>
+                extraData={user}
+                keyExtractor={item => item.uid}/>
 
 
         </Screen>

@@ -1,21 +1,23 @@
-import React, {useState, useEffect} from "react";
-import {Alert, ActivityIndicator, Text, TextInput, View, FlatList, TouchableOpacity as TouchableOpacity1} from "react-native";
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import React, {useEffect, useState} from "react";
+import {ActivityIndicator, Text, TextInput, View, FlatList, Keyboard} from "react-native";
 import { TouchableOpacity} from 'react-native-gesture-handler'
-import firebase from "../../api/firebase"
+import firebase, {usersCollection} from "../../api/firebase"
 import store from "../store"
 
 import styles from "../styling/constants/Search.styles";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default (props) => {
     const [search, setSearch] = useState("");
     const [user, setUser] = useState([]);
     const [channel, setChannel] = useState([]);
     const [total, setTotal] = useState([]);
-    const [totalNum, setTotalNum] = useState(0);
     const [loading, isLoading] = useState(false);
-    const [count, setCount] = useState(0);
+    const [history, setHistory] = useState([]);
+    const [focHistory, isFOCHistory] = useState(false);
+    const [focBack, isFOCBack] = useState(false);
 
+    const uid = store.getState().user.user.uid
     const addUser = (item) => {
         // makes sure u cant add yourself
         if (item.email !== store.getState().user.user.email) {
@@ -27,13 +29,67 @@ export default (props) => {
         channel.push(item)
     }
 
+    const saveSearchHistory = () => {
+        const hist = search;
+        //saves only past 3 searches
+        if (history.length >= 3) {
+            deleteHistory(history[0].history)
+        }
+        usersCollection.doc(uid).update({
+            'searchHistory': firebase.firestore.FieldValue.arrayUnion(
+                {
+                    history: hist,
+                })
+        })
+        setSearch('')
+        setTotal([])
+        setUser([]);
+        setChannel([]);
+        isFOCBack(false);
+    }
+
+    const deleteHistory = (item) => {
+        usersCollection.doc(uid).update({
+            'searchHistory': firebase.firestore.FieldValue.arrayRemove(
+                {
+                    history: item,
+                })
+        })
+    }
+
+    // Get history
+    useEffect(() => {
+        const historyListener = usersCollection.doc(uid)
+            .onSnapshot(snapshot => {
+                const firebase = snapshot.data()
+                const historyArray = firebase.searchHistory
+                setHistory(historyArray)
+            })
+        return () => {
+            historyListener()
+        };
+    }, [])
+
+    const showHistory = () => {
+        isFOCHistory(true);
+    }
+    const closeResults = () => {
+        isFOCBack(false);
+        setSearch('')
+        setTotal([])
+        setUser([]);
+        setChannel([]);
+    }
+
     const liveSearch =  async (searching) => {
         if (searching === '') {
+            isFOCHistory(true)
             setSearch('')
             setTotal([])
             setUser([]);
             setChannel([]);
         } else {
+            isFOCHistory(false)
             setSearch(searching)
             // Search users
             const lower = searching.toLowerCase();
@@ -59,79 +115,28 @@ export default (props) => {
                     });
                 })
             const both = async () => {
+                isLoading(true)
                 total.length = 0
                 if (total.length === 0) {
                     total.push(0)
-                    console.log(total)
                 }
                 await users()
                 await channels()
             }
             await both()
-            setCount(count + 1)
+            isLoading(false)
         }
 
     }
-
-    // const submitQueryToDatabase = () => {
-    //     if (search === "") {
-    //         Alert.alert("Search", "Empty search is not allowed");
-    //         return;
-    //     }
-    //     isLoading(true)
-    //     setUser([]);
-    //     setChannel([]);
-    //     setTotal([]);
-    //     // Search users
-    //     const lower = search.toLowerCase();
-    //     const users = () => firebase.firestore()
-    //         .collection('Users')
-    //         .where('search', '>=', lower)
-    //         .where('search', '<=', lower + '\uf8ff')
-    //         .get().then((querySnapshot) => {
-    //             querySnapshot.forEach((doc) => {
-    //                 addUser(doc.data())
-    //             });
-    //         }).then(() => {
-    //             total.push({user: user.length,
-    //                 type : 0})
-    //         })
-    //     // Search channels
-    //     const channels = () => firebase.firestore()
-    //         .collection('Channel')
-    //         .where('search', '>=', lower)
-    //         .where('search', '<=', lower + '\uf8ff')
-    //         .get().then((querySnapshot) => {
-    //             querySnapshot.forEach((doc) => {
-    //                 addChannel(doc.data())
-    //             });
-    //         }).then(() => {
-    //             total.push({channel: channel.length,
-    //                 type : 1})
-    //         })
-    //     users().then(() => channels())
-    //         .then(() => {
-    //             isLoading(false)
-    //             props.navigation.navigate('Search',
-    //                 {   search: search,
-    //                     user: user,
-    //                     channel: channel,
-    //                     total: total
-    //                 })
-    //             setSearch('')
-    //         })
-    //         .catch((error) => {
-    //             isLoading(false)
-    //             alert("Invalid Query")
-    //         })
-    // }
 
     const renderItem = ( {item}) => {
         return (
             <View style = {styles.liveContainer}>
                 <TouchableOpacity
                     style = {styles.searchPress}
-                    onPress = {() => {props.navigation.navigate("Search",
+                    onPress = {() => {
+                        saveSearchHistory()
+                        props.navigation.navigate("Search",
                         {screen: 'searchUsers',
                         params : {user: user,
                             search : search}}
@@ -143,7 +148,9 @@ export default (props) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style = {styles.searchPress}
-                    onPress = {() => {props.navigation.navigate("Search",
+                    onPress = {() => {
+                        saveSearchHistory()
+                        props.navigation.navigate("Search",
                         {screen: 'searchChannels',
                         params: {channel: channel,
                             search: search}}
@@ -158,33 +165,71 @@ export default (props) => {
         )
     }
 
+    const renderHistory = ( {item}) => {
+        return (
+            <View style = {styles.historyContainer}>
+                <TouchableOpacity
+                    style = {styles.searchHistPress}
+                    onPress={ () => liveSearch(item.history)}
+                    >
+                    <View style = {styles.hist}>
+                        <Text style = {styles.searchHistText}>
+                            {item.history}
+                        </Text>
+
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.trash}
+                                  hitSlop = {{top: 100, bottom: 100, left: 100, right: 100}}
+                                  onPress = {() => deleteHistory(item.history)}
+                >
+                    <Ionicons style = {styles.iconTrash}
+                              name={'trash-outline'} size={25}  />
+                </TouchableOpacity>
+
+            </View>
+        )
+    }
+
     return (
         <View style = {styles.container}>
-            <TextInput
-                style = {styles.searchBarText}
-                placeholder = "Search (by display/channel)"
-                value = {search}
-                onChangeText = {liveSearch}
-                autoCapitalize = "none"
-                returnKeyType = "go"
-                // onSubmitEditing = {()=> submitQueryToDatabase()}
+            <View style = {styles.searchBar}>
+                <TextInput
+                    style = {focBack ? styles.searchBarTextFoc:styles.searchBarText}
+                    placeholder = {search === "" ? "Search (by display/channel)" : ''}
+                    value = {search}
+                    onChangeText = {liveSearch}
+                    autoCapitalize = "none"
+                    returnKeyType = "go"
+                    onSubmitEditing = {()=> {if (search === "" || search === " ") {
+
+                    } else {
+
+                    }}}
+                    onFocus = {() => {
+                        isFOCBack(true)
+                        showHistory()}}
+                    onBlur = {() => {
+
+                        }}
+                    maxLength = {20}
                 />
-            <TouchableOpacity1
-                style = {styles.touchable}
-                onPress = {() => {console.log(total)
+                {focBack && <View style = {styles.arrow}>
+                    <TouchableOpacity onPress={() => {
+                        Keyboard.dismiss()
+                        closeResults()
                     }}>
-                <Ionicons style = {styles.icon}
-                          name={'search-outline'} size={27}  />
-            </TouchableOpacity1>
-
-            {loading && <View style = {styles.loading}>
-                <ActivityIndicator size="large" color={styles.loadingColour.color} />
-                <Text>
-                    Searching
-                </Text>
+                        <Ionicons style = {styles.iconArrow}
+                                  name={'arrow-back-outline'} size={25}
+                                  hitSlop={{top: 100, bottom: 100, left: 15, right: 15}}/>
+                    </TouchableOpacity>
+                </View>
+                }
+                {loading && <View style = {styles.loading}>
+                    <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                </View>
+                }
             </View>
-            }
-
             <View style = {styles.live}>
                 <FlatList
                     data={total}
@@ -192,6 +237,15 @@ export default (props) => {
                     style = {styles.flatList}
                     extraData={total}/>
             </View>
+
+            {(search === '' && focHistory && focBack) && <View style = {styles.live}>
+                <FlatList
+                    data={history}
+                    inverted
+                    renderItem={renderHistory}
+                    style = {styles.flatList}
+                    extraData={history}/>
+            </View>}
         </View>
     )
 }

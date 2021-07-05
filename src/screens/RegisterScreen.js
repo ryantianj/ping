@@ -40,6 +40,7 @@ export default (props) => {
                 pending: [],
                 display: "",
                 search: "",
+                searchHistory: [],
                 channels: []
             }).then(() => {
                 console.log(data)
