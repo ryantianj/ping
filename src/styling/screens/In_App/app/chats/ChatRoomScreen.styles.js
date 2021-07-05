@@ -72,17 +72,18 @@ export default StyleSheet.create({
         width: 8 * windowWidth / 10,
         left: '10%',
         top: '25%',
-        borderWidth: 1,
-        borderColor: colours.primary,
         position: 'absolute',
-        backgroundColor: colours.chat,
+        backgroundColor: colours.primary,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        borderRadius: 10,
+        borderRadius: 9,
     },
     image: {
-        width: 0.792 * windowWidth,
-        height : 0.594 * windowWidth,
+        width: 0.75 * windowWidth,
+        height : 0.5625 * windowWidth,
+        marginLeft: 8,
+        marginTop: 8,
+        alignItems: 'center',
     },
     buttons: {
         flexDirection: 'row',
@@ -92,7 +93,7 @@ export default StyleSheet.create({
     buttonReject : {
         fontSize: 50,
         borderRadius: 10,
-        width: windowWidth / 4,
+        width: windowWidth / 2.5,
         height: 50,
         backgroundColor: colours.logOutButton,
         flexDirection: 'column',
@@ -102,12 +103,11 @@ export default StyleSheet.create({
     buttonAccept : {
         fontSize: 50,
         borderRadius: 10,
-        width: windowWidth / 4,
+        width: windowWidth / 2.5,
         height: 50,
         backgroundColor: colours.logInButton,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
     },
-
 })
