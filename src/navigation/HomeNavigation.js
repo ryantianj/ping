@@ -2,8 +2,6 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import NaviBar from "./NaviBar";
-import Settings from "../navigation/SettingsNavigation"
 import Chats from "../navigation/ChatsNavigation"
 import Groups from "../navigation/GroupsNavigation"
 import Channels from "./ChannelsNavi";
@@ -13,6 +11,7 @@ import ViewProfile from "../screens/In_App/app/ViewProfile";
 import styles from "../styling/navigation/HomeNavigation.styles"
 import Screen from "../components/Screen";
 import colours from "../constants/colours";
+import SettingsDrawer from "./Home_SettingsNavi";
 
 
 const Stack = createStackNavigator();
@@ -25,10 +24,7 @@ export default (props) => {
             >
                 <Stack.Screen
                     name = "Main"
-                    component = {NaviBar}/>
-                <Stack.Screen
-                    name = "Settings"
-                    component = {Settings}/>
+                    component = {SettingsDrawer}/>
                 <Stack.Screen
                     name = "Search"
                     component = {SearchNavi}/>

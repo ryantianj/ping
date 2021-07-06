@@ -5,5 +5,11 @@ export default StyleSheet.create({
     container : {
         flex: 1,
         backgroundColor: colours.primary
+    },
+    drawer: {
+        backgroundColor: colours.primary
+    },
+    icon: {
+        marginLeft: 15,
     }
 })

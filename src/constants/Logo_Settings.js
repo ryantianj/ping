@@ -22,7 +22,7 @@ export default (props) => {
             <Pressable
                 style = {styles.settingsPress}
                 onPress = {() => {
-                    props.navigation.navigate('Settings')
+                    props.navigation.openDrawer()
                 }}>
                 <Settings style = {styles.settings}/>
             </Pressable>
