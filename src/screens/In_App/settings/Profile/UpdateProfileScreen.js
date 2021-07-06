@@ -4,13 +4,15 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList, ScrollView
+    FlatList, ScrollView, Image, Alert
 } from "react-native";
 import firebase from "../../../../../api/firebase"
 import store from "../../../../store";
 
 import Screen from "../../../../components/Screen";
 import styles from "../../../../styling/screens/In_App/settings/Profile/UpdateProfileScreen.styles"
+import Ionicons from "react-native-vector-icons/Ionicons";
+import * as ImagePicker from "expo-image-picker";
 
 const UpdateProfileScreen = (props) => {
     const [bio, setBio] = useState(store.getState().user.user.bio);
@@ -19,6 +21,37 @@ const UpdateProfileScreen = (props) => {
     const [selectedId, setSelectedId] = useState(store.getState().user.user.interests.length); // Render component when selected
     const [visibility, setVisibility] = useState(store.getState().user.user.visibility); //boolean,true == private
     const [display, setDisplay] = useState(store.getState().user.user.display)
+    const [image, setImage] = useState(store.getState().user.user.photo)
+    const [orgImage, setOrgImage] = useState(store.getState().user.user.photo)
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [3, 3],
+            quality: 1,
+        });
+
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    };
+
+    const deleteImage = () => {
+        Alert.alert("Delete Image", "Are you sure you want to delete this Image?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        setImage('')},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
+    }
+
 
     const renderItem = ( {item} ) => {
         if (selectInterests.includes(item)) {
@@ -141,6 +174,36 @@ const UpdateProfileScreen = (props) => {
             </View>
 
             <Text style = {styles.headerText1}>
+                Update Display Photo
+            </Text>
+                {image === '' && <View style = {styles.attach}>
+                    <Text>
+                        Attach an Image:
+                    </Text>
+                    <TouchableOpacity
+                        style = {styles.touchable}
+                        onPress = {pickImage}
+                    >
+                        <Ionicons style = {styles.icon}
+                                  name={'attach-outline'} size={35}  />
+                    </TouchableOpacity>
+                </View>}
+                {image !== '' && <View style = {styles.delete}>
+                    <TouchableOpacity
+                        style = {styles.touchable}
+                        onPress = {deleteImage}>
+                        <Ionicons style = {styles.icon}
+                                  name={'trash-outline'} size={35}  />
+                    </TouchableOpacity>
+
+                    <Text>
+                        Delete Image
+                    </Text>
+                </View>
+                }
+                {image !== '' && <Image source={{ uri: image }} style={{ width: 200, height: 200 ,borderRadius: 200/2,}} />}
+
+            <Text style = {styles.headerText1}>
                 Update Visibility
             </Text>
 
@@ -178,6 +241,8 @@ const UpdateProfileScreen = (props) => {
                         {bios: bio,
                             selectInterests: selectInterests.sort(),
                             visibility: visibility,
+                            photo: image,
+                            orgPhoto: orgImage,
                             display: display,
                             update : true})
                     }

@@ -193,5 +193,17 @@ export default StyleSheet.create({
         backgroundColor: colours.primary,
         width: windowWidth,
         height: 65,
-    }
+    },
+    attach: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        height: windowHeight / 10
+    },
+    delete: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        height: windowHeight / 10
+    },
 })

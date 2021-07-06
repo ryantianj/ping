@@ -18,6 +18,7 @@ const initialState = [
         pending: [],
         visibility: true,
         display: '',
+        photo: '',
     }
 ]
 
@@ -48,6 +49,7 @@ const usersSlice = createSlice({
                         pending: userData.pending,
                         visibility: userData.visibility,
                         display: userData.display,
+                        photo: userData.photo,
                 }
             }
         }

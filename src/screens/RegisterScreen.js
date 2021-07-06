@@ -41,7 +41,8 @@ export default (props) => {
                 display: "",
                 search: "",
                 searchHistory: [],
-                channels: []
+                channels: [],
+                photo: "",
             }).then(() => {
                 console.log(data)
             }).catch(e => {

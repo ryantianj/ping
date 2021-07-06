@@ -4,12 +4,14 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList, ScrollView
+    FlatList, ScrollView, Alert, Image
 } from "react-native";
 import firebase, { interestsCollection } from '../../../../api/firebase';
 
 import Screen from "../../../components/Screen";
 import styles from "../../../styling/screens/In_App/app/RegisterProfileScreen.styles";
+import * as ImagePicker from "expo-image-picker";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const RegisterProfileScreen = (props) => {
     const [bio, setBio] = useState("");
@@ -18,6 +20,36 @@ const RegisterProfileScreen = (props) => {
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
     const [visibility, setVisibility] = useState(true);
     const [display, setDisplay] = useState("");
+    const [image, setImage] = useState('')
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [3, 3],
+            quality: 1,
+        });
+
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    };
+
+    const deleteImage = () => {
+        Alert.alert("Delete Image", "Are you sure you want to delete this Image?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        setImage('')},
+                },
+                {
+                    text: "No",
+                    onPress: () => {},
+                }
+            ],)
+    }
+
 
     const nextInput = useRef();
 
@@ -141,9 +173,37 @@ const RegisterProfileScreen = (props) => {
                         returnKeyType = "go"
                         maxLength = {15}
                     />
-
                 </View>
 
+                <Text style = {styles.headerText1}>
+                    Display Photo
+                </Text>
+                {image === '' && <View style = {styles.attach}>
+                    <Text>
+                        Attach an Image:
+                    </Text>
+                    <TouchableOpacity
+                        style = {styles.touchable}
+                        onPress = {pickImage}
+                    >
+                        <Ionicons style = {styles.icon}
+                                  name={'attach-outline'} size={35}  />
+                    </TouchableOpacity>
+                </View>}
+                {image !== '' && <View style = {styles.delete}>
+                    <TouchableOpacity
+                        style = {styles.touchable}
+                        onPress = {deleteImage}>
+                        <Ionicons style = {styles.icon}
+                                  name={'trash-outline'} size={35}  />
+                    </TouchableOpacity>
+
+                    <Text>
+                        Delete Image
+                    </Text>
+                </View>
+                }
+                {image !== '' && <Image source={{ uri: image }} style={{ width: 200, height: 200 ,borderRadius: 200/2,}} />}
                 <Text style = {styles.headerText1}>
                    Account Visibility
                 </Text>
@@ -181,8 +241,10 @@ const RegisterProfileScreen = (props) => {
                     style = {styles.button}
                     onPress = {() => props.navigation.navigate("ConfirmProfile",
                         {bios: bio,
+                            photo: image,
                             selectInterests: selectInterests.sort(),
                             visibility: visibility,
+                            orgPhoto: image,
                             display: display,
                             update: false})}
                 >

@@ -220,7 +220,7 @@ export default (props) => {
                     }}>
                         <Ionicons style = {styles.iconArrow}
                                   name={'arrow-back-outline'} size={25}
-                                  hitSlop={{top: 100, bottom: 100, left: 15, right: 15}}/>
+                                  hitSlop={{top: 100, bottom: 100, left: 50, right: 50}}/>
                     </TouchableOpacity>
                 </View>
                 }

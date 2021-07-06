@@ -13,7 +13,7 @@ export default (prop) => {
     const [post, setPost] = useState(prop.route.params.item.text)
     const [title, setTitle] = useState(prop.route.params.item.title)
     const [loading, isLoading] = useState(false);
-    const [image, setImage] = useState(prop.route.params.item.mediaLink)
+    const [image, setImage] = useState(prop.route.params.item.mediaLink + '')
     const [orgImage, setOrgImage] = useState(prop.route.params.item.mediaLink + '')
 
     const roomid = store.getState().room.room.roomid;
@@ -78,11 +78,14 @@ export default (prop) => {
     const handlePost = async () => {
         isLoading(true);
         const mediaLink = image !== '' ? await upLoadImage() : ''
-        if (orgImage !== '') {
+        if (orgImage !== '' && orgImage !== image) {
+            console.log(orgImage)
+            console.log(image)
             const org = orgImage.substring(orgImage.lastIndexOf('/') + 1)
             const org1 = org.substring(0, org.lastIndexOf('?'))
             const deleteRef = firebase.storage().ref().child(org1);
             const deleteOrg = await deleteRef.delete()
+            alert('delete')
         }
         
         channelsCollection.doc(roomid).collection('Posts')

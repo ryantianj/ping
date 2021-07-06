@@ -17,9 +17,9 @@ export default (props) => {
         store.getState().user.user.visibility,
         store.getState().user.user.bio,
         store.getState().user.user.interests.join(", "),
-        store.getState().user.user.badges
+        store.getState().user.user.badges,
     ]
-
+    const image = store.getState().user.user.photo
     const visible = () => {
         if (store.getState().user.user.visibility) {
             return "Private"
@@ -142,6 +142,7 @@ export default (props) => {
             <Text style = {styles.profileText}>
                 Your Profile
             </Text>
+            {image !== '' && <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 100/2, }} />}
 
             <FlatList
                 data={DATA}
