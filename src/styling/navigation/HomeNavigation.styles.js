@@ -7,7 +7,7 @@ export default StyleSheet.create({
         backgroundColor: colours.primary
     },
     drawer: {
-        backgroundColor: colours.primary
+        backgroundColor: colours.primary,
     },
     icon: {
         marginLeft: 10,

@@ -33,7 +33,11 @@ export default (props) => {
             <Drawer.Navigator
                 drawerPosition = {"right"}
                 drawerType={'slide'}
+                sceneContainerStyle={styles.drawer}
                 drawerStyle={styles.drawer}
+                options={{
+                   drawerIcon: backButton
+                }}
             >
                 <Drawer.Screen
                     name = "Back to Home"
