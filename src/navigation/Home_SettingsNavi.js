@@ -15,13 +15,13 @@ import Screen from "../components/Screen";
 import colours from "../constants/colours";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-
 const Drawer = createDrawerNavigator();
+
 export default (props) => {
     const backButton = () => {
         return (
             <TouchableOpacity style = {styles.icon}
-            onPress = {() => props.navigation.navigate('Back to Home')}>
+            onPress = {() => props.navigation.navigate('Home')}>
                 <Ionicons
                           name={'arrow-back-outline'} size={25}  />
             </TouchableOpacity>
@@ -38,10 +38,12 @@ export default (props) => {
                 options={{
                    drawerIcon: backButton
                 }}
+                // drawerContentOptions={styles.contentOptions}
             >
                 <Drawer.Screen
                     name = "Back to Home"
                     component = {NaviBar}
+                    act
                     />
                 <Drawer.Screen
                     name = "Security"

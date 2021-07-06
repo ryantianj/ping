@@ -11,5 +11,14 @@ export default StyleSheet.create({
     },
     icon: {
         marginLeft: 10,
-    }
+    },
+    // contentOptions: {
+    //     activeTintColor: '#e91e63',
+    //     itemsContainerStyle: {
+    //       marginVertical: 0,
+    //     },
+    //     iconContainerStyle: {
+    //       opacity: 1
+    //     }
+    // }
 })

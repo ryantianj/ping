@@ -7,7 +7,7 @@ import addChannel from "../constants/Search/addChannel";
 import SearchResultsUser from "../constants/Search/SearchResultsUser";
 import SearchResultsChannel from "../constants/Search/SearchResultsChannel";
 
-import styles from "../styling/navigation/SeachNavi.styles"
+import styles from "../styling/navigation/SearchNavi.styles"
 import Screen from "../components/Screen";
 import colours from "../constants/colours";
 
