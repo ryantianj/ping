@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Text, TouchableOpacity, View, ActivityIndicator, Alert, Image} from "react-native";
 // import { GiftedChat, Bubble, Send, SystemMessage } from 'react-web-gifted-chat';
-import { GiftedChat, Bubble, Send, SystemMessage } from 'react-native-gifted-chat';
+import {GiftedChat, Bubble, Send, SystemMessage, Avatar} from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
 
 import firebase, {globalNotiCollection, roomsCollection} from '../../../../../api/firebase';
@@ -17,6 +17,7 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
     const display = store.getState().user.user.display;
     const email = store.getState().user.user.email;
+    const photo = store.getState().user.user.photo;
     const users = store.getState().room.room.users;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
@@ -105,7 +106,8 @@ export default (props) => {
             createdAt: currTime,
             user: {
                 _id: uid,
-                email: email
+                email: email,
+                photo: photo
             },
             isImage: true,
         });
@@ -138,7 +140,8 @@ export default (props) => {
             createdAt: currTime,
             user: {
                 _id: uid,
-                email: email
+                email: email,
+                photo: photo
             },
             isImage: false,
         });
@@ -156,7 +159,8 @@ export default (props) => {
             text: text,
             user: {
                 _id: uid,
-                display: display
+                display: display,
+                photo: photo
             },
             createdAt: currTime,
             //Users to send to
@@ -165,6 +169,21 @@ export default (props) => {
             notiType: 3,
             roomid: roomid
         })
+    }
+
+    const renderAvatar = (props) => {
+        const image = props.currentMessage.user.photo
+        if (image === undefined || image === '') {
+            return (
+                <Ionicons style = {styles.icon}
+                          name={'people-circle-outline'} color = {'white'} size={35}/>
+            )
+        } else {
+            return (
+                <Image source={{ uri: image }} style={{ width: 38, height: 38, borderRadius: 38/2, }} />
+            )
+        }
+
     }
     
     function renderBubble(props) {
@@ -285,6 +304,7 @@ export default (props) => {
                     alwaysShowSend
                     showUserAvatar
                     scrollToBottom
+                    renderAvatar = {renderAvatar}
                     renderBubble={renderBubble}
                     renderLoading={renderLoading}
                     renderSend={renderSend}

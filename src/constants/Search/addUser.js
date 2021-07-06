@@ -16,6 +16,7 @@ import badgethinker from "../../../assets/badgethinker.png";
 export default (props) => {
     const [user, setUser] = useState(props.route.params.user)
     const [loading, isLoading] = useState(false);
+    const [image, setImage] = useState(props.route.params.user.photo)
 
     const DATA = [
         user.display,
@@ -258,6 +259,7 @@ export default (props) => {
             <Text style = {styles.profileText}>
                 User Profile
             </Text>
+            {image !== '' && <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 100/2, }} />}
             <FlatList
                 data={DATA}
                 renderItem={renderItem}

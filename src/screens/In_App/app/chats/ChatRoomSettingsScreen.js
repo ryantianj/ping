@@ -19,6 +19,7 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
+    const users = store.getState().room.room.users;
     const topics = store.getState().room.room.topics.join(", ") === '' 
         ? 'none' : store.getState().room.room.topics.join(", ");
 
@@ -69,14 +70,22 @@ export default (props) => {
             .then(() => {
                 console.log('Removed room from user db!');
             });
-        await roomsCollection
-            .doc(roomid)
-            .update({
-                'users': firebase.firestore.FieldValue.arrayRemove(uid)
-            })
-            .then(() => {
-                console.log('Removed user from room db!');
-            });
+
+        if (users.length === 1) {
+            //delete room
+            await roomsCollection
+                .doc(roomid).delete()
+        } else {
+            await roomsCollection
+                .doc(roomid)
+                .update({
+                    'users': firebase.firestore.FieldValue.arrayRemove(uid)
+                })
+                .then(() => {
+                    console.log('Removed user from room db!');
+                });
+        }
+
         await roomsCollection
             .doc(roomid).collection('Messages').doc()
             .set({
@@ -86,6 +95,7 @@ export default (props) => {
             }).then(() => {
                 console.log("Update Room with system message!");
             });
+
         dispatch(fillUserState(uid)).then(() => {
             Alert.alert("Leave Chat", "You have left the chat.")
             props.navigation.navigate("Chat")

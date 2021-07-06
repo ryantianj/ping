@@ -18,6 +18,7 @@ export default (props) => {
     const [loading, isLoading] = useState(false);
     const [friend, isFriend] = useState(store.getState().user.user.friends.includes(props.route.params.user.uid));
     const [yourself, isYourself] = useState(props.route.params.user.uid === store.getState().user.user.uid)
+    const [image, setImage] = useState(props.route.params.user.photo)
 
     const DATA = [
         user.display,
@@ -283,6 +284,7 @@ export default (props) => {
             <Text style = {styles.profileText}>
                 User Profile
             </Text>
+            {image !== '' && <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 100/2, }} />}
             <FlatList
                 data={DATA}
                 renderItem={renderItem}
