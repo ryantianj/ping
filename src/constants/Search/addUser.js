@@ -259,7 +259,7 @@ export default (props) => {
             <Text style = {styles.profileText}>
                 User Profile
             </Text>
-            {image !== '' && <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 100/2, }} />}
+            {image !== '' && <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 100/2, marginTop: 16}} />}
             <FlatList
                 data={DATA}
                 renderItem={renderItem}

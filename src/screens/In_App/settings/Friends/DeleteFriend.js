@@ -16,6 +16,7 @@ import badgethinker from "../../../../../assets/badgethinker.png";
 export default (props) => {
     const [user, setUser] = useState(props.route.params.user)
     const [loading, isLoading] = useState(false);
+    const [image, setImage] = useState(props.route.params.user.photo);
 
     const DATA = [
         user.display,
@@ -69,7 +70,7 @@ export default (props) => {
     }
 
     const renderBadges = () => {
-        const badgesMap = store.getState().user.user.badges; // key:value is topic:0/1/2
+        const badgesMap = user.badges; // key:value is topic:0/1/2
         const badgesArray = [];
         for (const topic in badgesMap) {
             const type = badgesMap[topic]; // number 0 1 2
@@ -175,6 +176,7 @@ export default (props) => {
             <Text style = {styles.profileText}>
                 User Profile
             </Text>
+            {image !== '' && <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 100/2, marginTop: 10}} />}
             <FlatList
                 data={DATA}
                 renderItem={renderItem}

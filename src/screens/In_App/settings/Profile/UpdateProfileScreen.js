@@ -201,7 +201,7 @@ const UpdateProfileScreen = (props) => {
                     </Text>
                 </View>
                 }
-                {image !== '' && <Image source={{ uri: image }} style={{ width: 200, height: 200 ,borderRadius: 200/2,}} />}
+                {image !== '' && <Image source={{ uri: image }} style={{ width: 200, height: 200 ,borderRadius: 200/2, marginBottom: 5}} />}
 
             <Text style = {styles.headerText1}>
                 Update Visibility

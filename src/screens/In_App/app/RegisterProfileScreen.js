@@ -239,14 +239,20 @@ const RegisterProfileScreen = (props) => {
             <View style = {styles.confirmProfile}>
                 <TouchableOpacity
                     style = {styles.button}
-                    onPress = {() => props.navigation.navigate("ConfirmProfile",
-                        {bios: bio,
+                    onPress = {() => {
+                        if (display === '') {
+                            Alert.alert('Display name cannot be empty!')
+                        } else {
+                        props.navigation.navigate("ConfirmProfile",
+                            {bios: bio,
                             photo: image,
                             selectInterests: selectInterests.sort(),
                             visibility: visibility,
                             orgPhoto: image,
                             display: display,
                             update: false})}
+                        }
+                    }
                 >
                     <Text style = {styles.buttonText}>Create Profile</Text>
                 </TouchableOpacity>

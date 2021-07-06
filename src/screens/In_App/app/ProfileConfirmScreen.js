@@ -161,7 +161,7 @@ const ProfileConfirmScreen = (props) => {
                     <Text style = {styles.headerText1}>
                         Display Photo:
                     </Text>
-                    {image !== '' && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200/2, }} />}
+                    {image !== '' && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200/2, marginTop: 12}} />}
                     {image === '' &&  <Text style = {styles.textInputBio}>No Photo</Text>}
 
                     <Text style = {styles.headerText1}>
