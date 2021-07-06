@@ -111,10 +111,26 @@ export default (props) => {
             },
             isImage: true,
         });
+        await globalNotiCollection.add({
+            title: roomname,
+            text: "Photo",
+            user: {
+                _id: uid,
+                display: display,
+                photo: photo
+            },
+            createdAt: currTime,
+            //Users to send to
+            users: removeElement(users, uid),
+            roomname: roomname,
+            notiType: 2,
+            roomid: roomid,
+        })
         await roomsCollection.doc(roomid).set({
                 latestMessage: {
                     text: 'Photo',
-                    createdAt: currTime
+                    createdAt: currTime,
+                    photo: photo
                 }
             },
             { merge: true }
@@ -149,7 +165,8 @@ export default (props) => {
         await roomsCollection.doc(roomid).set({
             latestMessage: {
                 text: text,
-                createdAt: currTime
+                createdAt: currTime,
+                photo: photo
             }
         },
         { merge: true }
@@ -167,7 +184,7 @@ export default (props) => {
             users: removeElement(users, uid),
             roomname: roomname,
             notiType: 3,
-            roomid: roomid
+            roomid: roomid,
         })
     }
 

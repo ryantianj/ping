@@ -17,6 +17,7 @@ export default (props) => {
     const uid = store.getState().user.user.uid;
     const display = store.getState().user.user.display;
     const users = store.getState().room.room.users;
+    const photo = store.getState().user.user.photo;
     const email = store.getState().user.user.email;
     const roomid = store.getState().room.room.roomid;
     const roomname = store.getState().room.room.roomname;
@@ -105,14 +106,32 @@ export default (props) => {
             createdAt: currTime,
             user: {
                 _id: uid,
-                email: email
+                email: email,
+                photo: photo
             },
             isImage: true,
         });
+
+        await globalNotiCollection.add({
+            title: roomname,
+            text: "Photo",
+            user: {
+                _id: uid,
+                display: display,
+                photo: photo
+            },
+            createdAt: currTime,
+            //Users to send to
+            users: removeElement(users, uid),
+            roomname: roomname,
+            notiType: 2,
+            roomid: roomid,
+        })
         await roomsCollection.doc(roomid).set({
                 latestMessage: {
                     text: 'Photo',
-                    createdAt: currTime
+                    createdAt: currTime,
+                    photo: photo
                 }
             },
             { merge: true }
@@ -139,7 +158,8 @@ export default (props) => {
             createdAt: currTime,
             user: {
                 _id: uid,
-                email: email
+                email: email,
+                photo: photo
             }
         });
 
@@ -147,7 +167,8 @@ export default (props) => {
         await roomsCollection.doc(roomid).set({
             latestMessage: {
                 text: text,
-                createdAt: currTime
+                createdAt: currTime,
+                photo: photo
             }
         },
         { merge: true }
@@ -157,15 +178,31 @@ export default (props) => {
             text: text,
             user: {
                 _id: uid,
-                display: display
+                display: display,
+                photo: photo
             },
             createdAt: currTime,
             //Users to send to
             users: removeElement(users, uid),
             roomname: roomname,
             notiType: 2,
-            roomid: roomid
+            roomid: roomid,
         })
+    }
+
+    const renderAvatar = (props) => {
+        const image = props.currentMessage.user.photo
+        if (image === undefined || image === '') {
+            return (
+                <Ionicons style = {styles.icon}
+                          name={'people-circle-outline'} color = {'white'} size={35}/>
+            )
+        } else {
+            return (
+                <Image source={{ uri: image }} style={{ width: 38, height: 38, borderRadius: 38/2, }} />
+            )
+        }
+
     }
 
     function renderBubble(props) {
@@ -286,6 +323,7 @@ export default (props) => {
                     alwaysShowSend
                     showUserAvatar
                     scrollToBottom
+                    renderAvatar = {renderAvatar}
                     renderBubble={renderBubble}
                     renderLoading={renderLoading}
                     renderSend={renderSend}
