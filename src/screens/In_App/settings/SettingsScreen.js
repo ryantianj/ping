@@ -9,7 +9,7 @@ import store from "../../../store"
 
 import styles from '../../../styling/screens/In_App/settings/SettingsScreen.styles'
 
-
+// NO LONGER IN USE
 export default (props) => {
     const [loading, isLoading] = useState(false);
 
