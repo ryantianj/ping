@@ -7,7 +7,7 @@ import Screen from "../../../components/Screen";
 import styles from '../../../styling/screens/In_App/app/HomeScreen.styles'
 import {usersCollection} from "../../../../api/firebase";
 import store from "../../../store";
-import {fillChannelRoomState, fillChatRoomState, fillGroupRoomState} from "../../../roomsSlice";
+import {fillUserState, fillChannelRoomState, fillChatRoomState, fillGroupRoomState} from "../../../roomsSlice";
 import { findAllBadges } from '../../../calculateBadges';
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -21,7 +21,9 @@ export default (props) => {
 
     useEffect(() => {
         
-        // findAllBadges()
+        // findAllBadges().then(() => {
+        //     fillUserState(store.getState().user.user.uid)
+        // });
 
         // channels noti
          const allNoti = usersCollection.doc(store.getState().user.user.uid)
