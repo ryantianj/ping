@@ -49,7 +49,7 @@ export default (props) => {
                 .then(() => {
                     alert("User Removed!")
                     isLoading(false);
-                    props.navigation.navigate('Settings')
+                    props.navigation.navigate('FriendList')
                 })
         }
     }

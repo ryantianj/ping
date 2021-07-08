@@ -14,7 +14,7 @@ export default StyleSheet.create({
         flex: 1,
     },
     textView : {
-        flex : 1,
+        // flex : 1,
         backgroundColor: colours.primary,
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -44,8 +44,6 @@ export default StyleSheet.create({
         width: 9 * windowWidth / 10,
         textAlignVertical: 'top',
     },
-
-
     flatList : {
         backgroundColor: colours.naviBar,
         marginTop: 20,
@@ -56,7 +54,6 @@ export default StyleSheet.create({
         width: 9 * windowWidth / 10
     },
     button : {
-        marginBottom: 10,
         paddingTop: 13,
         fontSize: 50,
         borderRadius: 10,
@@ -74,12 +71,27 @@ export default StyleSheet.create({
         textAlign: 'center',
         color: colours.logOutButton,
     },
+    scrollView: {
+        top: 0,
+        height: 670,
+        // bottom: 90
+    },
     scroll : {
         backgroundColor: colours.primary,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        flex: 1,
+    },
+    confirmProfile: {
+        position:'absolute',
+        bottom: 0,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colours.primary,
+        width: windowWidth,
+        height: 65,
+        flex: 1
     },
     loading : {
         position: 'absolute',

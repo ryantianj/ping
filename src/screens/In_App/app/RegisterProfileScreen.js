@@ -140,6 +140,7 @@ const RegisterProfileScreen = (props) => {
 
     return (
         <Screen style = {styles.container}>
+            <View style = {styles.scrollView}>
             <ScrollView contentContainerStyle = {styles.scroll}
         >
                 <Text style = {styles.headerText}>
@@ -236,6 +237,7 @@ const RegisterProfileScreen = (props) => {
                 </View>
 
             </ScrollView>
+            </View>
             <View style = {styles.confirmProfile}>
                 <TouchableOpacity
                     style = {styles.button}

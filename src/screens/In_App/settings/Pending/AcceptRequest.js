@@ -45,11 +45,12 @@ export default (props) => {
                 friends: firebase.firestore.FieldValue.arrayUnion(uid)
             })).then(() => dispatch(fillUserState(uid)))
             .then(() => {
-            alert(user.display + " is now your friend")
+            alert(user.display + " is now your friend!")
                 props.navigation.reset({
                     index: 0,
-                    routes: [{ name: 'Settings' }],
+                    routes: [{ name: 'Main' },{ name: 'Main' },{ name: 'Pending' }],
                 })
+                // props.navigation.navigate('Pending')
                 isLoading(false)
             })
 
@@ -78,12 +79,14 @@ export default (props) => {
                 pending: firebase.firestore.FieldValue.arrayRemove(user.uid)
             }).then(() => dispatch(fillUserState(uid)))
             .then(() => {
-                alert(user.display + " rejected")
+                alert(user.display + " was rejected :(")
                 props.navigation.reset({
                     index: 0,
-                    routes: [{ name: 'Settings' }],
+                    routes: [{ name: 'Main' },{ name: 'Main' },{ name: 'Pending' }],
                 })
-                isLoading(false)})
+                // props.navigation.navigate('Pending')
+                isLoading(false)
+            })
     }
 
     const renderItem = ( {item}) => {

@@ -20,6 +20,10 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
+    scrollView: {
+        top: 0,
+        height: 670,
+    },
     headerText : {
         paddingTop: 10 + statusBar,
         fontSize: 30,
@@ -205,5 +209,15 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         height: windowHeight / 10
+    },
+    updateProfile: {
+        position:'absolute',
+        bottom: 0,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colours.primary,
+        width: windowWidth,
+        height: 65,
     },
 })

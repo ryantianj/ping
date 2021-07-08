@@ -184,6 +184,7 @@ export default (props) => {
 
     return (
         <Screen style = {styles.container}>
+        <View style = {styles.scrollView}>
         <ScrollView contentContainerStyle = {styles.scroll}
         >
             <Text style = {styles.headerText}>
@@ -203,34 +204,6 @@ export default (props) => {
                 />
             </View>
 
-            <Text style = {styles.headerText1}>
-                Start Chat With: { selectedFriend.item.display }
-            </Text>
-
-            <TouchableOpacity
-                style = {styles.button}
-                onPress = {async () => {
-                    if (selectedFriend.item.display === "") {
-                        Alert.alert('Choose exactly one friend to proceed')
-                        return;
-                    }
-                    if (roomname === "") {
-                        Alert.alert('Please key in a roomname between 1-20 characters')
-                        return;
-                    }
-                    isLoading(true)
-                    CreateChatRoom()
-                    .then(() => {
-                        props.navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'ChatRoom' }],
-                        });
-                        isLoading(false)
-                    })
-                }}
-            >
-                <Text style = {styles.buttonText}>Create Chat Room</Text>
-            </TouchableOpacity>
            
             <Text style = {styles.headerText1}>
                 Select Friend
@@ -271,6 +244,38 @@ export default (props) => {
             <Text style = {styles.headerText2}></Text>
 
         </ScrollView>
+        </View>
+
+        <View style = {styles.createRoom}>
+            <Text style = {styles.headerText1}>
+                Start Chat With: { selectedFriend.item.display }
+            </Text>
+
+            <TouchableOpacity
+                style = {styles.button}
+                onPress = {async () => {
+                    if (selectedFriend.item.display === "") {
+                        Alert.alert('Choose exactly one friend to proceed')
+                        return;
+                    }
+                    if (roomname === "") {
+                        Alert.alert('Please key in a roomname between 1-20 characters')
+                        return;
+                    }
+                    isLoading(true)
+                    CreateChatRoom()
+                    .then(() => {
+                        props.navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'ChatRoom' }],
+                        });
+                        isLoading(false)
+                    })
+                }}
+            >
+            <Text style = {styles.buttonText}>Create Chat Room</Text>
+            </TouchableOpacity>        
+        </View>
 
             {loading && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />

@@ -142,6 +142,7 @@ const UpdateProfileScreen = (props) => {
 
     return (
         <Screen style = {styles.container}>
+            <View style = {styles.scrollView}>
             <ScrollView contentContainerStyle = {styles.scroll}
             >
             <Text style = {styles.headerText}>
@@ -234,6 +235,7 @@ const UpdateProfileScreen = (props) => {
                 style = {styles.flatList}/>
                 </View>
             </ScrollView>
+            </View>
             <View style = {styles.updateProfile}>
                 <TouchableOpacity
                     style = {styles.button}

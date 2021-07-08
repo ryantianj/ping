@@ -15,7 +15,7 @@ export default (props) => {
             <Pressable
                 style = {styles.helpPress}
                 onPress = {() => {
-                    props.navigation.navigate('Settings', {screen: 'Help'})
+                    props.navigation.navigate('Main', {screen: 'Help'})
                 }}>
                 <Help style = {styles.help}/>
             </Pressable>

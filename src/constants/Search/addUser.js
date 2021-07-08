@@ -33,10 +33,6 @@ export default (props) => {
         isLoading(true)
         // if private, send request
         if (user.visibility) {
-            if (store.getState().user.user.friends.includes(user.uid)) {
-                alert("User is already your friend!")
-                isLoading(false)
-            } else {
                 //private, send friend request
                 usersCollection
                     .doc(user.uid)
@@ -58,39 +54,33 @@ export default (props) => {
                     roomname: "",
                     notiType: 5,
                 })
-            }
 
         } else {
-            if (store.getState().user.user.friends.includes(user.uid)) {
-                alert("User is already your friend!")
+            //public, add to both users list
+            usersCollection
+                .doc(uid)
+                .update({
+                    friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
+                }).then(() => usersCollection
+                .doc(user.uid)
+                .update({
+                    friends: firebase.firestore.FieldValue.arrayUnion(uid)
+                }) ).then(() => dispatch(fillUserState(uid))).then(() => {
                 isLoading(false)
-            } else {
-                //public, add to both users list
-                usersCollection
-                    .doc(uid)
-                    .update({
-                        friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
-                    }).then(() => usersCollection
-                    .doc(user.uid)
-                    .update({
-                        friends: firebase.firestore.FieldValue.arrayUnion(uid)
-                    }) ).then(() => dispatch(fillUserState(uid))).then(() => {
-                    isLoading(false)
-                    alert("User Added!")})
-                globalNotiCollection.add({
-                    title: "Friend Request Public",
-                    text: store.getState().user.user.display,
-                    user: {
-                        _id: uid,
-                        display: store.getState().user.user.display
-                    },
-                    createdAt: new Date().getTime(),
-                    //Users to send to
-                    users: [user.uid],
-                    roomname: "",
-                    notiType: 7,
-                })
-            }
+                alert("User Added!")})
+            globalNotiCollection.add({
+                title: "Friend Request Public",
+                text: store.getState().user.user.display,
+                user: {
+                    _id: uid,
+                    display: store.getState().user.user.display
+                },
+                createdAt: new Date().getTime(),
+                //Users to send to
+                users: [user.uid],
+                roomname: "",
+                notiType: 7,
+            })
         }
     }
 
@@ -237,6 +227,14 @@ export default (props) => {
                 <View style = {styles.button}>
                     <Text style = {styles.buttonText}>
                         You are friends with this user!
+                    </Text>
+                </View>
+            )
+        } else if (store.getState().user.user.pending.includes(user.uid)) {
+            return (
+                <View style = {styles.button}>
+                    <Text style = {styles.buttonText}>
+                        Friend Request Sent
                     </Text>
                 </View>
             )
