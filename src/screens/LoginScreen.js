@@ -1,6 +1,6 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import {Text, TextInput, TouchableOpacity, View, Image, Pressable, Alert, ActivityIndicator} from "react-native";
-import firebase, {} from '../../api/firebase';
+import firebase, {usersCollection} from '../../api/firebase';
 import { fillUserState } from '../usersSlice';
 import { useDispatch } from 'react-redux';
 import store from "../store";

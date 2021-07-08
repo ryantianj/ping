@@ -6,7 +6,7 @@ import Screen from "../../../../components/Screen";
 import store from "../../../../store"
 
 import styles from "../../../../styling/screens/In_App/settings/Pending/AcceptRequest.styles"
-import firebase, {globalNotiCollection} from "../../../../../api/firebase";
+import firebase, {usersCollection, globalNotiCollection} from "../../../../../api/firebase";
 import {fillUserState} from "../../../../usersSlice";
 
 export default (props) => {
@@ -28,30 +28,35 @@ export default (props) => {
     const acceptUser = () => {
         isAccept(true);
         isLoading(true)
-        firebase.firestore()
-            .collection('Users')
+        usersCollection
             .doc(uid)
             .update({
                 pending: firebase.firestore.FieldValue.arrayRemove(user.uid)
-            }).then(() => firebase.firestore()
-            .collection('Users')
+            })
+        .then(() => usersCollection
+            .doc(user.uid)
+            .update({
+                requested: firebase.firestore.FieldValue.arrayRemove(uid)
+            }))
+        .then(() => usersCollection
             .doc(uid)
             .update({
                 friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
-            })).then(() => firebase.firestore()
-            .collection('Users')
+            }))
+        .then(() => usersCollection
             .doc(user.uid)
             .update({
                 friends: firebase.firestore.FieldValue.arrayUnion(uid)
-            })).then(() => dispatch(fillUserState(uid)))
-            .then(() => {
+            }))
+        .then(async () => await dispatch(fillUserState(uid)))
+        .then(() => {
             alert(user.display + " is now your friend!")
-                props.navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Main' },{ name: 'Main' },{ name: 'Pending' }],
-                })
+            props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'Pending' }],
+            })
                 // props.navigation.navigate('Pending')
-                isLoading(false)
+            isLoading(false)
             })
 
         globalNotiCollection.add({
@@ -72,21 +77,26 @@ export default (props) => {
     const rejectUser = () => {
         isAccept(false);
         isLoading(true);
-        firebase.firestore()
-            .collection('Users')
+        usersCollection
             .doc(uid)
             .update({
                 pending: firebase.firestore.FieldValue.arrayRemove(user.uid)
-            }).then(() => dispatch(fillUserState(uid)))
-            .then(() => {
-                alert(user.display + " was rejected :(")
-                props.navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Main' },{ name: 'Main' },{ name: 'Pending' }],
-                })
-                // props.navigation.navigate('Pending')
-                isLoading(false)
             })
+        .then(() => usersCollection
+            .doc(user.uid)
+            .update({
+                requested: firebase.firestore.FieldValue.arrayRemove(uid)
+            }))
+        .then(async () => await dispatch(fillUserState(uid)))
+        .then(() => {
+            alert(user.display + " was rejected :(")
+            props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'Pending' }],
+            })
+            // props.navigation.navigate('Pending')
+            isLoading(false)
+        })
     }
 
     const renderItem = ( {item}) => {

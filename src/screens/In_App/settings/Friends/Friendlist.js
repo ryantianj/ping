@@ -12,7 +12,6 @@ export default (props) => {
 
     const DATA = store.getState().user.user.friends;
 
-
     useEffect(() => {
         const fetchFriends = usersCollection.where('uid','in',DATA)
             .onSnapshot(snapshot => {

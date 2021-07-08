@@ -17,12 +17,13 @@ export default (props) => {
     const [user, setUser] = useState(props.route.params.user)
     const [loading, isLoading] = useState(false);
     const [image, setImage] = useState(props.route.params.user.photo)
+    const [sentReq, setsentReq] = useState(false);
 
     const DATA = [
         user.display,
         user.bio,
         user.interests.join(", "),
-        user.badges
+        user.badges,
     ]
 
     const dispatch = useDispatch();
@@ -38,8 +39,17 @@ export default (props) => {
                     .doc(user.uid)
                     .update({
                         pending: firebase.firestore.FieldValue.arrayUnion(uid)
-                    }).then(() => {
+                    })
+                    .then(() => { usersCollection
+                        .doc(uid)
+                        .update({
+                            requested: firebase.firestore.FieldValue.arrayUnion(user.uid)
+                        })
+                    })
+                    .then(async () => {
+                        await dispatch(fillUserState(uid));
                         isLoading(false)
+                        setsentReq(true)
                         alert("Friend Request Sent!")})
                  globalNotiCollection.add({
                     title: "Friend Request",
@@ -54,7 +64,6 @@ export default (props) => {
                     roomname: "",
                     notiType: 5,
                 })
-
         } else {
             //public, add to both users list
             usersCollection
@@ -170,7 +179,7 @@ export default (props) => {
                         <Text style = {styles.selectedText}>This Account is Private</Text>
                     </View>
                 )
-            } else {
+            } else if (item === DATA[3]) {
                 return (
                     <View
                         style = {styles.textInputBio}
@@ -208,7 +217,7 @@ export default (props) => {
                         <Text style = {styles.selectedText}>{item}</Text>
                     </View>
                 )
-            } else {
+            } else if (item === DATA[3]) {
                 return (
                     <View
                         style = {styles.textInputBio}
@@ -230,7 +239,7 @@ export default (props) => {
                     </Text>
                 </View>
             )
-        } else if (store.getState().user.user.pending.includes(user.uid)) {
+        } else if (sentReq || store.getState().user.user.requested.includes(user.uid)) {
             return (
                 <View style = {styles.button}>
                     <Text style = {styles.buttonText}>
