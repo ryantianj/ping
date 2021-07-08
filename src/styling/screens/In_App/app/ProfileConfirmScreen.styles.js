@@ -73,7 +73,7 @@ export default StyleSheet.create({
     },
     scrollView: {
         top: 0,
-        height: 670,
+        height: 0.85 * windowHeight
         // bottom: 90
     },
     scroll : {

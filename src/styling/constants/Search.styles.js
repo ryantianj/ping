@@ -88,7 +88,7 @@ export default StyleSheet.create({
         fontSize: 20,
         textAlign: 'left',
         left: 5,
-        paddingLeft: 25,
+        paddingLeft: 0.04 * windowWidth,
         width: 9 * windowWidth / 10,
     },
     searchPress: {

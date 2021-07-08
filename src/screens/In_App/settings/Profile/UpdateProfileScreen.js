@@ -226,13 +226,13 @@ const UpdateProfileScreen = (props) => {
                 Update Interests
             </Text>
                 <View style = {styles.flatListView}>
-            <FlatList
-                nestedScrollEnabled
-                data={interests}
-                renderItem={renderItem}
-                extraData={selectedId}
-                keyExtractor={item => item}
-                style = {styles.flatList}/>
+                <FlatList
+                    nestedScrollEnabled
+                    data={interests}
+                    renderItem={renderItem}
+                    extraData={selectedId}
+                    keyExtractor={item => item}
+                    style = {styles.flatList}/>
                 </View>
             </ScrollView>
             </View>
