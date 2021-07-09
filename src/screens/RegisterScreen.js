@@ -38,6 +38,7 @@ export default (props) => {
                 visibility: true,
                 friends: [],
                 pending: [],
+                requested: [],
                 display: "",
                 search: "",
                 searchHistory: [],
