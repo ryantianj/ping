@@ -73,6 +73,7 @@ export default (prop) => {
     }
 
     const uid = store.getState().user.user.uid;
+    const photo = store.getState().user.user.photo;
     const roomid = store.getState().room.room.roomid;
     const display = store.getState().user.user.display;
     const roomname = store.getState().room.room.roomname;
@@ -117,7 +118,8 @@ export default (prop) => {
              createdAt: new Date().getTime(),
              user: {
                  _id: uid,
-                 display: display
+                 display: display,
+                 photo: photo,
              },
              notiType: 0,
              notiId: notiId,

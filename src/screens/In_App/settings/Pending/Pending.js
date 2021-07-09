@@ -12,33 +12,35 @@ import styles from "../../../../styling/screens/In_App/settings/Pending/Pending.
 
 export default (props) => {
     const [user, setUser] = useState([]);
-    const [count, setCount] = useState(0);
+    const [len, setLen] = useState(0);
 
     const dispatch = useDispatch()
-    const DATA = store.getState().user.user.pending;
+    const uid = store.getState().user.user.uid;
 
-    const fetchPending = () => {
-        usersCollection
-            .where('uid','in',DATA)
-            .get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                addUser(doc.data())
-            });
-        })
-    }
     useEffect(() => {
-        dispatch(fillUserState(store.getState().user.user.uid))
-    },[count])
+        const fetch = async (pending) => {
+            const temp = [];
 
+            for (const user in pending) {
+                const data = await usersCollection.doc(pending[user]).get()
+                const userData = data.data()
+                temp.push(userData)
+            }
+            setUser(temp)
+            setLen(temp.length)
+        }
+        const fetchPending = usersCollection.doc(uid)
+            .onSnapshot(snapshot => {
+                const firebase = snapshot.data()
+                const pending = firebase.pending
+                fetch(pending)
 
-    if (user.length === 0 && DATA.length > 0) {
-        fetchPending()
-    }
+            })
+        return () => {
+            fetchPending()
+        }
+    }, [])
 
-    const addUser = (item) => {
-        user.push(item)
-        setCount(count + 1)
-    }
 
     const renderItem = ({item}) => {
         return (
@@ -46,7 +48,7 @@ export default (props) => {
                 style = {styles.searchPress}
                 onPress = {() => props.navigation.navigate("AcceptRequest", {
                     user: item,
-                    count: DATA.length})}>
+                    count: len})}>
                 <Text style = {styles.searchText}>
                     {item.display}
                 </Text>
@@ -59,7 +61,7 @@ export default (props) => {
         <Screen style = {styles.container}>
 
             <Text style = {styles.profileText}>
-                Pending Requests ({DATA.length})
+                Pending Requests ({len})
             </Text>
             <FlatList
                 data={user}

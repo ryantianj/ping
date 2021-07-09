@@ -23,7 +23,7 @@ const Drawer = createDrawerNavigator();
 export default (props) => {
     const [loading, isLoading] = useState(false);
 
-    
+
     const backButton = () => {
         return (
             <TouchableOpacity style = {styles.icon}

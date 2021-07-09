@@ -169,6 +169,21 @@ export default (prop) => {
         };
     }, [])
 
+    const renderAvatar = (props) => {
+        const image = props.user.photo
+        if (image === undefined || image === '') {
+            return (
+                <Ionicons style = {styles.icon}
+                          name={'people-circle-outline'} color = {'white'} size={35}/>
+            )
+        } else {
+            return (
+                <Image source={{ uri: image }} style={{ width: 38, height: 38, borderRadius: 38/2, }} />
+            )
+        }
+
+    }
+
     const renderItem = ({item}) => {
         let trash;
         if (item.user._id === user) {
@@ -231,15 +246,19 @@ export default (prop) => {
         return (
             <View style = {styles.post}>
                 <View style = {styles.userTrash}>
-                    <Text style = {styles.user}>
-                        {item.user.display} posted: 
-                        {item.createdAt === Number.MAX_VALUE || item.edited ? "\n" : ''}
-                        <Text style={{fontStyle: 'italic', fontSize: 17}}>
-                            {item.createdAt === Number.MAX_VALUE && item.edited ? '(pinned and edited) ' : ''}
-                            {item.createdAt === Number.MAX_VALUE && !item.edited ? '(pinned)' : ''}
-                            {item.edited && item.createdAt !== Number.MAX_VALUE ? '(edited)' : ''}
+                    <View>
+                        {renderAvatar(item)}
+                        <Text style = {styles.user}>
+                            {item.user.display} posted:
+                            {item.createdAt === Number.MAX_VALUE || item.edited ? "\n" : ''}
+                            <Text style={{fontStyle: 'italic', fontSize: 17}}>
+                                {item.createdAt === Number.MAX_VALUE && item.edited ? '(pinned and edited) ' : ''}
+                                {item.createdAt === Number.MAX_VALUE && !item.edited ? '(pinned)' : ''}
+                                {item.edited && item.createdAt !== Number.MAX_VALUE ? '(edited)' : ''}
+                            </Text>
                         </Text>
-                    </Text>
+                    </View>
+
                     {pin}
                     {trash}
                     {edit}

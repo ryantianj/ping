@@ -9,19 +9,29 @@ import styles from "../../../../styling/screens/In_App/settings/Friends/FriendLi
 
 export default (props) => {
     const [user, setUser] = useState([]);
+    const [len, setLen] = useState(0);
 
-    const DATA = store.getState().user.user.friends;
+    const uid = store.getState().user.user.uid;
 
     useEffect(() => {
-        const fetchFriends = usersCollection.where('uid','in',DATA)
-            .onSnapshot(snapshot => {
-           const friends = snapshot.docs.map(doc => {
-               const firebase = doc.data()
-               return firebase;
-           })
-            setUser(friends)
+        const fetch = async (friends) => {
+            const temp = [];
 
-        })
+            for (const user in friends) {
+                const data = await usersCollection.doc(friends[user]).get()
+                const userData = data.data()
+                temp.push(userData)
+            }
+            setUser(temp)
+            setLen(temp.length)
+        }
+        const fetchFriends = usersCollection.doc(uid)
+            .onSnapshot(snapshot => {
+                const firebase = snapshot.data()
+                const friends = firebase.friends
+                fetch(friends)
+
+            })
         return () => {
             fetchFriends()
         }
@@ -44,7 +54,7 @@ export default (props) => {
         <Screen style = {styles.container}>
 
             <Text style = {styles.profileText}>
-                Your Friends ({DATA.length})
+                Your Friends ({len})
             </Text>
             <FlatList
                 data={user}
