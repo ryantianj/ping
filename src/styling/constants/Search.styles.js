@@ -76,7 +76,7 @@ export default StyleSheet.create({
         marginBottom: 20,
         borderRadius: 10,
         fontSize: 17,
-        width: 10 * windowWidth / 10,
+        width: windowWidth,
     },
     searchText : {
         fontSize: 20,
@@ -88,7 +88,7 @@ export default StyleSheet.create({
         fontSize: 20,
         textAlign: 'left',
         left: 5,
-        paddingLeft: 0.04 * windowWidth,
+        paddingLeft: 0.05 * windowWidth,
         width: 9 * windowWidth / 10,
     },
     searchPress: {

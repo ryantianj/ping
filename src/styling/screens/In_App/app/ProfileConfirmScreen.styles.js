@@ -3,6 +3,7 @@ import {Dimensions, StatusBar, StyleSheet} from "react-native";
 import colours from "../../../../constants/colours"
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const statusBar = StatusBar.currentHeight;
 
 export default StyleSheet.create({
@@ -74,7 +75,6 @@ export default StyleSheet.create({
     scrollView: {
         top: 0,
         height: 0.85 * windowHeight
-        // bottom: 90
     },
     scroll : {
         backgroundColor: colours.primary,

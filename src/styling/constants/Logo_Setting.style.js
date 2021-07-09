@@ -9,17 +9,16 @@ export default StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
         width: windowWidth,
-        height:80
+        height: 80
     },
     image :{
         left: 10,
         width: 100,
         height: 80,
-        // flex: 0
     },
     helpPress : {
         top: 10,
-        left: 70,
+        left: 0.2 * windowWidth,
         width: 55,
         height: 55,
     },
