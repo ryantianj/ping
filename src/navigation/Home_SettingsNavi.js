@@ -72,7 +72,7 @@ export default (props) => {
                 </View>
                 <View>
                     <DrawerItem
-                        label="Log Out"
+                        label="                             Log Out"
                         onPress={() => handleLogout()}
                         style = {styles.logout}
                         labelStyle = {styles.logoutText}/>
@@ -101,10 +101,6 @@ export default (props) => {
                     act
                     />
                 <Drawer.Screen
-                    name = "Security"
-                    component = {SettingsSecurity}
-                    />
-                <Drawer.Screen
                     name = "Profile"
                     component = {SettingsProfile}/>
                 <Drawer.Screen
@@ -113,6 +109,9 @@ export default (props) => {
                 <Drawer.Screen
                     name = "Pending"
                     component = {SettingsPending}/>
+                <Drawer.Screen
+                    name = "Security"
+                    component = {SettingsSecurity}/> 
                 <Drawer.Screen
                     name = "Help"
                     component = {SettingsHelp}/>

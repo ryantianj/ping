@@ -145,8 +145,8 @@ const ProfileConfirmScreen = (props) => {
     return (
 
         <Screen style = {styles.container}>
-            <ScrollView contentContainerStyle = {styles.scroll}
-            >
+            <View style = {styles.scrollView}>
+            <ScrollView contentContainerStyle = {styles.scroll}>
                 <View style = {styles.textView}>
                     <Text style = {styles.headerText}>
                         Your Bio:
@@ -178,34 +178,35 @@ const ProfileConfirmScreen = (props) => {
                         {selectInterests.join(", ")}
                     </Text>
                 </View>
+            </ScrollView>
+            </View>
+            <View style = {styles.confirmProfile}>
+                <TouchableOpacity
+                    style = {styles.button}
+                    onPress = {async () => {
+                        await submitProfileToDatabase();
+                        dispatch(fillUserState(uid)).then(() =>
+                        {
+                            isLoading(false);
+                            if (props.route.params.update) {
+                                Alert.alert("Profile", "Profile Updated")
+                                props.navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'Main' }],
+                                });
+                            } else {
+                                props.navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'Main' }],
+                                });
+                            }
+                        });
+                    }}
+                >
+                    <Text style = {styles.buttonText}>Confirm Changes</Text>
+                </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity
-                style = {styles.button}
-                onPress = {async () => {
-                    await submitProfileToDatabase();
-                    dispatch(fillUserState(uid)).then(() =>
-                    {
-                        isLoading(false);
-                        if (props.route.params.update) {
-                            Alert.alert("Profile", "Profile Updated")
-                            props.navigation.reset({
-                                index: 0,
-                                routes: [{ name: 'Settings' }],
-                            });
-                        } else {
-                            props.navigation.reset({
-                                index: 0,
-                                routes: [{ name: 'Main' }],
-                            });
-                        }
-                    });
-
-
-                }}
-            >
-                <Text style = {styles.buttonText}>Confirm</Text>
-            </TouchableOpacity>
-        </ScrollView>
             {loading && props.route.params.update && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />
                 <Text>

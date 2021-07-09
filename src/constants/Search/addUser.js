@@ -17,12 +17,13 @@ export default (props) => {
     const [user, setUser] = useState(props.route.params.user)
     const [loading, isLoading] = useState(false);
     const [image, setImage] = useState(props.route.params.user.photo)
+    const [sentReq, setsentReq] = useState(false);
 
     const DATA = [
         user.display,
         user.bio,
         user.interests.join(", "),
-        user.badges
+        user.badges,
     ]
 
     const dispatch = useDispatch();
@@ -33,17 +34,22 @@ export default (props) => {
         isLoading(true)
         // if private, send request
         if (user.visibility) {
-            if (store.getState().user.user.friends.includes(user.uid)) {
-                alert("User is already your friend!")
-                isLoading(false)
-            } else {
                 //private, send friend request
                 usersCollection
                     .doc(user.uid)
                     .update({
                         pending: firebase.firestore.FieldValue.arrayUnion(uid)
-                    }).then(() => {
+                    })
+                    .then(() => { usersCollection
+                        .doc(uid)
+                        .update({
+                            requested: firebase.firestore.FieldValue.arrayUnion(user.uid)
+                        })
+                    })
+                    .then(async () => {
+                        await dispatch(fillUserState(uid));
                         isLoading(false)
+                        setsentReq(true)
                         alert("Friend Request Sent!")})
                  globalNotiCollection.add({
                     title: "Friend Request",
@@ -58,39 +64,32 @@ export default (props) => {
                     roomname: "",
                     notiType: 5,
                 })
-            }
-
         } else {
-            if (store.getState().user.user.friends.includes(user.uid)) {
-                alert("User is already your friend!")
+            //public, add to both users list
+            usersCollection
+                .doc(uid)
+                .update({
+                    friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
+                }).then(() => usersCollection
+                .doc(user.uid)
+                .update({
+                    friends: firebase.firestore.FieldValue.arrayUnion(uid)
+                }) ).then(() => dispatch(fillUserState(uid))).then(() => {
                 isLoading(false)
-            } else {
-                //public, add to both users list
-                usersCollection
-                    .doc(uid)
-                    .update({
-                        friends: firebase.firestore.FieldValue.arrayUnion(user.uid)
-                    }).then(() => usersCollection
-                    .doc(user.uid)
-                    .update({
-                        friends: firebase.firestore.FieldValue.arrayUnion(uid)
-                    }) ).then(() => dispatch(fillUserState(uid))).then(() => {
-                    isLoading(false)
-                    alert("User Added!")})
-                globalNotiCollection.add({
-                    title: "Friend Request Public",
-                    text: store.getState().user.user.display,
-                    user: {
-                        _id: uid,
-                        display: store.getState().user.user.display
-                    },
-                    createdAt: new Date().getTime(),
-                    //Users to send to
-                    users: [user.uid],
-                    roomname: "",
-                    notiType: 7,
-                })
-            }
+                alert("User Added!")})
+            globalNotiCollection.add({
+                title: "Friend Request Public",
+                text: store.getState().user.user.display,
+                user: {
+                    _id: uid,
+                    display: store.getState().user.user.display
+                },
+                createdAt: new Date().getTime(),
+                //Users to send to
+                users: [user.uid],
+                roomname: "",
+                notiType: 7,
+            })
         }
     }
 
@@ -180,7 +179,7 @@ export default (props) => {
                         <Text style = {styles.selectedText}>This Account is Private</Text>
                     </View>
                 )
-            } else {
+            } else if (item === DATA[3]) {
                 return (
                     <View
                         style = {styles.textInputBio}
@@ -218,7 +217,7 @@ export default (props) => {
                         <Text style = {styles.selectedText}>{item}</Text>
                     </View>
                 )
-            } else {
+            } else if (item === DATA[3]) {
                 return (
                     <View
                         style = {styles.textInputBio}
@@ -237,6 +236,14 @@ export default (props) => {
                 <View style = {styles.button}>
                     <Text style = {styles.buttonText}>
                         You are friends with this user!
+                    </Text>
+                </View>
+            )
+        } else if (sentReq || store.getState().user.user.requested.includes(user.uid)) {
+            return (
+                <View style = {styles.button}>
+                    <Text style = {styles.buttonText}>
+                        Friend Request Sent
                     </Text>
                 </View>
             )

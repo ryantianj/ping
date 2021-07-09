@@ -32,7 +32,7 @@ export default (props) => {
                             user.user.sendEmailVerification().then(() => {
                                 console.log('mail sent')
                                 Alert.alert('Your account email has been changed! Please check your NEW associated email for an account verification link')
-                                props.navigation.navigate('Settings_Screen');
+                                props.navigation.navigate('Home');
                             })
                         })
                     } catch (error) { // catching errors for updateEmail

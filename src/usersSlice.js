@@ -19,6 +19,7 @@ const initialState = [
         visibility: true,
         display: '',
         photo: '',
+        requested: [],
     }
 ]
 
@@ -50,6 +51,7 @@ const usersSlice = createSlice({
                         visibility: userData.visibility,
                         display: userData.display,
                         photo: userData.photo,
+                        requested: userData.requested
                 }
             }
         }

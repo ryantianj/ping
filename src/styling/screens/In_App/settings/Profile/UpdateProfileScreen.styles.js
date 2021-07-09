@@ -20,6 +20,10 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
+    scrollView: {
+        top: 0,
+        height: 0.85 * windowHeight
+    },
     headerText : {
         paddingTop: statusBar,
         fontSize: 30,
@@ -104,7 +108,7 @@ export default StyleSheet.create({
         borderRadius: 10,
         fontSize: 17,
         width: 8 * windowWidth / 10,
-        flex: 1
+        flex: 1,
     },
     flatListView: {
         width: 8 * windowWidth / 10,

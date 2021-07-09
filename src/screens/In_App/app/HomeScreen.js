@@ -217,7 +217,7 @@ export default (props) => {
                 return (
                     <TouchableOpacity
                         style = {styles.chat}
-                        onPress = {() => props.navigation.navigate('Settings', {screen : 'Profile'})}>
+                        onPress = {() => props.navigation.navigate('Main', {screen : 'Profile'})}>
                         <View>
                             <Text style = {styles.chatTitle}>
                                 {item.title}
@@ -240,7 +240,7 @@ export default (props) => {
                 return (
                     <TouchableOpacity
                         style = {styles.request}
-                        onPress = {() => props.navigation.navigate("Settings", {screen: 'Pending'})}>
+                        onPress = {() => props.navigation.navigate("Main", {screen: 'Pending'})}>
                         <View>
                             <Text style = {styles.requestTitle}>
                                 Friend Request
@@ -263,7 +263,7 @@ export default (props) => {
                 return (
                     <TouchableOpacity
                         style = {styles.request}
-                        onPress = {() => props.navigation.navigate("Settings", {screen: 'FriendList'})}>
+                        onPress = {() => props.navigation.navigate("Main", {screen: 'Friends'})}>
                         <View>
                             <Text style = {styles.requestTitle}>
                                 Friend Request
@@ -286,7 +286,7 @@ export default (props) => {
                 return (
                     <TouchableOpacity
                         style = {styles.request}
-                        onPress = {() => props.navigation.navigate("Settings", {screen: 'FriendList'})}>
+                        onPress = {() => props.navigation.navigate("Main", {screen: 'Friends'})}>
                         <View>
                             <Text style = {styles.requestTitle}>
                                 Friend Request

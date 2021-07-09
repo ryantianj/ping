@@ -177,7 +177,6 @@ export default (props) => {
                 >
                     <Text style = {styles.buttonText}>Create Channel</Text>
                 </TouchableOpacity>
-
             </ScrollView>
 
             {loading && <View style = {styles.loading}>

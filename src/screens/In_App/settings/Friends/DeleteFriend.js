@@ -6,7 +6,7 @@ import Screen from "../../../../components/Screen";
 import store from "../../../../store"
 
 import styles from "../../../../styling/screens/In_App/settings/Friends/DeleteFriend.styles"
-import firebase from "../../../../../api/firebase";
+import firebase, {usersCollection} from "../../../../../api/firebase";
 import {fillUserState} from "../../../../usersSlice";
 import {DataTable} from "react-native-paper";
 import badgesage from "../../../../../assets/badgesage.png";
@@ -33,23 +33,40 @@ export default (props) => {
     const removeFriend = () => {
         isLoading(true);
         if (store.getState().user.user.friends.includes(user.uid)) {
-            firebase.firestore()
-                .collection('Users')
+            usersCollection
                 .doc(uid)
                 .update({
                     friends: firebase.firestore.FieldValue.arrayRemove(user.uid)
-                }).then(() => firebase.firestore()
-                .collection('Users')
-                .doc(user.uid)
-                .update({
-                    friends: firebase.firestore.FieldValue.arrayRemove(uid)
-                })).then(() => {
-                    dispatch(fillUserState(uid))
+                })
+                .then(() => {
+                    usersCollection
+                    .doc(uid)
+                    .update({
+                        requested: firebase.firestore.FieldValue.arrayRemove(user.uid)
+                    })
+                })
+                .then(() => {
+                    usersCollection
+                    .doc(user.uid)
+                    .update({
+                        requested: firebase.firestore.FieldValue.arrayRemove(uid)
+                    })
+                })
+                .then(() => usersCollection
+                    .doc(user.uid)
+                    .update({
+                        friends: firebase.firestore.FieldValue.arrayRemove(uid)
+                    }))
+                .then(async () => {
+                    await dispatch(fillUserState(uid))
                     })
                 .then(() => {
                     alert("User Removed!")
                     isLoading(false);
-                    props.navigation.navigate('Settings')
+                    props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'FriendList' }],
+                    })
                 })
         }
     }

@@ -19,6 +19,10 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
+    scrollView: {
+        top: 0,
+        height: 0.83 * windowHeight
+    },
     headerText : {
         paddingTop: 10 + statusBar,
         fontSize: 28,
@@ -137,6 +141,16 @@ export default StyleSheet.create({
     selectedText : {
         fontSize: 20,
         color: 'white'
+    },
+    createRoom: {
+        position:'absolute',
+        bottom: 0,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colours.primary,
+        width: windowWidth,
+        height: 120,
     },
     loading : {
         position: 'absolute',

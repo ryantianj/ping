@@ -142,6 +142,7 @@ const UpdateProfileScreen = (props) => {
 
     return (
         <Screen style = {styles.container}>
+            <View style = {styles.scrollView}>
             <ScrollView contentContainerStyle = {styles.scroll}
             >
             <Text style = {styles.headerText}>
@@ -225,15 +226,16 @@ const UpdateProfileScreen = (props) => {
                 Update Interests
             </Text>
                 <View style = {styles.flatListView}>
-            <FlatList
-                nestedScrollEnabled
-                data={interests}
-                renderItem={renderItem}
-                extraData={selectedId}
-                keyExtractor={item => item}
-                style = {styles.flatList}/>
+                <FlatList
+                    nestedScrollEnabled
+                    data={interests}
+                    renderItem={renderItem}
+                    extraData={selectedId}
+                    keyExtractor={item => item}
+                    style = {styles.flatList}/>
                 </View>
             </ScrollView>
+            </View>
             <View style = {styles.updateProfile}>
                 <TouchableOpacity
                     style = {styles.button}

@@ -25,9 +25,11 @@ export default StyleSheet.create({
         backgroundColor: colours.logOutButton,
         borderRadius: 10,
         bottom: 10,
+
     },
     logoutText: {
         color: 'white',
+        // textAlign: 'center',
     },
     scrollView: {
         flex: 1,
