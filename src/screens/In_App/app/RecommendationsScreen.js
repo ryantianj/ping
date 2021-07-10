@@ -28,8 +28,8 @@ export default (props) => {
         let recs1;
         let recs2;
 
-        channelsCollection.where('roomid', 'not-in', omitRecs).get()
-        .then(snapshot => {
+        channelsCollection.where('roomid', 'not-in', omitRecs)
+        .onSnapshot(snapshot => {
             recs = snapshot.docs.map(doc => {
                 const firebase = doc.data()
                 const data = {
@@ -40,20 +40,17 @@ export default (props) => {
                 }
                 return data;
             })
-        }).then(() => {
             // data is an array of objects
             // Remove channels that user is already in
             recs1 = recs.filter(data => {
                 return !data.users.includes(uid)
             })
-        }).then(() => {
             // Sort channels by number of similar interests w user 
             recs2 = recs1.sort((data1, data2) => {
                 const data1topicscount = data1.topics.filter(topic => userInterests.includes(topic)).length;
                 const data2topicscount = data2.topics.filter(topic => userInterests.includes(topic)).length;
                 return data2topicscount - data1topicscount;
             })
-        }).then(() => {
             setRecs(recs2)
             setCount(count + 1)
         })
