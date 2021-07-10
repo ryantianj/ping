@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Text, TouchableOpacity, View, ActivityIndicator, Alert, Image} from "react-native";
-import { GiftedChat, Bubble, Send, SystemMessage, Avatar } from 'react-web-gifted-chat';
-// import {GiftedChat, Bubble, Send, SystemMessage, Avatar} from 'react-native-gifted-chat';
+// import { GiftedChat, Bubble, Send, SystemMessage, Avatar } from 'react-web-gifted-chat';
+import {GiftedChat, Bubble, Send, SystemMessage, Avatar} from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
 
 import firebase, {globalNotiCollection, roomsCollection} from '../../../../../api/firebase';
