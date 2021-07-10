@@ -25,6 +25,16 @@ const LoginScreen = (props) => {
 
     let uid;
 
+    // useEffect(() => {
+    //     usersCollection.get().then(function(querySnapshot) {
+    //         querySnapshot.forEach(function(doc) {
+    //             doc.ref.update({
+    //                 omitRecs: ['a']
+    //             });
+    //         });
+    //     });
+    // },[])
+
     const handleLogin = async () => {
         if (email && password) {
             try {

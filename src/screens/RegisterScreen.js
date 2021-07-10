@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
 import {ActivityIndicator, Alert, Image, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
-import firebase, {globalNotiCollection, usersCollection} from '../../api/firebase';
+import firebase, { usersCollection} from '../../api/firebase';
 import { fillUserState } from '../usersSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Screen from "../components/Screen";
 import styles from "../styling/screens/RegisterScreen.styles"
@@ -44,6 +44,7 @@ export default (props) => {
                 searchHistory: [],
                 channels: [],
                 photo: "",
+                omitRecs: []
             }).then(() => {
                 console.log(data)
             }).catch(e => {

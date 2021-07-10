@@ -26,7 +26,7 @@ export default (props) => {
         // });
 
         // channels noti
-         const allNoti = usersCollection.doc(store.getState().user.user.uid)
+        const allNoti = usersCollection.doc(store.getState().user.user.uid)
              .collection('noti').orderBy('createdAt', 'desc')
              .onSnapshot(snapshot => {
                  const notis = snapshot.docs.map(doc => {
