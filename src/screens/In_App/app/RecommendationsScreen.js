@@ -118,13 +118,13 @@ export default (props) => {
                     keyExtractor={item => item._id}
                     contentContainerStyle={{ paddingBottom: 20 }}/>
             </View>
-            <TouchableOpacity style = {styles.trash}
+            {/* <TouchableOpacity style = {styles.trash}
                               hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
                               onPress = {()=> console.log(recs)}
             >
                 <Ionicons style = {styles.iconTrash}
                           name={'trash-outline'} size={25}  />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
                 {recs.length === 0 && <View style = {styles.container}>
                     <Text>
