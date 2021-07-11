@@ -7,7 +7,7 @@ import Screen from "../../../components/Screen";
 import styles from '../../../styling/screens/In_App/app/RecommendationsScreen.styles'
 import firebase, {usersCollection, channelsCollection} from "../../../../api/firebase";
 import store from "../../../store";
-import {fillUserState, fillChannelRoomState, fillChatRoomState, fillGroupRoomState} from "../../../roomsSlice";
+import {fillChannelRoomState, fillChatRoomState, fillGroupRoomState} from "../../../roomsSlice";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default (props) => {
@@ -27,33 +27,39 @@ export default (props) => {
         let recs;
         let recs1;
         let recs2;
+        const userListener = usersCollection.doc(uid)
+            .onSnapshot(snapshot => {
+                omitRecs = snapshot.data().omitRecs
+                channelsCollection.where('roomid', 'not-in', omitRecs)
+                    .onSnapshot(snapshot => {
+                        recs = snapshot.docs.map(doc => {
+                            const firebase = doc.data()
+                            const data = {
+                                topics: firebase.topics,
+                                roomname: firebase.roomname,
+                                roomid: firebase.roomid,
+                                users: firebase.users,
+                            }
+                            return data;
+                        })
+                        // data is an array of objects
+                        // Remove channels that user is already in
+                        recs1 = recs.filter(data => {
+                            return !data.users.includes(uid)
+                        })
+                        // Sort channels by number of similar interests w user
+                        recs2 = recs1.sort((data1, data2) => {
+                            const data1topicscount = data1.topics.filter(topic => userInterests.includes(topic)).length;
+                            const data2topicscount = data2.topics.filter(topic => userInterests.includes(topic)).length;
+                            return data2topicscount - data1topicscount;
+                        })
+                        setRecs(recs2)
+                        setCount(count + 1)
+                    })
 
-        channelsCollection.where('roomid', 'not-in', omitRecs)
-        .onSnapshot(snapshot => {
-            recs = snapshot.docs.map(doc => {
-                const firebase = doc.data()
-                const data = {
-                    topics: firebase.topics,
-                    roomname: firebase.roomname,
-                    roomid: firebase.roomid,
-                    users: firebase.users,
-                }
-                return data;
-            })
-            // data is an array of objects
-            // Remove channels that user is already in
-            recs1 = recs.filter(data => {
-                return !data.users.includes(uid)
-            })
-            // Sort channels by number of similar interests w user 
-            recs2 = recs1.sort((data1, data2) => {
-                const data1topicscount = data1.topics.filter(topic => userInterests.includes(topic)).length;
-                const data2topicscount = data2.topics.filter(topic => userInterests.includes(topic)).length;
-                return data2topicscount - data1topicscount;
-            })
-            setRecs(recs2)
-            setCount(count + 1)
         })
+
+        return () => userListener()
     }, [])
 
     const deleteRec = (item) => {
@@ -112,6 +118,13 @@ export default (props) => {
                     keyExtractor={item => item._id}
                     contentContainerStyle={{ paddingBottom: 20 }}/>
             </View>
+            <TouchableOpacity style = {styles.trash}
+                              hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                              onPress = {()=> console.log(recs)}
+            >
+                <Ionicons style = {styles.iconTrash}
+                          name={'trash-outline'} size={25}  />
+            </TouchableOpacity>
 
                 {recs.length === 0 && <View style = {styles.container}>
                     <Text>
