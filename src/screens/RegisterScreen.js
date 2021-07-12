@@ -44,7 +44,7 @@ export default (props) => {
                 searchHistory: [],
                 channels: [],
                 photo: "",
-                omitRecs: []
+                omitRecs: ["a"]
             }).then(() => {
                 console.log(data)
             }).catch(e => {
