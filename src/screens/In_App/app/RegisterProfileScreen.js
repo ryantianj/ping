@@ -146,6 +146,12 @@ const RegisterProfileScreen = (props) => {
                 <Text style = {styles.headerText}>
                     Complete Your Profile
                 </Text>
+
+                <View style = {styles.titleLength}>
+                    <Text>
+                        Characters remaining: {150 - bio.length}
+                    </Text>
+                </View>
                 <View style = {styles.textInputBioContainer}>
                     <TextInput
                         multiline
@@ -164,7 +170,13 @@ const RegisterProfileScreen = (props) => {
                 <Text style = {styles.headerText1}>
                     Display Name
                 </Text>
+                <View style = {styles.titleLength}>
+                    <Text>
+                        Characters remaining: {15 - display.length}
+                    </Text>
+                </View>
                 <View style = {styles.textInputDisplayContainer}>
+
                     <TextInput
                         ref = {nextInput}
                         style = {styles.textInputBio}

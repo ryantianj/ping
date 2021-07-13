@@ -2,6 +2,7 @@ import {StyleSheet, Dimensions} from "react-native";
 import colours from "../../../../../constants/colours";
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
     container : {
@@ -108,5 +109,28 @@ export default StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    clickImage: {
+        height: 3 * windowWidth / 4,
+        width: windowWidth,
+        position: 'absolute',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        borderRadius: 10,
+        top: '25%',
+    },
+    clickImageFull: {
+        height: windowHeight,
+        width: windowWidth,
+        position: 'absolute',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        borderRadius: 10,
+        backgroundColor: colours.primary,
+    },
+    touchable1: {
+        position: 'absolute',
+        right : 10,
+        top: 15,
     },
 })

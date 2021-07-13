@@ -13,6 +13,8 @@ import Screen from "../../../../components/Screen";
 export default (prop) => {
     const [posts, setPosts] = useState([])
     const [owner, setOwner] = useState(store.getState().room.room.owner)
+    const [imageViewer, toggleImageViewer] = useState(false)
+    const [imageLink, setImageLink]  = useState(null)
 
     const user = store.getState().user.user.uid
     const upVote = (item) => {
@@ -268,8 +270,18 @@ export default (prop) => {
                     {item.title}
                 </Text>
 
-                {((item.mediaLink !== '')) &&
-                <Image style = {styles.image} source = {imageUrl}/>}
+                {(item.mediaLink !== '') &&
+                    <TouchableOpacity
+                        onPress={() => {
+                            toggleImageViewer(true)
+                            setImageLink(imageUrl)
+                        }
+                        }
+                        >
+                        <Image style = {styles.image} source = {imageUrl}/>
+                    </TouchableOpacity>}
+
+
                 <Text style = {styles.postText}>
                     {item.text}
                 </Text>
@@ -328,6 +340,21 @@ export default (prop) => {
                     contentContainerStyle={{ paddingBottom: 20 }}
                     />
             </View>
+            {imageViewer &&
+                <View style = {styles.clickImageFull}>
+                    <TouchableOpacity
+                        style = {styles.touchable}
+                    onPress={() => {
+                        setImageLink(null)
+                        toggleImageViewer(false)
+                    }
+                    }>
+                        <Ionicons style = {styles.icon}
+                                  name={'close-outline'} size={35}  />
+                    </TouchableOpacity>
+                    <Image style = {styles.clickImage} source = {imageLink}/>
+                </View>
+            }
         </Screen>
     )
 }

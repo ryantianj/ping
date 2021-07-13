@@ -143,6 +143,12 @@ export default (prop) => {
                 style = {styles.scroll}
                 contentContainerStyle = {styles.scrollContainer}
             >
+                <View style = {styles.titleLength}>
+                    <Text>
+                        Characters remaining: {100 - title.length}
+                    </Text>
+                </View>
+
                 <TextInput
                     multiline
                     style = {styles.textInputTitle}
@@ -178,6 +184,12 @@ export default (prop) => {
                 </View>
                 }
                 {image !== '' && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+
+                <View style = {styles.titleLength}>
+                    <Text>
+                        Characters remaining: {800 - post.length}
+                    </Text>
+                </View>
                 <TextInput
                     multiline
                     style = {styles.textInputBio}
@@ -187,6 +199,19 @@ export default (prop) => {
                     returnKeyType = "go"
                     maxLength = {800}
                 />
+
+
+                {loading && <View style = {styles.loading}>
+                    <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                    <Text>
+                        Creating Post
+                    </Text>
+                </View>
+                }
+
+            </ScrollView>
+
+            <View style = {styles.confirmProfile}>
                 <TouchableOpacity
                     style = {styles.button}
                     onPress={ () => {
@@ -200,16 +225,7 @@ export default (prop) => {
                 >
                     <Text style = {styles.buttonText}>Create Post</Text>
                 </TouchableOpacity>
-
-                {loading && <View style = {styles.loading}>
-                    <ActivityIndicator size="large" color={styles.loadingColour.color} />
-                    <Text>
-                        Creating Post
-                    </Text>
-                </View>
-                }
-
-            </ScrollView>
+            </View>
 
         </Screen>
     )

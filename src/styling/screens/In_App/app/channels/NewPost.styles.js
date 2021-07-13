@@ -20,7 +20,6 @@ export default StyleSheet.create({
     },
     textInputTitle : {
         flex: 1,
-        marginTop: 15,
         paddingLeft: 15,
         paddingRight: 15,
         paddingTop: 15,
@@ -36,7 +35,6 @@ export default StyleSheet.create({
     },
     textInputBio :{
         flex: 9,
-        marginTop: 10,
         marginBottom: 10,
         paddingLeft: 15,
         paddingRight: 15,
@@ -100,6 +98,23 @@ export default StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-    }
+    },
+    titleLength: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        width: 9 * windowWidth / 10,
+        marginTop: 15,
+        paddingLeft: 15,
+    },
+    confirmProfile: {
+        position:'absolute',
+        bottom: 0,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colours.primary,
+        width: windowWidth,
+        height: 65,
+    },
 
 })

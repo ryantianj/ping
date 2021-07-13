@@ -40,14 +40,12 @@ export default StyleSheet.create({
     },
     textInputBioContainer :{
         fontSize: 20,
-        marginTop: 20,
         width: 9 * windowWidth / 10,
         height: 100,
         borderRadius: 10,
     },
     textInputDisplayContainer :{
         fontSize: 20,
-        marginTop: 15,
         width: 9 * windowWidth / 10,
         height: 53,
         borderRadius: 10,
@@ -219,5 +217,12 @@ export default StyleSheet.create({
         backgroundColor: colours.primary,
         width: windowWidth,
         height: 65,
+    },
+    titleLength: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        width: 9 * windowWidth / 10,
+        marginTop: 15,
+        paddingLeft: 15,
     },
 })

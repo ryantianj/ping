@@ -13,6 +13,8 @@ import * as ImagePicker from "expo-image-picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default (props) => {
+    const [imageViewer, toggleImageViewer] = useState(false)
+    const [imageLink, setImageLink]  = useState(null)
 
     const uid = store.getState().user.user.uid;
     const display = store.getState().user.user.display;
@@ -206,7 +208,15 @@ export default (props) => {
     function renderBubble(props) {
             if (props.currentMessage.isImage) {
                 return (
-                    <Image source={{ uri: props.currentMessage.text}} style={styles.image} />
+                    <TouchableOpacity
+                        onPress={() => {
+                            toggleImageViewer(true)
+                            setImageLink({ uri: props.currentMessage.text})
+                        }
+                        }>
+                        <Image source={{ uri: props.currentMessage.text}} style={styles.image} />
+                    </TouchableOpacity>
+
                 );
             } else {
                 return (
@@ -347,6 +357,21 @@ export default (props) => {
                     </View>
                 </View>}
             </View>
+            {imageViewer &&
+            <View style = {styles.clickImageFull}>
+                <TouchableOpacity
+                    style = {styles.touchable1}
+                    onPress={() => {
+                        setImageLink(null)
+                        toggleImageViewer(false)
+                    }
+                    }>
+                    <Ionicons style = {styles.icon}
+                              name={'close-outline'} size={35}  />
+                </TouchableOpacity>
+                <Image style = {styles.clickImage} source = {imageLink}/>
+            </View>
+            }
         </Screen>
     )
 }
