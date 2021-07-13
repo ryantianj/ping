@@ -187,6 +187,12 @@ export default (prop) => {
     }
 
     const renderItem = ({item}) => {
+        let date;
+        if (item.createdAt === Number.MAX_VALUE) {
+            date = new Date(item.createdAtBackUp)
+        } else {
+            date = new Date(item.createdAt)
+        }
         let trash;
         if (item.user._id === user) {
             trash = <TouchableOpacity style = {styles.trash}
@@ -249,7 +255,13 @@ export default (prop) => {
             <View style = {styles.post}>
                 <View style = {styles.userTrash}>
                     <View>
-                        {renderAvatar(item)}
+                        <View style = {styles.avatarDate}>
+                            {renderAvatar(item)}
+                            <Text>
+                                {date.toDateString()}
+                            </Text>
+                        </View>
+
                         <Text style = {styles.user}>
                             {item.user.display} posted:
                             {item.createdAt === Number.MAX_VALUE || item.edited ? "\n" : ''}

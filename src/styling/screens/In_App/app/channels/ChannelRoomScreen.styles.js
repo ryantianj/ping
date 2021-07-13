@@ -177,5 +177,12 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: 10,
         backgroundColor: colours.primary,
+    },
+    avatarDate: {
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        alignItems:'flex-start',
+        width: 18 * windowWidth / 20,
     }
 })

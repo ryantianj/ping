@@ -25,8 +25,9 @@ export default (prop) => {
     const users = store.getState().room.room.users;
     
     const renderItem = ({item}) => {
+        const date = new Date(item.createdAt);
         let trash;
-        if (item.user._id === store.getState().user.user.uid) {
+        if (item.user._id === uid) {
             trash = <TouchableOpacity style = {styles.trash}
                                       hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
                                       onPress = {()=> deleteCommentButton(item)}>
@@ -34,7 +35,7 @@ export default (prop) => {
                           name={'trash-outline'} size={25}  />
             </TouchableOpacity>
         }
-        const upVoteToggle = item.upVotes.includes(store.getState().user.user.uid);
+        const upVoteToggle = item.upVotes.includes(uid);
         const toggleUpvoteIcon = () => {
             if (upVoteToggle) {
                 return (
@@ -62,7 +63,11 @@ export default (prop) => {
                     {item.text}
                 </Text>
                 <View style = {styles.commentUpVote}>
-                <View style = {styles.empty}></View>
+                <View style = {styles.empty}>
+                    <Text>
+                        {date.toDateString()}
+                    </Text>
+                </View>
                     <View style = {styles.numberUpVote}>
                         <Text style = {upVoteToggle ? styles.postUpVotesText1 : styles.postUpVotesText}>
                             {item.upVotes.length} upvote{item.upVotes.length !== 1 ? 's ' : ' '}
@@ -201,6 +206,7 @@ export default (prop) => {
                         upVotes: firebase.likedby,
                         user: firebase.user,
                         notiId: firebase.notiId,
+                        createdAt: firebase.createdAt,
                     }
                     return data;
                 })

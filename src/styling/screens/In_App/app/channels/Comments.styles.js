@@ -92,12 +92,12 @@ export default StyleSheet.create({
     },
     numberUpVote: {
         height: 30,
-        flex: 12,
+        flex: 4,
         // marginLeft: 24
     },
     empty: {
         height: 30,
-        flex: 1,
+        flex: 6,
     },    
     postComments: {
         height: 30,
