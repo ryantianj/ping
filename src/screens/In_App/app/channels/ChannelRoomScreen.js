@@ -257,9 +257,6 @@ export default (prop) => {
                     <View>
                         <View style = {styles.avatarDate}>
                             {renderAvatar(item)}
-                            <Text>
-                                {date.toDateString()}
-                            </Text>
                         </View>
 
                         <Text style = {styles.user}>
@@ -272,10 +269,14 @@ export default (prop) => {
                             </Text>
                         </Text>
                     </View>
-
                     {pin}
                     {trash}
                     {edit}
+                    <View style={styles.date}>
+                        <Text>
+                            {date.toDateString()}
+                        </Text>
+                    </View>
                     
                 </View>
                 <Text style = {styles.postTitle}>

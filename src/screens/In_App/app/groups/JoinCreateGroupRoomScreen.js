@@ -20,7 +20,6 @@ export default (props) => {
     const [interests, setInterests] = useState([]); // Server-side choice list
     const [selectInterests, setSelectInterests] = useState([]); // Client-side choices
     const [roomname, setRoomName] = useState("");
-    const [count, setCount] = useState(0)
     const [value, setValue] = useState(false);
     const [selectedFriends, setSelectedFriends] = useState([]); // user object of selected
     const [friendsUserArray, setFriendsUserArray] = useState([]);
@@ -29,29 +28,29 @@ export default (props) => {
     const [loading1, isLoading1] = useState(false);
 
     const dispatch = useDispatch();
-    const friends = store.getState().user.user.friends
     const uid = store.getState().user.user.uid
-  
-    function useForceUpdate() {
-        setValue(!value); // update the state to force render
-    }
 
-    const addUser = (item) => {
-        friendsUserArray.push(item)
-        setValue(!value);
-        friends.length === friendsUserArray.length ? isLoading1(false) : isLoading1(true);
-    }
-
-    if (count === 0) {
+    useEffect(() => {
         isLoading1(true);
-        friends.forEach( uid => {
-            usersCollection.doc(uid).get()
-                .then((user) => addUser(user.data())).then(()=> {
-                useForceUpdate()
-                });
-        })
-        setCount(count + 1)
-    }
+        const subscriber = usersCollection.doc(uid)
+            .onSnapshot(snapshot => {
+                const firebase = snapshot.data()
+                const friendsArray = firebase.friends
+                const userObjectArray = [];
+                friendsArray.forEach(uid => {
+                        usersCollection.doc(uid).get()
+                            .then((userData) => {
+                                const userDataObject = userData.data()
+                                userObjectArray.push(userDataObject)
+                            })
+                    }
+                )
+                setFriendsUserArray(userObjectArray)
+                isLoading1(false);
+            })
+
+        return () => subscriber();
+    }, []);
 
     const CreateGroupRoom = async () => {
 

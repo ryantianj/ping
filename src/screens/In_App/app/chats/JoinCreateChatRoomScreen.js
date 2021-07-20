@@ -6,9 +6,13 @@ import {
     View,
     FlatList, ScrollView, Alert, ActivityIndicator
 } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
 
-import firebase, { usersCollection, roomsCollection, interestsCollection } from "../../../../../api/firebase";
+import firebase, {
+    usersCollection,
+    roomsCollection,
+    interestsCollection,
+    channelsCollection
+} from "../../../../../api/firebase";
 import Screen from "../../../../components/Screen";
 import { fillChatRoomState } from "../../../../roomsSlice";
 import { fillUserState } from "../../../../usersSlice";
@@ -22,7 +26,6 @@ export default (props) => {
     const [selectInterests, setSelectInterests] = useState([]); // Client-side choices
     const [roomname, setRoomName] = useState("");
     const [selectedFriend, setSelectedFriend] = useState({item:{display: ""}}); // user object of selected
-    const [count, setCount] = useState(0)
     const [value, setValue] = useState(false);
     const [friendsUserArray, setFriendsUserArray] = useState([]);
     const [selectedId, setSelectedId] = useState(0); // Render component when selected
@@ -30,29 +33,30 @@ export default (props) => {
     const [loading1, isLoading1] = useState(false);
 
     const dispatch = useDispatch();
-    const friends = store.getState().user.user.friends
     const uid = store.getState().user.user.uid
-  
-    function useForceUpdate() {
-        setValue(!value); // update the state to force render
-    }
 
-    const addUser = (item) => {
-        friendsUserArray.push(item)
-        setValue(!value);
-         friends.length === friendsUserArray.length ? isLoading1(false) : isLoading1(true);
-    }
-
-    if (count === 0) {
+    useEffect(() => {
         isLoading1(true);
-        friends.forEach( uid => {
-            usersCollection.doc(uid).get()
-                .then((user) => addUser(user.data())).then(()=> {
-                useForceUpdate()
-                });
+        const subscriber = usersCollection.doc(uid)
+            .onSnapshot(snapshot => {
+            const firebase = snapshot.data()
+            const friendsArray = firebase.friends
+            const userObjectArray = [];
+                friendsArray.forEach(uid => {
+                    usersCollection.doc(uid).get()
+                        .then((userData) => {
+                            const userDataObject = userData.data()
+                            userObjectArray.push(userDataObject)
+                        })
+                }
+            )
+                setFriendsUserArray(userObjectArray)
+                isLoading1(false);
         })
-        setCount(count + 1)
-    }
+
+        return () => subscriber();
+    }, []);
+
     let roomid = "";
     const CreateChatRoom = async () => {
 
