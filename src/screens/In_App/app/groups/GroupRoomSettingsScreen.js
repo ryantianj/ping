@@ -295,7 +295,8 @@ export default (props) => {
                     data={friendsUserArray}
                     renderItem={renderFriendItem}
                     keyExtractor={item => item.uid}
-                    style = {styles.flatList}/>
+                    style = {styles.flatList}
+                    contentContainerStyle={{ paddingBottom: 20 }}/>
                 {loading2 && <View style = {styles.loading}>
                     <ActivityIndicator size="large" color={styles.loadingColour.color} />
                     <Text>

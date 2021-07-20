@@ -216,7 +216,8 @@ export default (props) => {
                     extraData={selectedId}
                     renderItem={renderFriendItem}
                     keyExtractor={item => item.uid}
-                    style = {styles.flatList}/>
+                    style = {styles.flatList}
+                    contentContainerStyle={{ paddingBottom: 20 }}/>
                 {loading1 && <View style = {styles.loading}>
                     <ActivityIndicator size="large" color={styles.loadingColour.color} />
                     <Text>
