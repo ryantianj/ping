@@ -5,13 +5,17 @@ import {
      TouchableOpacity,
 } from "react-native";
 import Screen from "../../components/Screen";
-
+import {useDispatch} from "react-redux";
 
 import styles from "../../styling/constants/Search/SearchResults.styles"
+import {fillUserState} from "../../usersSlice";
+import store from "../../store";
 
 export default (props) => {
     const [search, setSearch] = useState('');
     const [user, setUser] = useState([])
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
 
@@ -24,7 +28,10 @@ export default (props) => {
         return (
             <TouchableOpacity
                 style = {styles.searchPress}
-                onPress = {() => {props.navigation.navigate("addUser",{user: item})}}>
+                onPress = {() => {
+                    dispatch(fillUserState(store.getState().user.user.uid))
+                        .then(() =>  props.navigation.navigate("addUser",{user: item}))
+                   }}>
                 <Text style = {styles.searchText}>
                     {item.display}
                 </Text>
