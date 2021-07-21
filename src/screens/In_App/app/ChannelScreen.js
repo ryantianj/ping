@@ -55,6 +55,17 @@ export default (props) => {
                             const roomDataObject = roomData.data()
                             roomDataObject['roomid'] = channelId;
                             channelObjectArray.push(roomDataObject)
+                            channelObjectArray.sort(function (room1, room2) {
+                                const room1Create = room1.latestPost.createdAt
+                                const room2Create = room2.latestPost.createdAt
+                                if (room1Create < room2Create) {
+                                    return 1
+                                } else if (room1Create === room2Create) {
+                                    return 0
+                                } else {
+                                    return -1
+                                }
+                            })
                         })
                     }
                 )

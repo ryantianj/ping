@@ -57,8 +57,22 @@ export default (props) => {
                             .then((roomData) => {
                                 const roomDataObject = roomData.data()
                                 roomDataObject['roomid'] = roomId;
-                                isGroup(roomDataObject) ?  groupObjectArray.push(roomDataObject)
-                                    : setLen(len + 1)
+                                if (isGroup(roomDataObject)) {
+                                    groupObjectArray.push(roomDataObject)
+                                    groupObjectArray.sort(function (room1, room2) {
+                                        const room1Create = room1.latestMessage.createdAt
+                                        const room2Create = room2.latestMessage.createdAt
+                                        if (room1Create < room2Create) {
+                                            return 1
+                                        } else if (room1Create === room2Create) {
+                                            return 0
+                                        } else {
+                                            return -1
+                                        }
+                                    })
+                                } else {
+                                    setLen(len + 1)
+                                }
                             })
                     }
                 )

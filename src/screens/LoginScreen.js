@@ -65,7 +65,7 @@ const LoginScreen = (props) => {
                             console.log('signed in, email verified')
                         } else {
                             isLoading(false);
-                            Alert.alert('your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
+                            Alert.alert("Error",'your account has not been verified. Please check your email for the verification link! Redirecting you back to the login screen.')
                         }
                     })               
             } catch (error) {

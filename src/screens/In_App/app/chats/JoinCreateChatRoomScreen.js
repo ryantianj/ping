@@ -68,7 +68,11 @@ export default (props) => {
             users: [
                 uid,
                 selectedFriend.item.uid
-            ]
+            ],
+            latestMessage: {
+                text: 'Chat Created',
+                createdAt: new Date().getTime()
+            }
         }).then((docRef) => {
             roomid = docRef.id;
         });
