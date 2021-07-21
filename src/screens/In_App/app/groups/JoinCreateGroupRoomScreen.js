@@ -65,7 +65,11 @@ export default (props) => {
             roomname: roomname,
             topics: selectInterests,
             type: 1,
-            users: roomUsersUidArray
+            users: roomUsersUidArray,
+            latestMessage: {
+                text: 'Group Created',
+                createdAt: new Date().getTime()
+            }
         }).then((docRef) => {
             console.log("Room doc created with id: " + docRef.id);
             roomid = docRef.id;

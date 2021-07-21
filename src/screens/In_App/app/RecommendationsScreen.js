@@ -88,7 +88,7 @@ export default (props) => {
                         {item.roomname}
                     </Text>
                     <TouchableOpacity style = {styles.trash}
-                                        hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                        hitSlop={{top: 100, bottom: 100, left: 10, right: 100}}
                                         onPress = {() => deleteRec(item)}
                     >
                         <Ionicons style = {styles.iconTrash}

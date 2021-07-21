@@ -46,7 +46,11 @@ export default (props) => {
             roomid = docRef.id;
         }).then(() => {
             channelsCollection.doc(roomid).update({
-                roomid: roomid
+                roomid: roomid,
+                latestPost: {
+                    text: 'Channel Created',
+                    createdAt: new Date().getTime()
+                }
             })
         });
 

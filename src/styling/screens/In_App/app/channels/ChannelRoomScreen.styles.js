@@ -129,6 +129,10 @@ export default StyleSheet.create({
         height: 30,
         flex: 6,
     },
+    empty1: {
+        height: 30,
+        width: 10,
+    },
     postComments: {
         height: 30,
         flex: 4,
@@ -151,7 +155,7 @@ export default StyleSheet.create({
     toolBar : {
         marginBottom: 20,
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent:'space-evenly',
         alignItems:'center',
         width: windowWidth,
         height:50
@@ -190,5 +194,17 @@ export default StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'flex-start',
         width: 18 * windowWidth / 20,
-    }
+    },
+    button : {
+        marginTop: 45,
+        bottom: 10,
+        fontSize: 50,
+        borderRadius: 10,
+        width: 4 * windowWidth / 9,
+        height: 50,
+        backgroundColor: colours.logInButton,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })

@@ -15,6 +15,7 @@ export default (prop) => {
     const [owner, setOwner] = useState(store.getState().room.room.owner)
     const [imageViewer, toggleImageViewer] = useState(false)
     const [imageLink, setImageLink]  = useState(null)
+    const [inChannel, setInChannel] = useState(store.getState().room.room.users.includes(store.getState().user.user.uid))
 
     const user = store.getState().user.user.uid
     const upVote = (item) => {
@@ -322,12 +323,12 @@ export default (prop) => {
     return (
         <Screen style = {styles.container}>
             <View style = {styles.toolBar}>
+
                 <TouchableOpacity
-                    style = {styles.touchable1}
-                    onPress = {() => prop.navigation.navigate("ChannelSettings")}
+                    style = {styles.button}
+                    onPress = {() => prop.navigation.navigate("ChannelSettings", {inChannel: inChannel})}
                 >
-                    <Ionicons style = {styles.icon}
-                              name={'settings-outline'} size={35}  />
+                    <Text style ={styles.buttonText}>{inChannel ? 'Channel Settings' : 'Add Channel'}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
