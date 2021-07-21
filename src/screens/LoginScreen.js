@@ -71,13 +71,15 @@ const LoginScreen = (props) => {
             } catch (error) {
                 isLoading(false);
                 if (error.code === "auth/invalid-email") {
-                    Alert.alert("Please enter a valid email address");
+                    Alert.alert("Error","Please enter a valid email address");
                 } else if (error.code === "auth/user-not-found") {
-                    Alert.alert("A user with that email does not exist. Try signing up!");
+                    Alert.alert("Error","A user with that email does not exist. Try signing up!");
                 } else if (error.code === 'auth/wrong-password') {
-                    Alert.alert('Oops! Please retry with the correct password :(');
+                    Alert.alert("Error",'Oops! Please retry with the correct password :(');
                 }                
             }
+        } else {
+            Alert.alert("Error", "Empty Email or Password")
         }
     }
 

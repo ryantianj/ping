@@ -10,7 +10,7 @@ export default (props) => {
 
     const handleResetPassword = async () => {
         try {
-            firebase
+            const response = await firebase
             .auth()
             .sendPasswordResetEmail(email)
             .then(user => {
@@ -20,7 +20,13 @@ export default (props) => {
             // this.handleStoreRegisterUser(user);
             props.navigation.navigate('Login');
         } catch (error) {
-            console.log(error);
+            if (error.code === "auth/invalid-email") {
+                Alert.alert("Error", "Please enter a valid email address");
+            } else if (error.code === "auth/user-not-found") {
+                Alert.alert("Error","A user with that email does not exist. Try signing up!");
+            } else {
+                Alert.alert("Fatal Error", "Contact App Developer")
+            }
         }
     }
 
