@@ -14,6 +14,7 @@ export default (props) => {
     const [displayArray, setDisplayArray] = useState([]);
     const [loading, isLoading] = useState(false);
     const [loading1, isLoading1] = useState(false);
+    const [inChannel, setInChannel] = useState(props.route.params.inChannel)
 
     const dispatch = useDispatch();
 
@@ -102,6 +103,27 @@ export default (props) => {
             }
         ])
     }
+    const addChannel = () => {
+        isLoading(true);
+        if (store.getState().user.user.channels.includes(roomid)) {
+            isLoading(false);
+            alert("You are already in this Channel!")
+        } else {
+            usersCollection
+                .doc(uid)
+                .update({
+                    channels: firebase.firestore.FieldValue.arrayUnion(roomid)
+                }).then(() => channelsCollection
+                .doc(roomid)
+                .update({
+                    users: firebase.firestore.FieldValue.arrayUnion(uid)
+                }) ).then(() => dispatch(fillUserState(uid))).then(() => {
+                isLoading(false);
+                alert("Channel Added!")
+                props.navigation.navigate("Channel")
+            })
+        }
+    }
 
     return (
         <Screen style = {styles.container}>
@@ -132,17 +154,31 @@ export default (props) => {
                 }
             </View>
 
-            <TouchableOpacity
+            {inChannel && <TouchableOpacity
                 style = {styles.button}
                 onPress = {async () => { await handleLeaveChannel() }}
             >
                 <Text style ={styles.buttonText}>Leave Channel</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
 
-            {loading && <View style = {styles.loading}>
+            {!inChannel && <TouchableOpacity
+                style = {styles.button}
+                onPress = {async () => { await addChannel() }}
+            >
+                <Text style ={styles.buttonText}>Add Channel</Text>
+            </TouchableOpacity>}
+
+            {loading && inChannel && <View style = {styles.loading}>
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />
                 <Text>
                     Leaving Channel
+                </Text>
+            </View>
+            }
+            {loading && !inChannel && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Adding Channel
                 </Text>
             </View>
             }

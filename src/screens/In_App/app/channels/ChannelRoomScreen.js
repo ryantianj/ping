@@ -15,6 +15,7 @@ export default (prop) => {
     const [owner, setOwner] = useState(store.getState().room.room.owner)
     const [imageViewer, toggleImageViewer] = useState(false)
     const [imageLink, setImageLink]  = useState(null)
+    const [inChannel, setInChannel] = useState(store.getState().room.room.users.includes(store.getState().user.user.uid))
 
     const user = store.getState().user.user.uid
     const upVote = (item) => {
@@ -325,9 +326,9 @@ export default (prop) => {
 
                 <TouchableOpacity
                     style = {styles.button}
-                    onPress = {() => prop.navigation.navigate("ChannelSettings")}
+                    onPress = {() => prop.navigation.navigate("ChannelSettings", {inChannel: inChannel})}
                 >
-                    <Text style ={styles.buttonText}>Channel Settings</Text>
+                    <Text style ={styles.buttonText}>{inChannel ? 'Channel Settings' : 'Add Channel'}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
