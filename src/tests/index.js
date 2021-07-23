@@ -45,6 +45,7 @@ test('authenticate valid credentials, navigate to home screen', () => {
 
 
 
+
 import React from 'react';
 import { render, fireEvent } from '@testing-library/jest-native';
 
@@ -117,6 +118,12 @@ test('update state upon confirm profile', () => {
     // expect(user.bio).toBe(newBio);
     expect(1+1).toBe(2);
 });
+
+
+
+
+
+
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/jest-native';
@@ -222,6 +229,11 @@ test('search history updates firestore', () => {
     expect(1+1).toBe(2);
 });
 
+
+
+
+
+
 import React from 'react';
 import { render, fireEvent } from '@testing-library/jest-native';
 
@@ -304,6 +316,10 @@ test('navigate from search query -> channel search results -> view/add Channel',
     // expect(getByText('Channel Info').length).toBe(1);
     expect(1+1).toBe(2);
 });
+
+
+
+
 
 import { findAllBadges } from '../calculateBadges';
 
