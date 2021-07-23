@@ -121,6 +121,30 @@ const LoginScreen = (props) => {
                         console.log('signed in, awaiting verification')
                         if (user.user.emailVerified) {
                             uid = user.user.uid;
+
+                            // M3
+                            usersCollection.doc(uid).collection('noti').add({
+                                title: "Welcome Back!",
+                                text: "Join the Milestone 3 channel by searching it!",
+                                user: {
+                                    _id: '',
+                                    display: "Admin",
+                                    photo: ''
+                                },
+                                createdAt: new Date().getTime(),
+                                //Users to send to
+                                users: uid,
+                                roomname: '',
+                                notiType: 8,
+                                roomid: '',
+                            })
+                            const badges = {};
+                            badges['Tester'] = 1;
+                            usersCollection.doc(uid).set({
+                                badges
+                            }, {merge:true})
+
+
                             // Set the user profile into global store
                             dispatch(fillUserState(uid)).then(() => {
                                 if(store.getState().user.user.hasData) {

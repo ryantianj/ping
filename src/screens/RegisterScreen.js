@@ -46,7 +46,21 @@ export default (props) => {
                 photo: "",
                 omitRecs: ["a"]
             }).then(() => {
-                console.log(data)
+                usersCollection.doc(data.user.uid).collection('noti').add({
+                    title: "Welcome!",
+                    text: "Join the Milestone 3 channel by searching it!",
+                    user: {
+                        _id: '',
+                        display: "Admin",
+                        photo: ''
+                    },
+                    createdAt: new Date().getTime(),
+                    //Users to send to
+                    users: data.user.uid,
+                    roomname: '',
+                    notiType: 8,
+                    roomid: '',
+                })
             }).catch(e => {
                 console.log(e);
             })

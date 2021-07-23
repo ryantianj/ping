@@ -7,7 +7,8 @@ import Screen from "../../../components/Screen";
 import styles from '../../../styling/screens/In_App/app/HomeScreen.styles'
 import {usersCollection} from "../../../../api/firebase";
 import store from "../../../store";
-import {fillUserState, fillChannelRoomState, fillChatRoomState, fillGroupRoomState} from "../../../roomsSlice";
+import {fillChannelRoomState, fillChatRoomState, fillGroupRoomState} from "../../../roomsSlice";
+import {fillUserState} from "../../../usersSlice";
 import { findAllBadges } from '../../../calculateBadges';
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -21,9 +22,9 @@ export default (props) => {
 
     useEffect(() => {
         
-        // findAllBadges().then(() => {
-        //     fillUserState(store.getState().user.user.uid)
-        // });
+        findAllBadges().then(() => {
+            fillUserState(store.getState().user.user.uid)
+        });
 
         // channels noti
         const allNoti = usersCollection.doc(store.getState().user.user.uid)
@@ -300,6 +301,31 @@ export default (props) => {
                             </TouchableOpacity>
                             <Text style = {styles.requestText}>
                                 {item.user.display} added you as a Friend!
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                )
+            } else if (item.notiType === 8) {
+                return (
+                    <TouchableOpacity
+                        style = {styles.chat}
+                        onPress ={() => {alert("Click the trash icon to delete me!")}}>
+                        <View>
+                            <Text style = {styles.chatTitle}>
+                                Welcome!
+                            </Text>
+                            <TouchableOpacity style = {styles.trash}
+                                              hitSlop={{top: 100, bottom: 100, left: 100, right: 100}}
+                                              onPress = {() => deleteNoti(item)}
+                            >
+                                <Ionicons style = {styles.iconTrashChatBlack}
+                                          name={'trash-outline'} color={'white'} size={25}  />
+                            </TouchableOpacity>
+                            <Text style = {styles.chatText}>
+                                {item.user.display} said:
+                            </Text>
+                            <Text style = {styles.chatText2}>
+                                {item.text}
                             </Text>
                         </View>
                     </TouchableOpacity>
