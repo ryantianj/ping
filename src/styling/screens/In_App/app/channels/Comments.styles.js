@@ -66,6 +66,7 @@ export default StyleSheet.create({
     user: {
         fontSize: 20,
         marginTop: 8,
+        fontWeight: 'bold',
     },
 
     postText: {
@@ -96,8 +97,9 @@ export default StyleSheet.create({
         // marginLeft: 24
     },
     empty: {
-        height: 30,
+        height: 20,
         flex: 6,
+        marginTop: 3
     },    
     postComments: {
         height: 30,

@@ -36,12 +36,14 @@ export default StyleSheet.create({
         height: 30,
         width: 30,
         right : 1,
+        top: 4
     },
     trash: {
         position: 'absolute',
         height: 30,
         width: 30,
         right : 80,
+        top: 4
     },
     iconPin: {
         right : 5,
@@ -54,14 +56,15 @@ export default StyleSheet.create({
     date: {
         position: 'absolute',
         height: 30,
-        right : 120,
-        top: 10,
+        left : 36,
+        top: 23,
     },
     edit: {
         position: 'absolute',
         height: 30,
         width: 30,
         right : 40,
+        top: 4
     },
     userTrash: {
         flexDirection: 'row',

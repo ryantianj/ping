@@ -55,7 +55,7 @@ export default (prop) => {
             <View style = {styles.post}>
                 <View style = {styles.userTrash}>
                     <Text style = {styles.user}>
-                        {item.user.display} commented:
+                        {item.user.display}
                     </Text>
                     {trash}
                 </View>

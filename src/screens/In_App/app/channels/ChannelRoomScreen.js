@@ -177,7 +177,7 @@ export default (prop) => {
         if (image === undefined || image === '') {
             return (
                 <Ionicons style = {styles.icon}
-                          name={'people-circle-outline'} color = {'white'} size={35}/>
+                          name={'people-circle-outline'} color = {'black'} size={35}/>
             )
         } else {
             return (
@@ -274,8 +274,8 @@ export default (prop) => {
                     {trash}
                     {edit}
                     <View style={styles.date}>
-                        <Text>
-                            {date.toDateString()}
+                        <Text style={{fontStyle: 'italic'}}>
+                            on {date.toDateString()}
                         </Text>
                     </View>
                     
