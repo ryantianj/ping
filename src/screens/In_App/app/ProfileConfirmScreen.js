@@ -176,6 +176,7 @@ const ProfileConfirmScreen = (props) => {
                     </Text>
                     <Text style = {styles.textInputBio}>
                         {selectInterests.join(", ")}
+                        {"\n"}
                     </Text>
                 </View>
             </ScrollView>
