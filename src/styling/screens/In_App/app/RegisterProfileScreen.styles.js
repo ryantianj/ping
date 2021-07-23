@@ -223,5 +223,6 @@ export default StyleSheet.create({
         width: 9 * windowWidth / 10,
         marginTop: 15,
         paddingLeft: 15,
+        marginBottom: 2
     },
 })
