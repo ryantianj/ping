@@ -79,8 +79,6 @@ export default (prop) => {
         isLoading(true);
         const mediaLink = image !== '' ? await upLoadImage() : ''
         if (orgImage !== '' && orgImage !== image) {
-            console.log(orgImage)
-            console.log(image)
             const org = orgImage.substring(orgImage.lastIndexOf('/') + 1)
             const org1 = org.substring(0, org.lastIndexOf('?'))
             const deleteRef = firebase.storage().ref().child(org1);
