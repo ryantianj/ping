@@ -56,8 +56,8 @@ export default StyleSheet.create({
     date: {
         position: 'absolute',
         height: 30,
-        left : 36,
-        top: 23,
+        left : 42,
+        top: 25,
     },
     edit: {
         position: 'absolute',
