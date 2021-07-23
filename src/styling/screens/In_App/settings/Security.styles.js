@@ -11,7 +11,7 @@ export default StyleSheet.create({
         color: colours.primary,
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
     emailButton : {
@@ -43,4 +43,32 @@ export default StyleSheet.create({
         left: 20,
         fontSize: 20,
     },
+    button : {
+        marginBottom: 20,
+        fontSize: 50,
+        borderRadius: 10,
+        width: 2 * windowWidth / 3,
+        height: 50,
+        backgroundColor: colours.logOutButton,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        textAlign: 'center',
+    },
+    loading : {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colours.primary
+    },
+    loadingColour: {
+        color : colours.logInButton
+    }
 })

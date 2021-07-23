@@ -90,6 +90,6 @@ export default StyleSheet.create({
         },
         loadingColour: {
           color : colours.logInButton
-        }
+        },
     }
 )

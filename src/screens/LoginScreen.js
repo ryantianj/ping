@@ -1,6 +1,6 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect } from "react";
 import {Text, TextInput, TouchableOpacity, View, Image, Pressable, Alert, ActivityIndicator} from "react-native";
-import firebase, {usersCollection} from '../../api/firebase';
+import firebase, {channelsCollection, roomsCollection, usersCollection} from '../../api/firebase';
 import { fillUserState } from '../usersSlice';
 import { useDispatch } from 'react-redux';
 import store from "../store";
@@ -8,14 +8,24 @@ import store from "../store";
 import Screen from "../components/Screen";
 import Logo from "../constants/Logo";
 import styles from "../styling/screens/LoginScreen.styles";
+import {useIsFocused} from "@react-navigation/native";
 
 const LoginScreen = (props) => {
+    const isFocused = useIsFocused()
+    const checkDelete = () => {
+        return props.route.params.deleteAccount === true;
+    }
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPass, isPassVisible] = useState(true);
     const [loading, isLoading] = useState(false);
+    const [loading1, isLoading1] = useState(props.route.params !== undefined ? checkDelete() : false);
+    const [deleteAccount, isDeleteAccount] = useState(props.route.params !== undefined ? checkDelete() : false);
 
     const nextInput = useRef();
+
+
 
     const dispatch = useDispatch();
 
@@ -25,15 +35,80 @@ const LoginScreen = (props) => {
 
     let uid;
 
-    // useEffect(() => {
-    //     usersCollection.get().then(function(querySnapshot) {
-    //         querySnapshot.forEach(function(doc) {
-    //             doc.ref.update({
-    //                 omitRecs: ['a']
-    //             });
-    //         });
-    //     });
-    // },[])
+        const deleteAccountData = async () => {
+            if (deleteAccount) {
+                const uid = store.getState().user.user.uid
+                const pic = store.getState().user.user.photo
+                const firebaseData = await usersCollection.doc(uid).get()
+                // delete from friends
+                const deleteFriends = async () => {
+                    const friendsArray = firebaseData.data().friends
+                    friendsArray.forEach(async friendUid => {
+                        await usersCollection
+                            .doc(friendUid)
+                            .update({
+                                friends: firebase.firestore.FieldValue.arrayRemove(uid)
+                            })
+                    })
+                }
+                // delete from rooms
+                const deleteRooms = async () => {
+                    const channelsArray = firebaseData.data().channels
+                    const roomsArray = firebaseData.data().rooms
+                    channelsArray.forEach(async channelId => {
+                        await channelsCollection.doc(channelId)
+                            .update({
+                                users: firebase.firestore.FieldValue.arrayRemove(uid)
+                            })
+                    })
+                    roomsArray.forEach(async roomId => {
+                        await roomsCollection.doc(roomId)
+                            .update({
+                                users: firebase.firestore.FieldValue.arrayRemove(uid)
+                            })
+                    })
+                }
+                // delete profile pic
+                const deletePic = async () => {
+                    if (pic !== '') {
+                        const org = pic.substring(pic.lastIndexOf('/') + 1)
+                        const org1 = org.substring(0, org.lastIndexOf('?'))
+                        const deleteRef = firebase.storage().ref().child(org1);
+                        const deleteOrg = await deleteRef.delete()
+                    }
+                }
+                // delete user doc
+                const deleteUserDoc = async () => {
+                    await usersCollection.doc(uid).delete().then(() => {
+                    })
+                }
+                // delete user auth
+                const deleteUserAuth = async () => {
+                    const user = await firebase.auth().currentUser;
+                    user.delete().then(() => {
+                    })
+                }
+                await deleteFriends()
+                await deleteRooms()
+                await deletePic()
+                await deleteUserDoc()
+                await deleteUserAuth()
+
+                Alert.alert("Delete Account", "Your account has been deleted! Thank you for using P!ng!")
+            } else {
+
+            }
+            isDeleteAccount(false)
+            isLoading1(false)
+
+        }
+
+    if (isFocused && deleteAccount) {
+        setTimeout(() => {deleteAccountData()}, 1000)
+    }
+
+
+
 
     const handleLogin = async () => {
         if (email && password) {
@@ -46,6 +121,30 @@ const LoginScreen = (props) => {
                         console.log('signed in, awaiting verification')
                         if (user.user.emailVerified) {
                             uid = user.user.uid;
+
+                            // M3
+                            usersCollection.doc(uid).collection('noti').add({
+                                title: "Welcome Back!",
+                                text: "Join the Milestone 3 channel by searching it!",
+                                user: {
+                                    _id: '',
+                                    display: "Admin",
+                                    photo: ''
+                                },
+                                createdAt: new Date().getTime(),
+                                //Users to send to
+                                users: uid,
+                                roomname: '',
+                                notiType: 8,
+                                roomid: '',
+                            })
+                            const badges = {};
+                            badges['Tester'] = 1;
+                            usersCollection.doc(uid).set({
+                                badges
+                            }, {merge:true})
+
+
                             // Set the user profile into global store
                             dispatch(fillUserState(uid)).then(() => {
                                 if(store.getState().user.user.hasData) {
@@ -128,7 +227,8 @@ const LoginScreen = (props) => {
 
             <TouchableOpacity
             style = {styles.forgotPasswordButton}
-            onPress = {() => {props.navigation.navigate('Forgot');
+            onPress = {() => {
+                props.navigation.navigate('Forgot');
                 }}>
                 <Text style ={styles.forgotPasswordButtonText}>Forgot your Password ?</Text>
             </TouchableOpacity>
@@ -149,6 +249,16 @@ const LoginScreen = (props) => {
                 <ActivityIndicator size="large" color={styles.loadingColour.color} />
                 <Text>
                     Logging in
+                </Text>
+            </View>
+            }
+            {loading1 && <View style = {styles.loading}>
+                <ActivityIndicator size="large" color={styles.loadingColour.color} />
+                <Text>
+                    Deleting Account
+                </Text>
+                <Text>
+                    This may take a while
                 </Text>
             </View>
             }

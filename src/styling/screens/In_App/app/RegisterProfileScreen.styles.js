@@ -22,7 +22,6 @@ export default StyleSheet.create({
     },
     scrollView: {
         top: 0,
-        height: 0.85 * windowHeight
     },
     headerText : {
         paddingTop: 10 + statusBar,
