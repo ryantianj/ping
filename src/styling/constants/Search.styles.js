@@ -129,7 +129,7 @@ export default StyleSheet.create({
     },
     flatList2 : {
         backgroundColor: colours.primary,
-        marginTop: 10,
+        marginTop: 20,
         padding: 10,
         marginBottom: 10,
         borderRadius: 10,

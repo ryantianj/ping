@@ -218,15 +218,6 @@ export default (prop) => {
 
     return (
         <Screen style = {styles.container}>
-            <View style = {styles.toolBar}>
-                <TouchableOpacity
-                    style = {styles.touchable1}
-                    onPress = {() => prop.navigation.navigate("ChannelSettings")}
-                >
-                    <Ionicons style = {styles.icon}
-                              name={'settings-outline'} size={35}  />
-                </TouchableOpacity>
-            </View>
 
             <Text
                 style = {styles.chatsText}>

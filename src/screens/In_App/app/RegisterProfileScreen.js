@@ -245,7 +245,9 @@ const RegisterProfileScreen = (props) => {
                         renderItem={renderItem}
                         extraData={selectedId}
                         keyExtractor={item => item}
-                        style = {styles.flatList}/>
+                        style = {styles.flatList}
+                        contentContainerStyle={{ paddingBottom: 20 }}
+                    />
                 </View>
 
             </ScrollView>
